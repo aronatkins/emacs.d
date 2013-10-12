@@ -5,6 +5,6 @@
 (setq inhibit-startup-message t)
 
 (add-to-list 'load-path user-emacs-directory)
-(add-to-list 'load-path (expand-file-name "contrib" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
 (require 'aron-init)
