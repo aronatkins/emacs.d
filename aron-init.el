@@ -234,9 +234,8 @@
 ;;(require 'tramp)
 ;;(setq tramp-default-method "ssh")
 
-;;(require 'js2-mode)
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(autoload 'js3-mode "js3-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
 
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
