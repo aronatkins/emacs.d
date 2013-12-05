@@ -161,6 +161,11 @@
 
 ;;(add-hook 'python-mode-hook '(lambda () (setq py-indent-offset 2)) )
 
+;; configure docstring formatting.
+(custom-set-variables
+ '(python-fill-docstring-style 'django)    ; Disable the emacs startup message.
+)
+
 
 ;; ------------------------------------------------------------
 ;; Ruby
