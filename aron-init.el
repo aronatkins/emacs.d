@@ -241,7 +241,7 @@
 
 (autoload 'js3-mode "js3-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . js3-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
@@ -254,8 +254,12 @@
 
 ;; http://www.emacswiki.org/emacs/ELPA
 ;; package.el.
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))
+;;
+;; found that marlalade had an old version of groovy-mode. not sure if one
+;; repo is better than the others?
+;;
+;;                         ("marmalade" . "http://marmalade-repo.org/packages/")
+;;                         ("gnu" . "http://elpa.gnu.org/packages/")))
 
 (provide 'aron-init)
