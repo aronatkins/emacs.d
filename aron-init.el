@@ -241,10 +241,21 @@
 
 (autoload 'js3-mode "js3-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . js3-mode))
 
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+
+(custom-set-variables
+ '(nxml-child-indent 4)
+)
+
+;; http://www.emacswiki.org/emacs/ELPA
+;; package.el.
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (provide 'aron-init)
