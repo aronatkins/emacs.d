@@ -27,6 +27,7 @@
  'js3-mode
  'json-mode
  'markdown-mode
+ 'flycheck
  )
 
 ;; activate installed packages
