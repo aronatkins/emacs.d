@@ -252,6 +252,7 @@
 
 (custom-set-variables
  '(nxml-child-indent 4)
+ '(js-indent-level 2)
 )
 
 ;; http://www.emacswiki.org/emacs/ELPA
