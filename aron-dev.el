@@ -1,3 +1,10 @@
+;;; package ---  Aron's dev stuff.
+
+;;; Commentary:
+;;; You know.
+
+;;; Code:
+
 ;;(require 'aron-c-mode)
 ;;(add-hook 'c-mode-hook 'aron-c-mode)
 
@@ -23,3 +30,4 @@
 
 
 (provide 'aron-dev)
+;;; aron-dev.el ends here

@@ -1,6 +1,9 @@
-;;
-;; What Aron likes.
-;;
+;;; package ---  What Aron likes.
+
+;;; Commentary:
+;;; You know.
+
+;;; Code:
 
 ;; Lots of good config examples:
 ;; http://www.djcbsoftware.nl/dot-emacs.html
@@ -242,6 +245,7 @@
 (autoload 'js3-mode "js3-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.json.erb\\'" . json-mode))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -255,6 +259,9 @@
  '(js-indent-level 2)
 )
 
+;; http://stackoverflow.com/questions/9390770/node-js-prompt-can-not-show-in-eshell
+(setenv "NODE_NO_READLINE" "1")
+
 ;; http://www.emacswiki.org/emacs/ELPA
 ;; package.el.
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))
@@ -266,3 +273,4 @@
 ;;                         ("gnu" . "http://elpa.gnu.org/packages/")))
 
 (provide 'aron-init)
+;;; aron-init.el ends here

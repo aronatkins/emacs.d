@@ -1,6 +1,9 @@
-;;
-;; Common utility functions.
-;;
+;;; package ---  Aron's utility functions
+
+;;; Commentary:
+;;; You know.
+
+;;; Code:
 
 (require 'thingatpt)
 
@@ -154,4 +157,4 @@ This is just like calling `other-window' with -1."
     (insert text)))
 
 (provide `aron-func)
-
+;;; aron-func.el ends here

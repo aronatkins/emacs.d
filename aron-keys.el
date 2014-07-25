@@ -1,6 +1,9 @@
-;;
-;; define key mappings.
-;;
+;;; package ---  Aron's key bindings
+
+;;; Commentary:
+;;; You know.
+
+;;; Code:
 
 (require 'aron-func)
 (require 'aron-grep)
@@ -57,3 +60,4 @@
 
 
 (provide 'aron-keys)
+;;; aron-keys.el ends here

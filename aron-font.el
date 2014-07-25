@@ -1,3 +1,9 @@
+;;; package ---  Aron's font stuff.
+
+;;; Commentary:
+;;; You know.
+
+;;; Code:
 (require 'font-lock)
 
 ;; Are we running XEmacs or Emacs?
@@ -25,3 +31,4 @@
 ;; (add-hook 'python-mode-hook 'turn-on-font-lock)
 
 (provide 'aron-font)
+;;; aron-font.el ends here

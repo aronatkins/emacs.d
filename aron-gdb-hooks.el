@@ -1,3 +1,10 @@
+;;; package ---  What Aron likes.
+
+;;; Commentary:
+;;; You know.
+
+;;; Code:
+
 (require 'gud)
 (require 'shell)
 
@@ -38,3 +45,4 @@
 
 
 (provide 'aron-gdb-hooks)
+;;; aron-gdb-hooks.el ends here

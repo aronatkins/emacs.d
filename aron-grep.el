@@ -1,3 +1,10 @@
+;;; package ---  What Aron likes.
+
+;;; Commentary:
+;;; You know.
+
+;;; Code:
+
 (require 'aron-func)
 
 (defvar aron-grep-ignored-patterns  (list 
@@ -95,3 +102,4 @@ that would happen if this function were not defined."
     (concat "*" (downcase mode) "*" )))
 
 (provide 'aron-grep)
+;;; aron-grep.el ends here
