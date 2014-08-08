@@ -264,6 +264,9 @@
 
 (put 'upcase-region 'disabled nil)
 
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+
 ;; http://www.emacswiki.org/emacs/ELPA
 ;; package.el.
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))

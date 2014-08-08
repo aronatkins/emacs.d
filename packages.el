@@ -23,11 +23,12 @@
 (package-initialize)
 
 (ensure-package-installed 
+ 'flycheck
  'groovy-mode
  'js3-mode
  'json-mode
  'markdown-mode
- 'flycheck
+ 'yaml-mode
  )
 
 ;; activate installed packages
