@@ -156,5 +156,11 @@ This is just like calling `other-window' with -1."
     (delete-region start end)
     (insert text)))
 
+;; from: http://emacsredux.com/blog/2013/05/30/joining-lines/
+(defun top-join-line ()
+  "Join the current line with the line beneath it."
+  (interactive)
+  (delete-indentation 1))
+
 (provide `aron-func)
 ;;; aron-func.el ends here

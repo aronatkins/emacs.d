@@ -1,4 +1,4 @@
-;; run: emacs --script package.el
+;; run: emacs --script packages.el
 ;;
 ;; adapted from:
 ;; http://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
@@ -23,11 +23,14 @@
 (package-initialize)
 
 (ensure-package-installed 
+ 'flycheck
  'groovy-mode
+ 'hungry-delete  ;; not loaded by default
  'js3-mode
  'json-mode
  'markdown-mode
- 'flycheck
+ 'projectile
+ 'zenburn-theme
  )
 
 ;; activate installed packages
