@@ -30,7 +30,7 @@
  'json-mode
  'markdown-mode
  'projectile
- 'zenburn-theme
+ 'yaml-mode
  )
 
 ;; activate installed packages
