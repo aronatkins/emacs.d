@@ -7,25 +7,6 @@
 
 (require 'thingatpt)
 
-;; this will switch the positions of two window buffers
-(defun swap-window-positions () 
-  "Swap the positions of this window and the next one."
-  (interactive)
-  (let ((other-window (next-window (selected-window) 'no-minibuf)))
-    (let ((other-window-buffer (window-buffer other-window))
-          (other-window-hscroll (window-hscroll other-window))
-          (other-window-point (window-point other-window))
-          (other-window-start (window-start other-window)))
-      (set-window-buffer other-window (current-buffer))
-      (set-window-hscroll other-window (window-hscroll (selected-window)))
-      (set-window-point other-window (point))
-      (set-window-start other-window (window-start (selected-window)))
-      (set-window-buffer (selected-window) other-window-buffer)
-      (set-window-hscroll (selected-window) other-window-hscroll)
-      (set-window-point (selected-window) other-window-point)
-      (set-window-start (selected-window) other-window-start))
-    (select-window other-window)))
-
 ;; stolen from xemacs.
 (defun backward-other-window (arg &optional all-frames)
   "Select the ARG'th different window on this frame, going backwards.
@@ -113,14 +94,6 @@ This is just like calling `other-window' with -1."
   "Launch tkdiff on the current buffer."
   (interactive)
   (shell-command (concat "tkdiff" " " (buffer-file-name) " &")))
-
-;; http://emacs-fu.blogspot.com/2008/12/using-packages-functions-only-if-they.html
-(defmacro require-maybe (feature &optional file)
-  "*Try to require FEATURE, but don't signal an error if `require' fails."
-  `(require ,feature ,file 'noerror)) 
-(defmacro when-available (func foo)
-  "*Do something if FUNCTION is available."
-  `(when (fboundp ,func) ,foo)) 
 
 ;; http://www.blogbyben.com/2013/09/emacs-function-humanifying-urls.html
 (defun url-humanify ()

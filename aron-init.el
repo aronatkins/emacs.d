@@ -209,10 +209,6 @@
 (if (or (getenv "P4CONFIG") (getenv "P4CLIENT"))
     (load-library "p4"))
 
-;; (when (require-maybe `org-install) ; is org available?
-;;   ;; Associate .org files with org-mode
-;;   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)))
-
 (put 'narrow-to-region 'disabled nil)
 
 ;; ------------------------------------------------------------
