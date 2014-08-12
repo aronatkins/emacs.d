@@ -25,9 +25,11 @@
 (ensure-package-installed 
  'flycheck
  'groovy-mode
+ 'hungry-delete  ;; not loaded by default
  'js3-mode
  'json-mode
  'markdown-mode
+ 'projectile
  'yaml-mode
  )
 

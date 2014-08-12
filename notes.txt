@@ -1,0 +1,42 @@
+Emacs reference sheet
+http://www.emacswiki.org/emacs/Reference_Sheet_by_Aaron_Hawley
+
+Philosophy around an emacs config.
+http://jedcn.com/posts/emacs-setup/
+
+Sacha's emacs config (as of emacsconf2013)
+https://dl.dropboxusercontent.com/u/3968124/sacha-emacs.html
+
+What/how to autoload:
+http://www.lunaryorn.com/2014/07/02/autoloads-in-emacs-lisp.html
+
+keychord:
+http://endlessparentheses.com/banishing-the-shift-key-with-key-chord-in-emacs.html
+
+keys:
+C-/ undo
+
+M-\ delete-horizontal-space
+M-SPC just-one-space
+C-^ top-join-line
+C-u M-^ equivalent to top-join-line
+M-^ join-line
+
+functions:
+c-hungry-* -- greedy deletion of whitespace.
+;; http://endlessparentheses.com/hungry-delete-mode.html
+hungry-delete-mode -- delete always greedy
+whitespace-mode -- show whitespace, EOL, etc.
+terminal -- instead of shell.
+occur -- show lines matching regexp
+
+prelude
+https://github.com/bbatsov/prelude
+
+projectile-global-mode
+https://github.com/bbatsov/projectile
+
+themes:
+load-theme, enable-theme, disable-theme
+zenburn: https://github.com/bbatsov/zenburn-emacs
+

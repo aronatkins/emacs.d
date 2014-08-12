@@ -14,6 +14,8 @@
 ;(global-set-key "\C-h" 'delete-backward-char)
 ;(global-set-key "\C-?" 'delete-char)
 
+(global-set-key (kbd "C-^") 'top-join-line)
+
 ;; use C-z as a user-meta key, since almost everything else is used!
 (defvar ctl-z-map (make-sparse-keymap) "keymap for user extensions")
 (defconst ctl-z-map-prefix "\C-z")
