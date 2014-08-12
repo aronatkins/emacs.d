@@ -241,6 +241,8 @@
 (autoload 'js3-mode "js3-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.jslintrc\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.jshintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.json.erb\\'" . json-mode))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
