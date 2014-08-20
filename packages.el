@@ -30,6 +30,7 @@
  'json-mode
  'markdown-mode
  'projectile
+ 'sql-indent
  'yaml-mode
  )
 
