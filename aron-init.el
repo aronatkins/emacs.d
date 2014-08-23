@@ -258,7 +258,7 @@
 )
 
 (eval-after-load "sql"
-  (load-library "sql-indent"))
+  '(load-library "sql-indent"))
 
 ;; http://stackoverflow.com/questions/9390770/node-js-prompt-can-not-show-in-eshell
 (setenv "NODE_NO_READLINE" "1")

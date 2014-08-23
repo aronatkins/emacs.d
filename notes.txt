@@ -40,3 +40,5 @@ themes:
 load-theme, enable-theme, disable-theme
 zenburn: https://github.com/bbatsov/zenburn-emacs
 
+sql:
+https://gist.github.com/stuntgoat/8912558
