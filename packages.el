@@ -23,6 +23,7 @@
 (package-initialize)
 
 (ensure-package-installed 
+ 'expand-mode
  'flycheck
  'groovy-mode
  'hungry-delete  ;; not loaded by default

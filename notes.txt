@@ -29,6 +29,7 @@ hungry-delete-mode -- delete always greedy
 whitespace-mode -- show whitespace, EOL, etc.
 terminal -- instead of shell.
 occur -- show lines matching regexp
+er/expand-region -- syntax-aware https://github.com/emacsmirror/expand-region
 
 prelude
 https://github.com/bbatsov/prelude
