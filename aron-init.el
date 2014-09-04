@@ -61,6 +61,9 @@
 
  '(query-replace-highlight t)        ; highlight during query
  '(search-highlight t)               ; incremental search highlights
+
+ '(flycheck-disabled-checkers (quote (emacs-lisp-checkdoc)))
+ '(flycheck-emacs-lisp-load-path load-path)
  )
 
 ;; Files to auto-revert when reloaded.
