@@ -239,7 +239,7 @@
 ;;(require 'tramp)
 ;;(setq tramp-default-method "ssh")
 
-(autoload 'js3-mode "js3-mode" nil t)
+(autoload 'js3-mode "js3" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.jslintrc\\'" . json-mode))
@@ -266,6 +266,9 @@
 			    (local-set-key "\C-cl" 'js-load-file-and-go)
 			    ))
 
+;; http://stackoverflow.com/questions/9390770/node-js-prompt-can-not-show-in-eshell
+(setenv "NODE_NO_READLINE" "1")
+
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (autoload 'markdown-mode "markdown-mode"
@@ -281,23 +284,10 @@
 (eval-after-load "sql"
   '(load-library "sql-indent"))
 
-;; http://stackoverflow.com/questions/9390770/node-js-prompt-can-not-show-in-eshell
-(setenv "NODE_NO_READLINE" "1")
-
 (put 'upcase-region 'disabled nil)
 
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-
-;; http://www.emacswiki.org/emacs/ELPA
-;; package.el.
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))
-;;
-;; found that marlalade had an old version of groovy-mode. not sure if one
-;; repo is better than the others?
-;;
-;;                         ("marmalade" . "http://marmalade-repo.org/packages/")
-;;                         ("gnu" . "http://elpa.gnu.org/packages/")))
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
