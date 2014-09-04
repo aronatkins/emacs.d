@@ -27,6 +27,7 @@
  'flycheck
  'groovy-mode
  'hungry-delete  ;; not loaded by default
+ 'js-comint
  'js3-mode
  'json-mode
  'markdown-mode

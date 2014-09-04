@@ -43,3 +43,17 @@ zenburn: https://github.com/bbatsov/zenburn-emacs
 
 sql:
 https://gist.github.com/stuntgoat/8912558
+
+tramp:
+multi-hops:
+C-x C-f /ssh:bird@bastion|ssh:you@remotehost:/path
+http://www.gnu.org/software/emacs/manual/html_node/tramp/Ad_002dhoc-multi_002dhops.html#index-multi_002dhop_002c-ad_002dhoc-181
+
+lots of recommendations:
+https://github.com/emacs-tw/awesome-emacs
+
+windmove (C-x o replacement)
+http://www.emacswiki.org/emacs/WindMove
+
+js-comint
+http://js-comint-el.sourceforge.net
