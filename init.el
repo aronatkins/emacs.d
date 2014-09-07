@@ -14,6 +14,13 @@
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
+;; fix a macos emacs maverics issue where our default-directory
+;; is "/" when launched from the finder.
+;; http://lists.gnu.org/archive/html/emacs-devel/2013-10/msg00498.html
+;; http://lists.gnu.org/archive/html/bug-gnu-emacs/2013-10/msg00497.html
+(if (equal default-directory "/")
+    (cd (getenv "HOME")))
+
 ;; http://www.emacswiki.org/emacs/ELPA
 ;; package.el.
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))
