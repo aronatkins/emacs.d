@@ -278,5 +278,10 @@
 ;;                         ("marmalade" . "http://marmalade-repo.org/packages/")
 ;;                         ("gnu" . "http://elpa.gnu.org/packages/")))
 
+;; https://github.com/zk-phi/indent-guide
+(require 'indent-guide)
+(set-face-foreground 'indent-guide-face "gray")
+(indent-guide-global-mode)
+
 (provide 'aron-init)
 ;;; aron-init.el ends here
