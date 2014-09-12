@@ -28,6 +28,7 @@
  'groovy-mode
  'hungry-delete  ;; not loaded by default
  'indent-guide
+ 'js-comint
  'js3-mode
  'json-mode
  'markdown-mode
