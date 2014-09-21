@@ -149,7 +149,8 @@
 
 ;; make some common keywords stand out.
 ;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
-(defvar fixme-and-friends '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
+(defvar fixme-and-friends 
+  '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
 (font-lock-add-keywords 'java-mode fixme-and-friends)
 (font-lock-add-keywords 'python-mode fixme-and-friends)
 
@@ -192,7 +193,7 @@
 ;; This RE should match on any password request. It is used by
 ;; comint-watch-for-password-prompt.
 (setq comint-password-prompt-regexp
-  "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'" )
+      "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'")
 
 (autoload 'ssh "ssh" "Allows SSH logins to act like shell-mode" t)
 ;; Watch for password requests & force hidden password entry.
@@ -296,6 +297,12 @@
 (require 'indent-guide)
 (set-face-foreground 'indent-guide-face "gray")
 (indent-guide-global-mode)
+
+;; http://www.lunaryorn.com/2014/09/13/boosting-which-func-mode.html
+(which-function-mode)
+
+;; https://github.com/TeMPOraL/nyan-mode
+(nyan-mode)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
