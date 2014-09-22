@@ -21,14 +21,11 @@
 (line-number-mode t)                ; Show line-number.
 (column-number-mode t)              ; Show column (character position)
 
-;; Controls for initial emacs appearance.
-(menu-bar-mode -1)                  ; Disable the GUI menu.
-(require 'tool-bar)
-(tool-bar-mode -1)                  ; Disable the toolbar.
-
 (custom-set-variables
  '(inhibit-startup-message t)    ; Disable the emacs startup message.
  '(initial-scratch-message nil)  ; Disable information about *scratch*
+
+ '(show-trailing-whitespace t)
 
  ;; emacs (pre-23.1) used to use completion-ignore-case for both
  ;; find-file completion and buffer-switching completion.
@@ -302,7 +299,7 @@
 (which-function-mode)
 
 ;; https://github.com/TeMPOraL/nyan-mode
-(nyan-mode)
+;;(nyan-mode)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
