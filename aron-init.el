@@ -245,6 +245,7 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.jslintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.jshintrc\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.json.erb\\'" . json-mode))
 
 ;; http://www.emacswiki.org/emacs/NodeJs
