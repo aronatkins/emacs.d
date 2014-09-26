@@ -45,6 +45,7 @@
 ;;   C-c [digits]
 ;;   c-c [punctuation]
 ;; http://web.psung.name/emacs/2009/part2.html
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html
 
 (global-set-key "\C-ct" 'toggle-truncate-lines)
 
