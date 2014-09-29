@@ -37,6 +37,18 @@
 
 (global-set-key "\C-z" ctl-z-map)
 
+;; key binding conventions:
+;; Reserved for users:
+;;   C-c [anything]
+;; Reserved for major/minor modes:
+;;   C-c C-anything
+;;   C-c [digits]
+;;   c-c [punctuation]
+;; http://web.psung.name/emacs/2009/part2.html
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html
+
+(global-set-key "\C-ct" 'toggle-truncate-lines)
+
 ;; define this because it works well with "C-x o"
 (define-key ctl-x-map "p" 'backward-other-window)
 ;; overridden by P4 commands. ugh.

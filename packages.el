@@ -32,6 +32,7 @@
  'js3-mode
  'json-mode
  'markdown-mode
+ 'nyan-mode
  'projectile
  'sql-indent
  'yaml-mode

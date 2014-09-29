@@ -21,14 +21,11 @@
 (line-number-mode t)                ; Show line-number.
 (column-number-mode t)              ; Show column (character position)
 
-;; Controls for initial emacs appearance.
-(menu-bar-mode -1)                  ; Disable the GUI menu.
-(require 'tool-bar)
-(tool-bar-mode -1)                  ; Disable the toolbar.
-
 (custom-set-variables
  '(inhibit-startup-message t)    ; Disable the emacs startup message.
  '(initial-scratch-message nil)  ; Disable information about *scratch*
+
+ '(show-trailing-whitespace t)
 
  ;; emacs (pre-23.1) used to use completion-ignore-case for both
  ;; find-file completion and buffer-switching completion.
@@ -149,7 +146,8 @@
 
 ;; make some common keywords stand out.
 ;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
-(defvar fixme-and-friends '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
+(defvar fixme-and-friends 
+  '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
 (font-lock-add-keywords 'java-mode fixme-and-friends)
 (font-lock-add-keywords 'python-mode fixme-and-friends)
 
@@ -192,7 +190,7 @@
 ;; This RE should match on any password request. It is used by
 ;; comint-watch-for-password-prompt.
 (setq comint-password-prompt-regexp
-  "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'" )
+      "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'")
 
 (autoload 'ssh "ssh" "Allows SSH logins to act like shell-mode" t)
 ;; Watch for password requests & force hidden password entry.
@@ -247,6 +245,7 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.jslintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.jshintrc\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.json.erb\\'" . json-mode))
 
 ;; http://www.emacswiki.org/emacs/NodeJs
@@ -296,6 +295,12 @@
 (require 'indent-guide)
 (set-face-foreground 'indent-guide-face "gray")
 (indent-guide-global-mode)
+
+;; http://www.lunaryorn.com/2014/09/13/boosting-which-func-mode.html
+(which-function-mode)
+
+;; https://github.com/TeMPOraL/nyan-mode
+;;(nyan-mode)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here

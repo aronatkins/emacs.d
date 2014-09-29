@@ -22,6 +22,13 @@ C-^ top-join-line
 C-u M-^ equivalent to top-join-line
 M-^ join-line
 
+;; this works for any navigation command -- C-u default value is 4 if none provided.
+C-n one line down
+C-u C-n four lines down
+C-u C-u C-n 16 lines down
+
+M-z -- zap to named character
+
 functions:
 c-hungry-* -- greedy deletion of whitespace.
 ;; http://endlessparentheses.com/hungry-delete-mode.html
