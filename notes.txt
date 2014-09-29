@@ -31,6 +31,8 @@ terminal -- instead of shell.
 occur -- show lines matching regexp
 er/expand-region -- syntax-aware https://github.com/emacsmirror/expand-region
 
+balance-windows -- makes windows the same height/width
+
 prelude
 https://github.com/bbatsov/prelude
 
