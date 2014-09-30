@@ -107,8 +107,7 @@
 ;; (setq c-basic-offset 4)
 ;;  (c-set-style "java"))
 
-(add-hook 'java-mode-hook 
-          'bc-java-mode-hook)
+(add-hook 'java-mode-hook 'bc-java-mode-hook)
 
 (require 'java-mode-indent-annotations)
 
@@ -120,9 +119,9 @@
   (c-set-offset 'case-label '+))       ; indent case labels by c-indent-level, too
 (add-hook 'java-mode-hook 'aron-java-mode-hook)
 
-;; avoid problem with java property file quote formatting 
+;; avoid problem with java property file quote formatting
 ;; http://emacsblog.org/2007/03/01/quick-tip-highlighting-java-properties-files/
-(add-hook 'conf-javaprop-mode-hook 
+(add-hook 'conf-javaprop-mode-hook
           '(lambda () (conf-quote-normal nil)))
 
 ;; the annotations setup causes @ann to not trigger indentation on
@@ -146,7 +145,7 @@
 
 ;; make some common keywords stand out.
 ;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
-(defvar fixme-and-friends 
+(defvar fixme-and-friends
   '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
 (font-lock-add-keywords 'java-mode fixme-and-friends)
 (font-lock-add-keywords 'python-mode fixme-and-friends)
@@ -159,7 +158,7 @@
 ;; some Linux distributions already configure auto-mode-alist and
 ;; interpreter-mode-alist for Python, but we can't be sure.
 (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(setq interpreter-mode-alist 
+(setq interpreter-mode-alist
       (append '(("python"    . python-mode)
 		("python2.2" . python-mode)) interpreter-mode-alist))
 ;(autoload 'python-mode "python-mode" "Python editing mode." t)
@@ -235,7 +234,7 @@
 ;;
 ;; with ubuntu 11.10, tramp REALLY affects emacs startup time. it also
 ;; appears that tramp is auto-loaded when you type in a filename that
-;; looks like a tramp file. like /shazbot:silly.txt 
+;; looks like a tramp file. like /shazbot:silly.txt
 ;;
 ;;(require 'tramp)
 ;;(setq tramp-default-method "ssh")
@@ -267,6 +266,9 @@
 			    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
 			    (local-set-key "\C-cl" 'js-load-file-and-go)
 			    ))
+
+;; requires 'tern' in path; npm install -g tern
+;; (add-hook 'js3-mode-hook '(lambda () (tern-mode t)))
 
 ;; http://stackoverflow.com/questions/9390770/node-js-prompt-can-not-show-in-eshell
 (setenv "NODE_NO_READLINE" "1")
