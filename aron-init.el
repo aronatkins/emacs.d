@@ -25,7 +25,10 @@
  '(inhibit-startup-message t)    ; Disable the emacs startup message.
  '(initial-scratch-message nil)  ; Disable information about *scratch*
 
- '(show-trailing-whitespace t)
+ ;; trailing whitespace is nice, but it also highlights lines with
+ ;; only-whitespace (ie. empty lines in a code block that happen to be
+ ;; indented).
+ ;; '(show-trailing-whitespace t)
 
  ;; emacs (pre-23.1) used to use completion-ignore-case for both
  ;; find-file completion and buffer-switching completion.
