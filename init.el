@@ -11,7 +11,7 @@
 (scroll-bar-mode -1)
 (setq inhibit-startup-message t)
 
-(add-to-list 'load-path user-emacs-directory)
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
 ;; fix a macos emacs maverics issue where our default-directory
