@@ -13,7 +13,7 @@
          (package-install package)))
    packages))
 
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))
+(setq package-archives '(("melpa" . "http://melpa.org/packages/")))
 
 ;; make sure to have downloaded archive description.
 ;; Or use package-archive-contents as suggested by Nicolas Dudebout
@@ -25,6 +25,7 @@
 (ensure-package-installed 
  'expand-region
  'flycheck
+ 'graphviz-dot-mode
  'groovy-mode
  'hungry-delete  ;; not loaded by default
  'indent-guide
@@ -32,6 +33,7 @@
  'js3-mode
  'json-mode
  'markdown-mode
+ 'magit
  'nyan-mode
  'projectile
  'sql-indent
