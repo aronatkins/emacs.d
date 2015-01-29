@@ -22,7 +22,8 @@
 
 (package-initialize)
 
-(ensure-package-installed 
+(ensure-package-installed
+ 'ess
  'expand-region
  'flycheck
  'graphviz-dot-mode
