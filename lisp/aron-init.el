@@ -64,6 +64,8 @@
 
  '(flycheck-disabled-checkers (quote (emacs-lisp-checkdoc)))
  '(flycheck-emacs-lisp-load-path load-path)
+
+ '(ispell-program-name "/usr/local/bin/aspell")
  )
 
 ;; Files to auto-revert when reloaded.
