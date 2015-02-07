@@ -23,7 +23,10 @@
 
 ;; http://www.emacswiki.org/emacs/ELPA
 ;; package.el.
-(setq package-archives '(("melpa" . "http://melpa.org/packages/")))
+(setq package-archives '(
+  ("gnu" . "http://elpa.gnu.org/packages/")
+  ("melpa" . "http://melpa.org/packages/")
+))
 ;; found that marmalade had an old version of groovy-mode. not sure if one
 ;; repo is better than the others?
 

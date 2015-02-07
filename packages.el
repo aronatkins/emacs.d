@@ -13,7 +13,10 @@
          (package-install package)))
    packages))
 
-(setq package-archives '(("melpa" . "http://melpa.org/packages/")))
+(setq package-archives '(
+  ("gnu" . "http://elpa.gnu.org/packages/")
+  ("melpa" . "http://melpa.org/packages/")
+))
 
 ;; make sure to have downloaded archive description.
 ;; Or use package-archive-contents as suggested by Nicolas Dudebout
