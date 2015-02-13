@@ -312,15 +312,10 @@
 ;; R
 (require 'ess-site)
 
-;; go -- assumes install location per
-;; https://golang.org/doc/install#tarball
-;; http://dominik.honnef.co/posts/2013/03/writing_go_in_emacs/
-(defvar go-lisp-path "/usr/local/go/misc/emacs")
-(if (file-accessible-directory-p go-lisp-path)
-    (progn (message "Loading go-mode from: %s" go-lisp-path)
-           (add-to-list 'load-path go-lisp-path)
-           (require 'go-mode-load))
-  (message "Not loading go-mode"))
+;; Go
+;; As of Go-1.4, editor plugins are no longer part of the go distribution.
+;; https://github.com/dominikh/go-mode.el
+(require 'go-mode-autoloads)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here

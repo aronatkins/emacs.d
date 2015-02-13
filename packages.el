@@ -29,6 +29,7 @@
  'ess
  'expand-region
  'flycheck
+ 'go-mode
  'graphviz-dot-mode
  'groovy-mode
  'hungry-delete  ;; not loaded by default
