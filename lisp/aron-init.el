@@ -65,7 +65,11 @@
  '(flycheck-disabled-checkers (quote (emacs-lisp-checkdoc)))
  '(flycheck-emacs-lisp-load-path load-path)
 
+ ;; BUG: This is platform-specific (Mac). Uses aspell installed with homebrew.
+ ;; brew install aspell
  '(ispell-program-name "/usr/local/bin/aspell")
+
+ '(ess-default-style (quote GNU))
  )
 
 ;; Files to auto-revert when reloaded.
