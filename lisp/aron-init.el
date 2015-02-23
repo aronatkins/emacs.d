@@ -315,6 +315,8 @@
 
 ;; R
 (require 'ess-site)
+;; leave underscore alone!
+(ess-toggle-underscore nil)
 
 ;; Go
 ;; As of Go-1.4, editor plugins are no longer part of the go distribution.
