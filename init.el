@@ -21,14 +21,11 @@
 (if (equal default-directory "/")
     (cd (getenv "HOME")))
 
-;; http://www.emacswiki.org/emacs/ELPA
-;; package.el.
-(setq package-archives '(
-  ("gnu" . "http://elpa.gnu.org/packages/")
-  ("melpa" . "http://melpa.org/packages/")
-))
-;; found that marmalade had an old version of groovy-mode. not sure if one
-;; repo is better than the others?
+;; From: https://github.com/milkypostman/melpa#usage
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
 ;; Expliticly initialize package(ELPA) so we can require its modules in
 ;; aron-init. This changes the default initialization order of emacs.
