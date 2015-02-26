@@ -40,6 +40,8 @@
  'json-mode
  'markdown-mode
  'magit
+ 'gitconfig-mode
+ 'gitignore-mode
  'nyan-mode
  'projectile
  'sql-indent

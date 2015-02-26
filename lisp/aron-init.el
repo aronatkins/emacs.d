@@ -322,6 +322,9 @@
 ;; As of Go-1.4, editor plugins are no longer part of the go distribution.
 ;; https://github.com/dominikh/go-mode.el
 (require 'go-mode-autoloads)
+;; gcfg isn't quite gitconfig, but it's close.
+;; https://code.google.com/p/gcfg/
+(add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
