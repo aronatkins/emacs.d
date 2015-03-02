@@ -21,6 +21,8 @@
 (if (equal default-directory "/")
     (cd (getenv "HOME")))
 
+(require 'package)
+
 ;; From: https://github.com/milkypostman/melpa#usage
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (when (< emacs-major-version 24)
