@@ -27,6 +27,7 @@
    packages))
 
 (ensure-package-installed
+ 'cmake-mode
  'ess
  'expand-region
  'flycheck
