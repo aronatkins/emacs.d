@@ -17,6 +17,7 @@
    "*.war"
    "*.orig"
    "*.pyc"
+   "*.min.js"
    "#*#")
   "Patterns which are not ignored during a find/grep. Used by `aron-grep'
 and its variants.")
