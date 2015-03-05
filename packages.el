@@ -28,6 +28,7 @@
 
 (ensure-package-installed
  'cmake-mode
+ 'cmake-font-lock
  'ess
  'expand-region
  'flycheck

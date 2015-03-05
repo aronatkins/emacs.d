@@ -326,5 +326,9 @@
 ;; https://code.google.com/p/gcfg/
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
 
+;; cmake
+(autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
+(add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
+
 (provide 'aron-init)
 ;;; aron-init.el ends here
