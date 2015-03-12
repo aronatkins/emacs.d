@@ -12,6 +12,7 @@
 (setq inhibit-startup-message t)
 
 ;; a theme to this story
+;; http://emacsthemes.caisah.info
 (load-theme 'deeper-blue t)
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
