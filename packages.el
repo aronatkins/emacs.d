@@ -47,6 +47,8 @@
  'nyan-mode
  'projectile
  'sql-indent
+ 'vagrant
+ 'vagrant-tramp
  'yaml-mode
  )
 
