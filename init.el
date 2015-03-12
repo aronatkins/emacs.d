@@ -11,6 +11,9 @@
 (scroll-bar-mode -1)
 (setq inhibit-startup-message t)
 
+;; a theme to this story
+(load-theme 'deeper-blue t)
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
@@ -41,4 +44,3 @@
 (require 'aron-init)
 
 (provide 'init)
-;;; init.el ends here
