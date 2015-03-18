@@ -26,6 +26,7 @@
 (define-key ctl-z-map "h" 'aron-jdk-help)
 (define-key ctl-z-map "k" 'copy-region-as-kill)
 (define-key ctl-z-map "l" 'aron-grep)
+(define-key ctl-z-map "m" 'magit-status)
 (define-key ctl-z-map "q" 'query-replace)
 (define-key ctl-z-map "r" 'replace-string)
 (define-key ctl-z-map "t" 'line-to-top-of-window)
