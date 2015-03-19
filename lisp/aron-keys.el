@@ -30,6 +30,7 @@
 (define-key ctl-z-map "q" 'query-replace)
 (define-key ctl-z-map "r" 'replace-string)
 (define-key ctl-z-map "t" 'line-to-top-of-window)
+(define-key ctl-z-map "v" 'revert-buffer)
 (define-key ctl-z-map "w" 'widen)
 
 ;; since we're overloading C-z, we need to add suspend back into the
