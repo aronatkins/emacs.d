@@ -19,6 +19,7 @@
 ;; use C-z as a user-meta key, since almost everything else is used!
 (defvar ctl-z-map (make-sparse-keymap) "Keymap for user extensions.")
 
+(define-key ctl-z-map "b" 'bury-buffer)
 (define-key ctl-z-map "c" 'comment-or-uncomment-region)
 (define-key ctl-z-map "e" 'er/expand-region)
 (define-key ctl-z-map "f" 'flush-lines )
