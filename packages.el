@@ -32,6 +32,7 @@
  'ess
  'expand-region
  'flycheck
+ 'git-timemachine
  'go-mode
  'graphviz-dot-mode
  'groovy-mode
