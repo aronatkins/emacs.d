@@ -102,5 +102,16 @@ that would happen if this function were not defined."
 		(rename-uniquely)))))
     (concat "*" (downcase mode) "*" )))
 
+(defvar aron/lmgtfy-symbol-history nil 
+  "Internal variable for aron-grep; do not modify")
+(defun aron/lmgtfy ()
+  "Google for something."
+  (interactive)
+  (browse-url (concat "http://www.google.com/search?q="
+                      (read-from-minibuffer "search for: "
+                                            (aron-grab-a-symbol)
+                                            nil nil
+                                            'aron/lmgtfy-symbol-history))))
+
 (provide 'aron-grep)
 ;;; aron-grep.el ends here

@@ -30,6 +30,7 @@
 (define-key ctl-z-map "m" 'magit-status)
 (define-key ctl-z-map "q" 'query-replace)
 (define-key ctl-z-map "r" 'replace-string)
+(define-key ctl-z-map "s" 'aron/lmgtfy)
 (define-key ctl-z-map "t" 'line-to-top-of-window)
 (define-key ctl-z-map "v" 'revert-buffer)
 (define-key ctl-z-map "w" 'widen)
