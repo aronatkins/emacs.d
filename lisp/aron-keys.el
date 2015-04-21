@@ -21,10 +21,13 @@
 
 (define-key ctl-z-map "b" 'bury-buffer)
 (define-key ctl-z-map "c" 'comment-or-uncomment-region)
+(define-key ctl-z-map "d" 'aron/compile-in-directory)
 (define-key ctl-z-map "e" 'er/expand-region)
 (define-key ctl-z-map "f" 'flush-lines )
 (define-key ctl-z-map "g" 'goto-line)
 (define-key ctl-z-map "h" 'aron-jdk-help)
+(define-key ctl-z-map "i" 'aron/in-directory)
+(define-key ctl-z-map "j" 'aron/git-grep)
 (define-key ctl-z-map "k" 'copy-region-as-kill)
 (define-key ctl-z-map "l" 'aron-grep)
 (define-key ctl-z-map "m" 'magit-status)

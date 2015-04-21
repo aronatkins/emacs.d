@@ -103,7 +103,7 @@ that would happen if this function were not defined."
     (concat "*" (downcase mode) "*" )))
 
 (defvar aron/lmgtfy-symbol-history nil 
-  "Internal variable for aron-grep; do not modify")
+  "Internal variable for aron/lmgtfy; do not modify")
 (defun aron/lmgtfy ()
   "Google for something."
   (interactive)
@@ -112,6 +112,20 @@ that would happen if this function were not defined."
                                             (aron-grab-a-symbol)
                                             nil nil
                                             'aron/lmgtfy-symbol-history))))
+
+;; inspired by http://oremacs.com/2015/04/19/git-grep-ivy/
+(defvar aron/git-grep-symbol-history nil
+  "Internal variable for aron-grep; do not modify")
+(defun aron/git-grep ()
+  "Grep for a string in the current git repository."
+  (interactive)
+  (let ((default-directory (locate-dominating-file default-directory ".git")))
+    (grep
+     (format "git --no-pager grep --full-name -n --no-color -i -e \"%s\""
+             (read-from-minibuffer "search for: "
+                                   (aron-grab-a-symbol)
+                                   nil nil
+                                   'aron/git-grep-symbol-history)))))
 
 (provide 'aron-grep)
 ;;; aron-grep.el ends here
