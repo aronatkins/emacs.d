@@ -135,5 +135,20 @@ This is just like calling `other-window' with -1."
   (interactive)
   (delete-indentation 1))
 
+;; from: http://emacswiki.org/emacs/CompileCommand
+(defun aron/in-directory (dir)
+  "Runs execute-extended-command with default-directory set to
+the given directory."
+  (interactive "DIn directory: ")
+  (let ((default-directory dir))
+    (call-interactively 'execute-extended-command)))
+
+(defun aron/compile-in-directory (dir)
+  "Runs execute-extended-command with default-directory set to
+the given directory."
+  (interactive "DIn directory: ")
+  (let ((default-directory dir))
+    (call-interactively 'compile)))
+
 (provide `aron-func)
 ;;; aron-func.el ends here
