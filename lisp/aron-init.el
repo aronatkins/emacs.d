@@ -61,6 +61,7 @@
 
  '(query-replace-highlight t)        ; highlight during query
  '(search-highlight t)               ; incremental search highlights
+ '(split-width-threshold nil) ; stop L/R window splitting
 
  '(flycheck-disabled-checkers (quote (emacs-lisp-checkdoc)))
  '(flycheck-emacs-lisp-load-path load-path)
