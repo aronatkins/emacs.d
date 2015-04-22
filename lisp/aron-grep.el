@@ -129,7 +129,7 @@ that would happen if this function were not defined."
                                    nil nil
                                    'aron/git-grep-symbol-history)
              (read-from-minibuffer "pathspecs: "
-                                   "..."
+                                   ""
                                    nil nil
                                    'aron/git-grep-pathspec-history)
              ))))
