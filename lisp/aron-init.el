@@ -82,6 +82,8 @@
 (require 'icomplete)        ; active minibuffer completion
 (icomplete-mode)
 
+(ido-mode 1)
+
 (defalias 'list-buffers 'ibuffer) ; make ibuffer default
 
 ; uniquify: buffer names are uniquified with parts of the file path.
