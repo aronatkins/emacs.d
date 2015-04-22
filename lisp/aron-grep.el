@@ -116,16 +116,23 @@ that would happen if this function were not defined."
 ;; inspired by http://oremacs.com/2015/04/19/git-grep-ivy/
 (defvar aron/git-grep-symbol-history nil
   "Internal variable for aron-grep; do not modify")
+(defvar aron/git-grep-pathspec-history nil
+  "Internal variable for aron-grep; do not modify")
 (defun aron/git-grep ()
   "Grep for a string in the current git repository."
   (interactive)
   (let ((default-directory (locate-dominating-file default-directory ".git")))
     (grep
-     (format "git --no-pager grep --full-name -n --no-color -i -e \"%s\""
+     (format "git --no-pager grep --full-name -n --no-color -i -e '%s' -- %s"
              (read-from-minibuffer "search for: "
                                    (aron-grab-a-symbol)
                                    nil nil
-                                   'aron/git-grep-symbol-history)))))
+                                   'aron/git-grep-symbol-history)
+             (read-from-minibuffer "pathspecs: "
+                                   "..."
+                                   nil nil
+                                   'aron/git-grep-pathspec-history)
+             ))))
 
 (provide 'aron-grep)
 ;;; aron-grep.el ends here
