@@ -84,6 +84,9 @@
 
 (ido-mode 1)
 
+;; display any item that contains the typed chars .. quite a shift
+;; (setq ido-enable-flex-matching t)
+
 (defalias 'list-buffers 'ibuffer) ; make ibuffer default
 
 ; uniquify: buffer names are uniquified with parts of the file path.
