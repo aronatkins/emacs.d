@@ -130,9 +130,13 @@ that would happen if this function were not defined."
                                       'aron/git-grep-pathspec-history)
                 ))
   (let ((default-directory (locate-dominating-file default-directory ".git")))
-    (grep
-     (format "git --no-pager grep --full-name -n --no-color -i -e '%s' -- %s"
-             search-for pathspec))))
+    ; We don't use the grep function directly because it doesn't offer much
+    ; besides adding /dev/null in unpredictable ways. We have a fully runnable
+    ; compilation command; just apply grep-mode to the result.
+    (compilation-start
+     (format "git --no-pager grep -nH --full-name --no-color -i -e '%s' -- %s"
+             search-for pathspec)
+     'grep-mode)))
 
 (provide 'aron-grep)
 ;;; aron-grep.el ends here
