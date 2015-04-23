@@ -104,35 +104,35 @@ that would happen if this function were not defined."
 
 (defvar aron/lmgtfy-symbol-history nil 
   "Internal variable for aron/lmgtfy; do not modify")
-(defun aron/lmgtfy ()
+(defun aron/lmgtfy (search-for)
   "Google for something."
-  (interactive)
-  (browse-url (concat "http://www.google.com/search?q="
-                      (read-from-minibuffer "search for: "
-                                            (thing-at-point 'symbol)
-                                            nil nil
-                                            'aron/lmgtfy-symbol-history))))
+  (interactive (list (read-from-minibuffer "search for: "
+                                           (thing-at-point 'symbol)
+                                           nil nil
+                                           'aron/lmgtfy-symbol-history)))
+  (browse-url (concat "http://www.google.com/search?q=" search-for)))
 
 ;; inspired by http://oremacs.com/2015/04/19/git-grep-ivy/
 (defvar aron/git-grep-symbol-history nil
   "Internal variable for aron-grep; do not modify")
 (defvar aron/git-grep-pathspec-history nil
   "Internal variable for aron-grep; do not modify")
-(defun aron/git-grep ()
+(defun aron/git-grep (search-for pathspec)
   "Grep for a string in the current git repository."
-  (interactive)
+  (interactive (list 
+                (read-from-minibuffer "search for: "
+                                      (thing-at-point 'symbol)
+                                      nil nil
+                                      'aron/git-grep-symbol-history)
+                (read-from-minibuffer "pathspecs: "
+                                      ""
+                                      nil nil
+                                      'aron/git-grep-pathspec-history)
+                ))
   (let ((default-directory (locate-dominating-file default-directory ".git")))
     (grep
      (format "git --no-pager grep --full-name -n --no-color -i -e '%s' -- %s"
-             (read-from-minibuffer "search for: "
-                                   (thing-at-point 'symbol)
-                                   nil nil
-                                   'aron/git-grep-symbol-history)
-             (read-from-minibuffer "pathspecs: "
-                                   ""
-                                   nil nil
-                                   'aron/git-grep-pathspec-history)
-             ))))
+             search-for pathspec))))
 
 (provide 'aron-grep)
 ;;; aron-grep.el ends here
