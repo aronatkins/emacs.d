@@ -26,20 +26,6 @@ This is just like calling `other-window' with -1."
   (interactive)
   (browse-url (concat "http://www.google.com/search?" "q=" (current-word) "+site:java.sun.com/javase/6/docs")))
 
-(defun aron-grab-a-symbol ()
-  "Find and return the symbol that is near the current point."
-  (save-excursion
-    (while (looking-at "\\sw\\|\\s_")
-      (forward-char 1))
-    (if (re-search-backward "\\sw\\|\\s_" nil t)
-	(progn (forward-char 1)
-	       (buffer-substring (point)
-				 (progn (forward-sexp -1)
-					(while (looking-at "\\s'")
-					  (forward-char 1))
-					(point))))
-      nil)))
-
 ;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Textual-Scrolling.html
 (defun line-to-top-of-window ()
   "Scroll current line to top of window.

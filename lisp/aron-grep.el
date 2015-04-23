@@ -72,7 +72,7 @@ allowing for filenames with whitespace."
 					nil nil 'aron-grep-internal-constraint-history)
 		  " -print0 | xargs -0 grep -n "
 		  (read-from-minibuffer "search for: "
-					(concat (aron-grab-a-symbol) " " aron-grep-args-for-grep)
+					(concat (thing-at-point 'symbol) " " aron-grep-args-for-grep)
 					nil nil 'aron-grep-internal-symbol-history)))
       (setq compilation-buffer-name-function temp-buffer-name-function)
       )))
@@ -109,7 +109,7 @@ that would happen if this function were not defined."
   (interactive)
   (browse-url (concat "http://www.google.com/search?q="
                       (read-from-minibuffer "search for: "
-                                            (aron-grab-a-symbol)
+                                            (thing-at-point 'symbol)
                                             nil nil
                                             'aron/lmgtfy-symbol-history))))
 
@@ -125,7 +125,7 @@ that would happen if this function were not defined."
     (grep
      (format "git --no-pager grep --full-name -n --no-color -i -e '%s' -- %s"
              (read-from-minibuffer "search for: "
-                                   (aron-grab-a-symbol)
+                                   (thing-at-point 'symbol)
                                    nil nil
                                    'aron/git-grep-symbol-history)
              (read-from-minibuffer "pathspecs: "
