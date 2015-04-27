@@ -27,6 +27,7 @@
    packages))
 
 (ensure-package-installed
+ 'bug-hunter
  'cmake-mode
  'cmake-font-lock
  'ess
