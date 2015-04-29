@@ -71,6 +71,9 @@
  '(ispell-program-name "/usr/local/bin/aspell")
 
  '(ess-default-style (quote GNU))
+
+ ;; BUG: Emacs isn't started with the right path.
+ '(gofmt-command "/usr/local/go/bin/gofmt")
  )
 
 ;; Files to auto-revert when reloaded.
@@ -333,6 +336,10 @@
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
+;; http://tleyden.github.io/blog/2014/05/27/configure-emacs-as-a-go-editor-from-scratch-part-2/
+(defun aron/go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save))
+(add-hook 'go-mode-hook 'aron/go-mode-hook)
 
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
