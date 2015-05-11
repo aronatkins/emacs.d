@@ -12,8 +12,7 @@
 
 ;; make sure to have downloaded archive description.
 ;; Or use package-archive-contents as suggested by Nicolas Dudebout
-(or (file-exists-p package-user-dir)
-    (package-refresh-contents))
+(package-refresh-contents)
 
 (package-initialize)
 
