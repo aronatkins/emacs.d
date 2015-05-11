@@ -31,6 +31,7 @@
  'cmake-mode
  'cmake-font-lock
  'ess
+ 'exec-path-from-shell
  'expand-region
  'flycheck
  'git-timemachine

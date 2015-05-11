@@ -68,12 +68,9 @@
 
  ;; BUG: This is platform-specific (Mac). Uses aspell installed with homebrew.
  ;; brew install aspell
- '(ispell-program-name "/usr/local/bin/aspell")
+;; '(ispell-program-name "/usr/local/bin/aspell")
 
  '(ess-default-style (quote GNU))
-
- ;; BUG: Emacs isn't started with the right path.
- '(gofmt-command "/usr/local/go/bin/gofmt")
  )
 
 ;; Files to auto-revert when reloaded.
