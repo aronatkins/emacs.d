@@ -56,9 +56,6 @@
  ;;(setq-default indent-tabs-mode nil)
  '(indent-tabs-mode nil)
 
- ;; Text controls
- '(text-mode-hook            'turn-on-auto-fill)
-
  '(query-replace-highlight t)        ; highlight during query
  '(search-highlight t)               ; incremental search highlights
  '(split-width-threshold nil) ; stop L/R window splitting
@@ -107,6 +104,12 @@
 
 ; Setting this variable will cause the compile buffer to always stay at the end.
 (setq compilation-scroll-output t)
+
+;; fill all text. spell all text.
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook 'flyspell-mode)
+;; spell all code comments
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;; ------------------------------------------------------------
 ;; Force M-x ftp to use 'sftp' instead of 'ftp' for connections.
