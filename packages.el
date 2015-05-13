@@ -52,6 +52,7 @@
  'vagrant
  'vagrant-tramp
  'yaml-mode
+ 'ztree
  )
 
 ;; activate installed packages
