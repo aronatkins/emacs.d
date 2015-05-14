@@ -48,6 +48,7 @@
  'gitignore-mode
  'nyan-mode
  'projectile
+ 'reveal-in-finder
  'sql-indent
  'vagrant
  'vagrant-tramp
