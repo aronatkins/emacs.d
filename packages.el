@@ -30,6 +30,7 @@
  'cmake-mode
  'cmake-font-lock
  'ess
+ 'exec-path-from-shell
  'expand-region
  'flycheck
  'git-timemachine
@@ -51,6 +52,7 @@
  'vagrant
  'vagrant-tramp
  'yaml-mode
+ 'ztree
  )
 
 ;; activate installed packages

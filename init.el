@@ -42,6 +42,10 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;; Fix PATH on OSX.
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 (require 'aron-init)
 
 (provide 'init)
