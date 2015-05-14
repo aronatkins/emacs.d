@@ -38,8 +38,8 @@
 (define-key ctl-z-map "v" 'revert-buffer)
 (define-key ctl-z-map "w" 'widen)
 
-;; since we're overloading C-z, we need to add suspend back into the
-;; fray. we use C-z C-z
+;; since we're changing the default meaning of C-z, add suspend back into the
+;; fray with C-z C-z.
 (define-key ctl-z-map "\C-z" 'suspend-emacs)
 
 (global-set-key "\C-z" ctl-z-map)
