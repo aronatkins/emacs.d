@@ -136,5 +136,12 @@ the given directory."
   (let ((default-directory dir))
     (call-interactively 'compile)))
 
+; http://emacswiki.org/emacs/DeletingWhitespace#toc18
+; adapted from `delete-horizontal-space'
+(defun delete-horizontal-space-forward ()
+  "*Delete all spaces and tabs after point."
+  (interactive "*")
+  (delete-region (point) (progn (skip-chars-forward " \t") (point))))
+
 (provide `aron-func)
 ;;; aron-func.el ends here

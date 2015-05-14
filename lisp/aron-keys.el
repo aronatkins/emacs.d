@@ -64,5 +64,11 @@
 				      (local-set-key "\C-c\C-c" 'aron-compile))))
 
 
+;; a better space collapsing binding.
+;; http://pragmaticemacs.com/emacs/cycle-spacing/
+(global-set-key (kbd "M-SPC") 'cycle-spacing)
+;; and collapse space forward.
+(define-key ctl-z-map " " 'delete-horizontal-space-forward)
+
 (provide 'aron-keys)
 ;;; aron-keys.el ends here
