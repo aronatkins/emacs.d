@@ -22,6 +22,7 @@
 (define-key ctl-z-map "b" 'bury-buffer)
 (define-key ctl-z-map "c" 'comment-or-uncomment-region)
 (define-key ctl-z-map "d" 'aron/compile-in-directory)
+(define-key ctl-z-map "D" 'define-word-at-point)
 (define-key ctl-z-map "e" 'er/expand-region)
 (define-key ctl-z-map "F" 'flush-lines)
 (when (memq window-system '(mac ns))
@@ -64,7 +65,6 @@
 
 (add-hook 'java-mode-hook (function (lambda ()
 				      (local-set-key "\C-c\C-c" 'aron-compile))))
-
 
 ;; a better space collapsing binding.
 ;; http://pragmaticemacs.com/emacs/cycle-spacing/

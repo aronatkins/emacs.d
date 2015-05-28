@@ -29,6 +29,7 @@
  'bug-hunter
  'cmake-mode
  'cmake-font-lock
+ 'define-word
  'ess
  'exec-path-from-shell
  'expand-region
@@ -57,4 +58,3 @@
  )
 
 ;; activate installed packages
-
