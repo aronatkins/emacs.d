@@ -105,6 +105,9 @@
 ; Setting this variable will cause the compile buffer to always stay at the end.
 (setq compilation-scroll-output t)
 
+; symmetric scroll up/down. http://irreal.org/blog/?p=3963
+(setq scroll-preserve-screen-position 'always)
+
 ;; fill all text. spell all text.
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'flyspell-mode)
