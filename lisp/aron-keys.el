@@ -22,6 +22,7 @@
 (define-key ctl-z-map "b" 'bury-buffer)
 (define-key ctl-z-map "c" 'comment-or-uncomment-region)
 (define-key ctl-z-map "d" 'aron/compile-in-directory)
+;; http://oremacs.com/2015/05/22/define-word/
 (define-key ctl-z-map "D" 'define-word-at-point)
 (define-key ctl-z-map "e" 'er/expand-region)
 (define-key ctl-z-map "F" 'flush-lines)
