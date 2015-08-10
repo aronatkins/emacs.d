@@ -68,6 +68,7 @@
 ;; '(ispell-program-name "/usr/local/bin/aspell")
 
  '(ess-default-style (quote GNU))
+ `(ess-fancy-comments nil)
  )
 
 ;; Files to auto-revert when reloaded.
@@ -333,6 +334,13 @@
 (ess-toggle-underscore nil)
 
 ;; Go
+
+;; This isn't right always, but is good for connect.
+;; TODO: set in a context-aware way.
+(setenv "GOPATH" (concat
+                  (expand-file-name "dev/rstudio/connect/_vendor" (getenv "HOME")) ":"
+                  (expand-file-name "dev/rstudio/connect" (getenv "HOME"))))
+
 ;; As of Go-1.4, editor plugins are no longer part of the go distribution.
 ;; https://github.com/dominikh/go-mode.el
 (require 'go-mode-autoloads)
@@ -340,9 +348,18 @@
 ;; https://code.google.com/p/gcfg/
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
 ;; http://tleyden.github.io/blog/2014/05/27/configure-emacs-as-a-go-editor-from-scratch-part-2/
+;; http://dominik.honnef.co/posts/2013/03/writing_go_in_emacs/
 (defun aron/go-mode-hook ()
   (add-hook 'before-save-hook 'gofmt-before-save))
 (add-hook 'go-mode-hook 'aron/go-mode-hook)
+;; this one doesn't work with connect because GOPATH is not set appropriately.
+(add-hook 'go-mode-hook (lambda ()
+                          (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)))
+(add-hook 'go-mode-hook (lambda ()
+                          (local-set-key (kbd "C-c i") 'go-goto-imports)))
+;; need to get godef installed and configured.
+;;(add-hook 'go-mode-hook (lambda ()
+;;                          (local-set-key (kbd "M-.") 'godef-jump)))
 
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
