@@ -27,7 +27,7 @@
 (define-key ctl-z-map "e" 'er/expand-region)
 (define-key ctl-z-map "F" 'flush-lines)
 (when (memq window-system '(mac ns))
-  (define-key ctl-z-map "f" 'reveal-in-finder))
+  (define-key ctl-z-map "f" 'reveal-in-osx-finder))
 (define-key ctl-z-map "g" 'goto-line)
 (define-key ctl-z-map "h" 'aron-jdk-help)
 (define-key ctl-z-map "i" 'aron/in-directory)

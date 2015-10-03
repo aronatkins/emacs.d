@@ -49,7 +49,7 @@
  'gitignore-mode
  'nyan-mode
  'projectile
- 'reveal-in-finder
+ 'reveal-in-osx-finder
  'sql-indent
  'vagrant
  'vagrant-tramp
