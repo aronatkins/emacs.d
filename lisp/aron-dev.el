@@ -28,7 +28,6 @@
 			    ))
 
 
-;; http://endlessparentheses.com/easily-create-github-prs-from-magit.html
 ;; http://endlessparentheses.com/create-github-prs-from-emacs-with-magit.html
 (defun aron/visit-pull-request-url ()
   "Visit the current branch's PR on Github."
@@ -38,9 +37,10 @@
            (replace-regexp-in-string
             "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
             (magit-get "remote"
-                       (magit-get-current-remote)
+                       (magit-get-remote)
                        "url"))
-           (magit-get-current-branch))))
+           (cdr (or (magit-get-remote-branch)
+                    (user-error "No remote branch"))))))
 
 (eval-after-load 'magit
   '(define-key magit-mode-map "v"
