@@ -335,6 +335,10 @@
 
 ;; Go
 
+;; export GOPATH=/Users/aron/go
+;; export PATH="$GOPATH/bin:$PATH"
+;; go get github.com/rogpeppe/godef
+
 ;; This isn't right always, but is good for connect.
 ;; TODO: set in a context-aware way.
 (setenv "GOPATH" (concat
