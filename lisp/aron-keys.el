@@ -73,5 +73,9 @@
 ;; and collapse space forward.
 (define-key ctl-z-map " " 'delete-horizontal-space-forward)
 
+;; Change text size!
+;; C-x C-- / C-x C-+ / C-x C-0
+
+
 (provide 'aron-keys)
 ;;; aron-keys.el ends here
