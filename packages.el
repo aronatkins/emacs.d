@@ -53,6 +53,7 @@
  'sql-indent
  'vagrant
  'vagrant-tramp
+ 'which-key
  'yaml-mode
  'ztree
  )

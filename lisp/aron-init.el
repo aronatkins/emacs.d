@@ -42,6 +42,9 @@
  ;; reasonable max width for filled regions.
  '(fill-column               78)
 
+ ;; show unfinished keystrokes early.
+ '(echo-keystrokes 0.1)
+
  ;; Visual feedback on selections
  ;; (setq-default transient-mark-mode t)
  '(transient-mark-mode t)
@@ -368,6 +371,10 @@
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
 (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
+
+;; http://pragmaticemacs.com/emacs/get-pop-up-help-for-keybindings-with-which-key/
+;; more help for keybindings
+(which-key-mode)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
