@@ -114,16 +114,22 @@ that would happen if this function were not defined."
 
 ;; inspired by http://oremacs.com/2015/04/19/git-grep-ivy/
 (defvar aron/git-grep-symbol-history nil
-  "Internal variable for aron-grep; do not modify")
+  "Internal variable for aron/git-grep; do not modify")
+(defvar aron/git-grep-flags-history nil
+  "Internal variable for aron/git-grep; do not modify")
 (defvar aron/git-grep-pathspec-history nil
-  "Internal variable for aron-grep; do not modify")
-(defun aron/git-grep (search-for pathspec)
+  "Internal variable for aron/git-grep; do not modify")
+(defun aron/git-grep (search-for search-flags pathspec)
   "Grep for a string in the current git repository."
   (interactive (list 
                 (read-from-minibuffer "search for: "
                                       (thing-at-point 'symbol)
                                       nil nil
                                       'aron/git-grep-symbol-history)
+                (read-from-minibuffer "search flags: "
+                                      "-i"
+                                      nil nil
+                                      'aron/git-grep-flags-history)
                 (read-from-minibuffer "pathspecs: "
                                       ""
                                       nil nil
@@ -134,8 +140,8 @@ that would happen if this function were not defined."
     ; besides adding /dev/null in unpredictable ways. We have a fully runnable
     ; compilation command; just apply grep-mode to the result.
     (compilation-start
-     (format "git --no-pager grep -nH --full-name --no-color -i -e '%s' -- %s"
-             search-for pathspec)
+     (format "git --no-pager grep -nH --full-name --no-color %s -e '%s' -- %s"
+             search-flags search-for pathspec)
      'grep-mode)))
 
 (provide 'aron-grep)
