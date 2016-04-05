@@ -71,7 +71,7 @@
 ;; '(ispell-program-name "/usr/local/bin/aspell")
 
  '(ess-default-style (quote GNU))
- `(ess-fancy-comments nil)
+ '(ess-indent-with-fancy-comments nil)
  )
 
 ;; Files to auto-revert when reloaded.
