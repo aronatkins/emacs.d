@@ -80,20 +80,23 @@
 ;; (setq enable-recursive-minibuffers t)
 ;; (setq version-control nil)           ; numbered backups for files which have them
 
-(require 'icomplete)        ; active minibuffer completion
-(icomplete-mode)
+;;(require 'icomplete)        ; active minibuffer completion
+;;(icomplete-mode)
 
+;; https://www.masteringemacs.org/article/introduction-to-ido-mode
+;; display any item that contains the typed chars .. quite a shift
+(require 'ido)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(setq ido-create-new-buffer 'always)
 (ido-mode 1)
 
-;; display any item that contains the typed chars .. quite a shift
-;; (setq ido-enable-flex-matching t)
-
-(defalias 'list-buffers 'ibuffer) ; make ibuffer default
+(defalias 'list-buffers 'ibuffer)       ; A richer list-buffers experience.
 
 ; uniquify: buffer names are uniquified with parts of the file path.
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward) ; naming style
-;;(setq uniquify-buffer-name-style 'post-forward uniquify-separator ":")
+(setq uniquify-buffer-name-style 'post-forward)
+(setq uniquify-after-kill-buffer-p t)
 
 ;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
 (auto-compression-mode t)
