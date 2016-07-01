@@ -115,6 +115,10 @@
 ; symmetric scroll up/down. http://irreal.org/blog/?p=3963
 (setq scroll-preserve-screen-position 'always)
 
+;; http://pragmaticemacs.com/emacs/volatile-highlights/
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
 ;; fill all text. spell all text.
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'flyspell-mode)
@@ -269,9 +273,10 @@
 ;;(require 'tramp)
 ;;(setq tramp-default-method "ssh")
 
-(autoload 'js3-mode "js3" nil t)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
+;;(autoload 'js3-mode "js3" nil t)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+
 (add-to-list 'auto-mode-alist '("\\.jslintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.jshintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode))
@@ -312,7 +317,8 @@
 
 (custom-set-variables
  '(nxml-child-indent 4)
- '(js-indent-level 2) ;; used by json-mode, not js3-mode.
+ '(js-indent-level 2) ; used by js-mode, json-mode
+ '(js2-basic-offset 2) ; used by js2-mode
 )
 
 (eval-after-load "sql"
@@ -367,9 +373,23 @@
                           (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)))
 (add-hook 'go-mode-hook (lambda ()
                           (local-set-key (kbd "C-c i") 'go-goto-imports)))
-;; need to get godef installed and configured.
-;;(add-hook 'go-mode-hook (lambda ()
-;;                          (local-set-key (kbd "M-.") 'godef-jump)))
+
+
+;;(require 'flycheck-gometalinter)
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
+
+;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
+;;(setq flycheck-gometalinter-vendor t)
+;; disable linters
+;; (setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
+;; Only enable selected linters
+(setq flycheck-gometalinter-disable-all t)
+
+;; gotype requires all dependent packages have been built. which isn't great.
+(setq flycheck-gometalinter-enable-linters '("vet" "vetshadow"))
+;; Set different deadline (default: 5s)
+;(setq flycheck-gometalinter-deadline "10s")
 
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)

@@ -76,6 +76,9 @@
 ;; Change text size!
 ;; C-x C-- / C-x C-+ / C-x C-0
 
+;; Navigate around parens
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-by-Parens.html
+;; C-M-n C-M-p
 
 (provide 'aron-keys)
 ;;; aron-keys.el ends here

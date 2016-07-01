@@ -34,14 +34,15 @@
  'exec-path-from-shell
  'expand-region
  'flycheck
+ 'flycheck-gometalinter
  'git-timemachine
  'go-mode
  'graphviz-dot-mode
  'groovy-mode
  'hungry-delete  ;; not loaded by default
  'indent-guide
- 'js-comint
- 'js3-mode
+ ;;'js-comint
+ 'js2-mode
  'json-mode
  'markdown-mode
  'magit
@@ -53,6 +54,7 @@
  'sql-indent
  'vagrant
  'vagrant-tramp
+ 'volatile-highlights
  'which-key
  'yaml-mode
  'ztree
