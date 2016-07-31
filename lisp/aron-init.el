@@ -285,7 +285,7 @@
 ;; http://www.emacswiki.org/emacs/NodeJs
 ;; http://js-comint-el.sourceforge.net
 ;; also consider: https://github.com/abicky/nodejs-repl.el
-(require 'js-comint)
+;;(require 'js-comint)
 
 ;; may need to add --interactive
 (setq inferior-js-program-command
