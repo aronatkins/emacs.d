@@ -399,5 +399,9 @@
 ;; more help for keybindings
 (which-key-mode)
 
+;; C-c /-XXX
+(require 'google-this)
+(google-this-mode 1)
+
 (provide 'aron-init)
 ;;; aron-init.el ends here

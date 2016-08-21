@@ -48,6 +48,7 @@
  'magit
  'gitconfig-mode
  'gitignore-mode
+ 'google-this
  'nyan-mode
  'projectile
  'reveal-in-osx-finder
