@@ -29,6 +29,7 @@
  'bug-hunter
  'cmake-mode
  'cmake-font-lock
+ 'crux
  'define-word
  'ess
  'exec-path-from-shell

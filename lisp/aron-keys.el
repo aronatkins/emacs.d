@@ -8,6 +8,7 @@
 (require 'aron-func)
 (require 'aron-grep)
 (require 'bc-compile)
+(require 'crux)
 
 ;; fix the backspace problems on many terminals
 ;(global-set-key "\C-x\C-h" 'help-command)
@@ -35,6 +36,7 @@
 (define-key ctl-z-map "k" 'copy-region-as-kill)
 (define-key ctl-z-map "l" 'aron-grep)
 (define-key ctl-z-map "m" 'magit-status)
+(define-key ctl-z-map "o" 'crux-open-with)
 (define-key ctl-z-map "q" 'query-replace)
 (define-key ctl-z-map "r" 'replace-string)
 (define-key ctl-z-map "s" 'aron/lmgtfy)
