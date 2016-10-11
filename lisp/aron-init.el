@@ -407,7 +407,6 @@
 (google-this-mode 1)
 
 ;; web-mode (better HTML+JS)
-web-mode-markup-indent-offset
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-code-indent-offset 2)
 
