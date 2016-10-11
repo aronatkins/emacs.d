@@ -345,6 +345,9 @@
 ;; leave underscore alone!
 (ess-toggle-underscore nil)
 
+;; Groovy / Jenkinsfile
+(setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
+
 ;; Go
 
 ;; export GOPATH=/Users/aron/go
@@ -402,6 +405,11 @@
 ;; C-c /-XXX
 (require 'google-this)
 (google-this-mode 1)
+
+;; web-mode (better HTML+JS)
+web-mode-markup-indent-offset
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-code-indent-offset 2)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here

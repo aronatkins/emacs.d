@@ -57,6 +57,7 @@
  'vagrant
  'vagrant-tramp
  'volatile-highlights
+ 'web-mode                              ; possibly better HTML+JS
  'which-key
  'yaml-mode
  'ztree
