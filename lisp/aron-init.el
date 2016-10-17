@@ -407,8 +407,11 @@
 (google-this-mode 1)
 
 ;; web-mode (better HTML+JS)
+;; http://web-mode.org
 (setq web-mode-markup-indent-offset 2)
+(setq web-mode-attr-indent-offset 4)
 (setq web-mode-code-indent-offset 2)
+(setq web-mode-script-padding 2)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
