@@ -10,6 +10,10 @@
 (require 'bc-compile)
 (require 'crux)
 
+;; alter C-y and M-y so M-y uses the last yank instead of erring.
+(global-set-key (kbd "M-y") (quote aron/yank-pop))
+(global-set-key (kbd "C-y") (quote aron/yank))
+
 ;; fix the backspace problems on many terminals
 ;(global-set-key "\C-x\C-h" 'help-command)
 ;(global-set-key "\C-h" 'delete-backward-char)

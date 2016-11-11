@@ -143,5 +143,19 @@ the given directory."
   (interactive "*")
   (delete-region (point) (progn (skip-chars-forward " \t") (point))))
 
+;; http://stackoverflow.com/questions/5823495/emacs-how-to-yank-the-last-yanked-text-regardless-of-subsequent-kills
+(defun aron/yank (&optional arg)
+  "Yank and save text to register Y"
+  (interactive)
+  (set-register ?Y (current-kill 0 t))
+  (yank arg))
+
+(defun aron/yank-pop (&optional arg)
+  "If yank-pop fails, then insert register Y"
+  (interactive)
+  (condition-case nil
+      (yank-pop arg)
+    (error (insert (get-register ?Y)))))
+
 (provide `aron-func)
 ;;; aron-func.el ends here
