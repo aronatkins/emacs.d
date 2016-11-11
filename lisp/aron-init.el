@@ -362,7 +362,8 @@
 
 ;; As of Go-1.4, editor plugins are no longer part of the go distribution.
 ;; https://github.com/dominikh/go-mode.el
-(require 'go-mode-autoloads)
+;; (require 'go-mode-autoloads)
+
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
@@ -401,6 +402,9 @@
 ;; http://pragmaticemacs.com/emacs/get-pop-up-help-for-keybindings-with-which-key/
 ;; more help for keybindings
 (which-key-mode)
+
+;; keep *scratch* around - http://pragmaticemacs.com/emacs/a-persistent-scratch-buffer/
+(persistent-scratch-setup-default)
 
 ;; C-c /-XXX
 (require 'google-this)

@@ -4,8 +4,11 @@
 ;; http://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
 (require 'package)
 
-;; From: https://github.com/milkypostman/melpa#usage
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;; http://melpa.milkbox.net/#/getting-started
+;; (add-to-list 'package-archives
+;;              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/"))
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
@@ -51,6 +54,7 @@
  'gitignore-mode
  'google-this
  'nyan-mode
+ 'persistent-scratch
  'projectile
  'reveal-in-osx-finder
  'sql-indent
