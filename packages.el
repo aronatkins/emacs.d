@@ -15,9 +15,10 @@
 
 ;; make sure to have downloaded archive description.
 ;; Or use package-archive-contents as suggested by Nicolas Dudebout
-(package-refresh-contents)
 
 (package-initialize)
+
+(package-refresh-contents)
 
 (defun ensure-package-installed (&rest packages)
   "Assure every package is installed."
