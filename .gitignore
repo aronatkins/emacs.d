@@ -2,3 +2,5 @@
 tramp
 elpa
 url
+.persistent-scratch
+ido.last
