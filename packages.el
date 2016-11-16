@@ -35,6 +35,7 @@
  'cmake-font-lock
  'crux
  'define-word
+ 'editorconfig
  'ess
  'exec-path-from-shell
  'expand-region

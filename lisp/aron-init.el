@@ -395,6 +395,8 @@
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
 
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
 (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
@@ -412,10 +414,15 @@
 
 ;; web-mode (better HTML+JS)
 ;; http://web-mode.org
+(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-attr-indent-offset 4)
 (setq web-mode-code-indent-offset 2)
 (setq web-mode-script-padding 2)
+
+;; supposedly this is how folks configure one set of styles across editors.
+(require 'editorconfig)
+(editorconfig-mode 1)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
