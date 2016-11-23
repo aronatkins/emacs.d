@@ -415,6 +415,9 @@
 ;; web-mode (better HTML+JS)
 ;; http://web-mode.org
 (add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+
+;; might need https://github.com/editorconfig/editorconfig-emacs#customize
+;; to get web-mode to play nicely with editorconfig.
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-attr-indent-offset 4)
 (setq web-mode-code-indent-offset 2)
