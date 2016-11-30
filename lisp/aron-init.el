@@ -395,6 +395,7 @@
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
 
+(require 'flycheck)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
 ;; cmake
