@@ -378,7 +378,6 @@
 (add-hook 'go-mode-hook (lambda ()
                           (local-set-key (kbd "C-c i") 'go-goto-imports)))
 
-
 ;;(require 'flycheck-gometalinter)
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
@@ -395,8 +394,8 @@
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
 
-(require 'flycheck)
-(flycheck-add-mode 'javascript-eslint 'web-mode)
+(eval-after-load 'flycheck
+  '(flycheck-add-mode 'javascript-eslint 'web-mode))
 
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
