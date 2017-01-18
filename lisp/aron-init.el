@@ -72,6 +72,8 @@
 
  '(ess-default-style (quote GNU))
  '(ess-indent-with-fancy-comments nil)
+
+ '(windmove-wrap-around t)
  )
 
 ;; Files to auto-revert when reloaded.
@@ -426,6 +428,9 @@
 ;; supposedly this is how folks configure one set of styles across editors.
 (require 'editorconfig)
 (editorconfig-mode 1)
+
+;; super awesome window movement. on the mac: command-arrow.
+(windmove-default-keybindings 'super)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
