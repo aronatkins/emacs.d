@@ -312,10 +312,9 @@
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+;; markdown-mode doesn't know about Rmd/Rmd.tmpl
+(add-to-list 'auto-mode-alist '("\\.Rmd$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.Rmd.tmpl$" . markdown-mode))
 
 (custom-set-variables
  '(nxml-child-indent 4)
