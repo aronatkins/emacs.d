@@ -431,5 +431,9 @@
 ;; super awesome window movement. on the mac: command-arrow.
 (windmove-default-keybindings 'super)
 
+;; magit / magithub
+(require 'magithub)
+(magithub-feature-autoinject t)
+
 (provide 'aron-init)
 ;;; aron-init.el ends here

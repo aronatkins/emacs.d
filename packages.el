@@ -52,6 +52,7 @@
  'json-mode
  'markdown-mode
  'magit
+ 'magithub
  'gitconfig-mode
  'gitignore-mode
  'google-this
