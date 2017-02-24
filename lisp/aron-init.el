@@ -361,6 +361,10 @@
                   (expand-file-name "dev/rstudio/connect/_vendor" (getenv "HOME")) ":"
                   (expand-file-name "dev/rstudio/connect" (getenv "HOME"))))
 
+(require 'go-autocomplete)
+(require 'auto-complete-config)
+(ac-config-default)
+
 ;; As of Go-1.4, editor plugins are no longer part of the go distribution.
 ;; https://github.com/dominikh/go-mode.el
 ;; (require 'go-mode-autoloads)

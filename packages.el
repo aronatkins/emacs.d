@@ -30,6 +30,7 @@
    packages))
 
 (ensure-package-installed
+ 'auto-complete
  'bug-hunter
  'cmake-mode
  'cmake-font-lock
