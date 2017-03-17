@@ -74,6 +74,9 @@
  '(ess-indent-with-fancy-comments nil)
 
  '(windmove-wrap-around t)
+
+  ; ask me before death. Command-q is an accident!
+ '(confirm-kill-emacs #'y-or-n-p)
  )
 
 ;; Files to auto-revert when reloaded.
