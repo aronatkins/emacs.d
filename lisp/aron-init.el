@@ -83,7 +83,7 @@
 
  ;; control-L behavior. http://irreal.org/blog/?p=6436
  ;; also. try out C-M-l !!!
- '(recenter-positions '(top middle bottom))
+ ;; '(recenter-positions '(top middle bottom))
  )
 
 ;; Files to auto-revert when reloaded.
