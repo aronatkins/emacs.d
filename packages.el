@@ -30,6 +30,7 @@
    packages))
 
 (ensure-package-installed
+ 'add-node-modules-path
  'auto-complete
  'bug-hunter
  'cmake-mode
@@ -43,6 +44,7 @@
  'flycheck
  'flycheck-gometalinter
  'git-timemachine
+ 'go-guru
  'go-mode
  'graphviz-dot-mode
  'groovy-mode
@@ -50,10 +52,11 @@
  'indent-guide
  ;;'js-comint
  'js2-mode
+ 'js2-refactor
  'json-mode
  'markdown-mode
  'magit
- 'magithub
+ ;; 'magithub
  'gitconfig-mode
  'gitignore-mode
  'google-this
@@ -67,6 +70,7 @@
  'volatile-highlights
  'web-mode                              ; possibly better HTML+JS
  'which-key
+ 'xref-js2
  'yaml-mode
  'ztree
  )

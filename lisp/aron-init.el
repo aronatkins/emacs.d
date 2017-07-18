@@ -77,6 +77,9 @@
 
   ; ask me before death. Command-q is an accident!
  '(confirm-kill-emacs #'y-or-n-p)
+
+ ; quickly help an old man.
+ '(which-key-idle-delay 0.5)
  )
 
 ;; Files to auto-revert when reloaded.
@@ -278,7 +281,6 @@
 ;;(require 'tramp)
 ;;(setq tramp-default-method "ssh")
 
-;;(autoload 'js3-mode "js3" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
@@ -299,19 +301,19 @@
             personal-node
           "node")))
 
-(add-hook 'js3-mode-hook '(lambda ()
-			    (local-set-key "\C-x\C-e" 'js-send-last-sexp)
-			    (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
-			    (local-set-key "\C-cb" 'js-send-buffer)
-			    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
-			    (local-set-key "\C-cl" 'js-load-file-and-go)
-			    ))
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
 
-;; requires 'tern' in path; npm install -g tern
-;; (add-hook 'js3-mode-hook '(lambda () (tern-mode t)))
+;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
+;; unbind it.
+(require 'js)
+(define-key js-mode-map (kbd "M-.") nil)
 
-;; http://stackoverflow.com/questions/9390770/node-js-prompt-can-not-show-in-eshell
-(setenv "NODE_NO_READLINE" "1")
+(add-hook 'js2-mode-hook (lambda ()
+  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+;; https://github.com/flycheck/flycheck/issues/1087#issuecomment-267587217
+(eval-after-load 'js2-mode
+  '(add-hook 'js2-mode-hook #'add-node-modules-path))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -345,7 +347,7 @@
 ;;(nyan-mode)
 
 ;; R
-(require 'ess-site)
+(require 'ess-r-mode)
 ;; leave underscore alone!
 (ess-toggle-underscore nil)
 
@@ -375,8 +377,16 @@
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
+
 ;; http://tleyden.github.io/blog/2014/05/27/configure-emacs-as-a-go-editor-from-scratch-part-2/
 ;; http://dominik.honnef.co/posts/2013/03/writing_go_in_emacs/
+
+;; use goimports instead of gofmt
+;; https://godoc.org/golang.org/x/tools/cmd/goimports
+;; and configure it to group "connect" code separately from other 3rd-party modules.
+(setq gofmt-command "goimports")
+(setq gofmt-args '("-local" "connect"))
+
 (defun aron/go-mode-hook ()
   (add-hook 'before-save-hook 'gofmt-before-save))
 (add-hook 'go-mode-hook 'aron/go-mode-hook)
@@ -385,6 +395,7 @@
                           (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)))
 (add-hook 'go-mode-hook (lambda ()
                           (local-set-key (kbd "C-c i") 'go-goto-imports)))
+(add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
 
 ;;(require 'flycheck-gometalinter)
 (eval-after-load 'flycheck
@@ -439,8 +450,8 @@
 (windmove-default-keybindings 'super)
 
 ;; magit / magithub
-(require 'magithub)
-(magithub-feature-autoinject t)
+;;(require 'magithub)
+;;(magithub-feature-autoinject t)
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
