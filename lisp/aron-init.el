@@ -80,6 +80,10 @@
 
  ; quickly help an old man.
  '(which-key-idle-delay 0.5)
+
+ ;; control-L behavior. http://irreal.org/blog/?p=6436
+ ;; also. try out C-M-l !!!
+ '(recenter-positions '(top middle bottom))
  )
 
 ;; Files to auto-revert when reloaded.
@@ -387,17 +391,16 @@
 (setq gofmt-command "goimports")
 (setq gofmt-args '("-local" "connect"))
 
-(defun aron/go-mode-hook ()
+(defun aron/go-mode-hook--gofmt ()
   (add-hook 'before-save-hook 'gofmt-before-save))
-(add-hook 'go-mode-hook 'aron/go-mode-hook)
-;; this one doesn't work with connect because GOPATH is not set appropriately.
-(add-hook 'go-mode-hook (lambda ()
-                          (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-                          (local-set-key (kbd "C-c i") 'go-goto-imports)
-                          (local-set-key (kbd "C-c C-c") 'aron/go-compile)
-                          (set (make-local-variable 'compile-command)
-                                 "make -f Makefile.docker build")
-                          ))
+(add-hook 'go-mode-hook #'aron/go-mode-hook--gofmt)
+(defun aron/go-mode-hook--bindings ()
+  (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+  (local-set-key (kbd "C-c i") 'go-goto-imports)
+  (local-set-key (kbd "C-c C-c") 'aron/go-compile)
+  (local-set-key (kbd "C-c C-t") 'aron/go-test)
+  )
+(add-hook 'go-mode-hook #'aron/go-mode-hook--bindings)
 (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
 
 ;;(require 'flycheck-gometalinter)

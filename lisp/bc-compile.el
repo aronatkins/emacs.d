@@ -204,4 +204,20 @@ Attempts to root itself in the root of the source tree (not the checkout root)."
     (compile "make -f Makefile.docker build")
   ))
 
+(defun aron/find-go-package ()
+  "Does things."
+  (let* ((go-root (aron/find-go-root))
+        (src-root (concat go-root "src/"))
+        (package-path (string-remove-prefix src-root (string-remove-suffix "/" default-directory))))
+    package-path
+  ))
+
+(defun aron/go-test ()
+  ""
+  (interactive)
+  (let ((package-path (aron/find-go-package))
+        (default-directory (aron/find-go-root)))
+    (compile (concat "make -f Makefile.docker test TEST=" package-path))
+  ))
+
 (provide 'bc-compile)
