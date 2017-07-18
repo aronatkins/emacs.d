@@ -453,5 +453,7 @@
 ;;(require 'magithub)
 ;;(magithub-feature-autoinject t)
 
+(winner-mode 1)
+
 (provide 'aron-init)
 ;;; aron-init.el ends here
