@@ -73,8 +73,7 @@ the emacs `compile-mode'.")
 (defun bc-find-co-root ()
   "Try and find the root of a Brightcove Perforce checkout. If it cannot be found,
 return nil."
-  (bc-find-matching-directory 
-   (function (lambda (dir) (bc-at-co-root dir)))))
+  (bc-find-matching-directory 'bc-at-co-root))
 
 (defun bc-find-co-component (component)
   "Helper to find a 'component' of a checkout: dev, tomcat, usr-local, etc."
@@ -185,5 +184,24 @@ Attempts to root the search at the top of a checkout."
 Attempts to root itself in the root of the source tree (not the checkout root)."
   (interactive)
   (aron-grep (bc-find-dev-root)))
+
+(defun aron/is-connect-root (dir)
+  "return true if this directory looks like the connect root"
+  (and
+   (file-exists-p (concat dir "src"))
+   (file-exists-p (concat dir "pkg"))
+   (file-exists-p (concat dir "Makefile.docker"))
+   ))
+
+(defun aron/find-go-root ()
+    "return the Connect root"
+  (bc-find-matching-directory 'aron/is-connect-root))
+
+(defun aron/go-compile ()
+    "Does things."
+  (interactive)
+  (let ((default-directory (aron/find-go-root)))
+    (compile "make -f Makefile.docker build")
+  ))
 
 (provide 'bc-compile)

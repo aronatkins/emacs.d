@@ -392,9 +392,12 @@
 (add-hook 'go-mode-hook 'aron/go-mode-hook)
 ;; this one doesn't work with connect because GOPATH is not set appropriately.
 (add-hook 'go-mode-hook (lambda ()
-                          (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)))
-(add-hook 'go-mode-hook (lambda ()
-                          (local-set-key (kbd "C-c i") 'go-goto-imports)))
+                          (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+                          (local-set-key (kbd "C-c i") 'go-goto-imports)
+                          (local-set-key (kbd "C-c C-c") 'aron/go-compile)
+                          (set (make-local-variable 'compile-command)
+                                 "make -f Makefile.docker build")
+                          ))
 (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
 
 ;;(require 'flycheck-gometalinter)

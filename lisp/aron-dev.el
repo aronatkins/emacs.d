@@ -23,8 +23,9 @@
 (setq auto-mode-alist (cons '("\\.h\\'" . c++-mode) auto-mode-alist))
 
 (add-hook 'c++-mode-hook '(lambda ()
-			    (local-set-key "\C-c\C-c" 'compile)
-			    (setq compile-command "cd `findsrc`/.. && remake")
+			    (local-set-key (kbd "C-c C-c") 'compile)
+                            (set (make-local-variable 'compile-command)
+                                 "cd `findsrc`/.. && remake")
 			    ))
 
 
