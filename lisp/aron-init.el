@@ -461,5 +461,7 @@
 
 (winner-mode 1)
 
+;; https://github.com/BurntSushi/ripgrep
+
 (provide 'aron-init)
 ;;; aron-init.el ends here
