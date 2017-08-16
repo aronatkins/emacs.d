@@ -194,7 +194,7 @@ Attempts to root itself in the root of the source tree (not the checkout root)."
    ))
 
 (defun aron/find-go-root ()
-    "return the Connect root"
+  "return the Connect root"
   (bc-find-matching-directory 'aron/is-connect-root))
 
 (defun aron/go-compile ()
@@ -216,8 +216,9 @@ Attempts to root itself in the root of the source tree (not the checkout root)."
   ""
   (interactive)
   (let ((package-path (aron/find-go-package))
-        (default-directory (aron/find-go-root)))
-    (compile (concat "make -f Makefile.docker test TEST=" package-path))
+        (go-root (aron/find-go-root)))
+    ;; go test emits only the package-local path on errors
+    (compile (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path))
   ))
 
 (provide 'bc-compile)
