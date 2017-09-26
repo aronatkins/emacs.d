@@ -11,10 +11,6 @@
 (scroll-bar-mode -1)
 (setq inhibit-startup-message t)
 
-;; a theme to this story
-;; https://emacsthemes.com
-(load-theme 'deeper-blue t)
-
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
@@ -48,6 +44,14 @@
 ;; Fix PATH on OSX.
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
+
+;; a theme to this story
+;; https://emacsthemes.com
+
+;; deeper-blue has a default mid-grey comment face.
+(custom-set-faces
+ '(font-lock-comment-face ((t (:foreground "cornflower blue")))))
+(load-theme 'deeper-blue t)
 
 (require 'aron-init)
 

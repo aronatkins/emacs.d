@@ -25,9 +25,6 @@
 
 (remove-hook 'font-lock-mode-hook 'turn-on-fast-lock)
 
-(custom-set-faces
- '(font-lock-comment-face ((((class color) (background dark)) (:foreground "CornflowerBlue")))))
-
 ;; (add-hook 'python-mode-hook 'turn-on-font-lock)
 
 (provide 'aron-font)
