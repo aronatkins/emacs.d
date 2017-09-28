@@ -226,7 +226,8 @@ presented for editing before it is executed."
   (interactive "P")
   (let* ((package-path (aron/find-go-package))
          (go-root (aron/find-go-root))
-         (make-command (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path " TEST_ARGS=")))
+         ;;(make-command (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path " TEST_ARGS=")))
+         (make-command (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path)))
     ;; go test emits only the package-local path on errors
     (compile
      (if arg
