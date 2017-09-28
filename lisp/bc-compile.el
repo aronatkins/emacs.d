@@ -197,28 +197,40 @@ Attempts to root itself in the root of the source tree (not the checkout root)."
   "return the Connect root"
   (bc-find-matching-directory 'aron/is-connect-root))
 
-(defun aron/go-compile ()
-    "Does things."
-  (interactive)
-  (let ((default-directory (aron/find-go-root)))
-    (compile "make -f Makefile.docker build")
-  ))
+(defun aron/go-compile (&optional arg)
+    "Runs RStudio Connect compile.
+
+If called with a non-nil ARG, the compile command is presented
+for editing before it is executed."
+  (interactive "P")
+  (let ((default-directory (aron/find-go-root))
+        (make-command "make -f Makefile.docker build"))
+    (compile
+     (if arg
+         (read-from-minibuffer "make command: " make-command)
+       make-command))))
 
 (defun aron/find-go-package ()
-  "Does things."
+  "Finds the name of the current Go package."
   (let* ((go-root (aron/find-go-root))
-        (src-root (concat go-root "src/"))
-        (package-path (string-remove-prefix src-root (string-remove-suffix "/" default-directory))))
+         (src-root (concat go-root "src/"))
+         (package-path (string-remove-prefix src-root (string-remove-suffix "/" default-directory))))
     package-path
-  ))
+    ))
 
-(defun aron/go-test ()
-  ""
-  (interactive)
-  (let ((package-path (aron/find-go-package))
-        (go-root (aron/find-go-root)))
+(defun aron/go-test (&optional arg)
+  "Runs RStudio Connect test compile.
+
+If called with a non-nil ARG, the compile command is
+presented for editing before it is executed."
+  (interactive "P")
+  (let* ((package-path (aron/find-go-package))
+         (go-root (aron/find-go-root))
+         (make-command (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path " TEST_ARGS=")))
     ;; go test emits only the package-local path on errors
-    (compile (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path))
-  ))
+    (compile
+     (if arg
+         (read-from-minibuffer "make command: " make-command)
+       make-command))))
 
 (provide 'bc-compile)
