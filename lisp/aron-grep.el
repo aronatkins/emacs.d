@@ -132,7 +132,7 @@ that would happen if this function were not defined."
                                       nil nil
                                       'aron/git-grep-flags-history)
                 (read-from-minibuffer "pathspecs: "
-                                      (file-name-directory (magit-file-relative-name))
+                                      (file-name-directory (or (magit-file-relative-name) ""))
                                       nil nil
                                       'aron/git-grep-pathspec-history)
                 ))
