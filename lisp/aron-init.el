@@ -86,6 +86,11 @@
  ;; '(recenter-positions '(top middle bottom))
  )
 
+;; make cursor the width of the character it is under
+;; i.e. full width of a TAB
+;; (setq x-stretch-cursor t)
+;; doesn't interact well with indent-guide.
+
 ;; Files to auto-revert when reloaded.
 ; (setq revert-without-query '(".*\.[ch]"))
 
@@ -123,6 +128,12 @@
 
 ; Setting this variable will cause the compile buffer to always stay at the end.
 (setq compilation-scroll-output t)
+;; compilation-spawned shells are "interactive", meaning we get .bashrc
+;; https://stackoverflow.com/a/17595062
+(defadvice compile (around use-bashrc activate)
+  "Load .bashrc in any calls to bash (e.g. so we can use aliases)"
+  (let ((shell-command-switch "-ic"))
+    ad-do-it))
 
 ; symmetric scroll up/down. http://irreal.org/blog/?p=3963
 (setq scroll-preserve-screen-position 'always)
@@ -240,6 +251,12 @@
 (autoload 'ssh "ssh" "Allows SSH logins to act like shell-mode" t)
 ;; Watch for password requests & force hidden password entry.
 (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
+
+;; https://www.johndcook.com/blog/2016/11/30/setting-up-emacs-shell-on-a-mac/
+(defun aron/shell-mode-hook--bindings ()
+    (local-set-key (kbd "<M-up>") 'comint-previous-input)
+    (local-set-key (kbd "<M-down>") 'comint-next-input))
+(add-hook 'shell-mode-hook #'aron/shell-mode-hook--bindings)
 
 ;; (setq remote-shell-program "/usr/local/bin/ssh")
 ;; (setq rlogin-program       "/usr/local/bin/slogin")
@@ -398,6 +415,7 @@
   (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
   (local-set-key (kbd "C-c i") 'go-goto-imports)
   (local-set-key (kbd "C-c C-c") 'aron/go-compile)
+  ;; (local-set-key (kbd "C-c C-s") 'aron/go-start) ;; BROKEN
   (local-set-key (kbd "C-c C-t") 'aron/go-test)
   )
 (add-hook 'go-mode-hook #'aron/go-mode-hook--bindings)
@@ -418,6 +436,9 @@
 (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow"))
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
+
+(add-to-list 'load-path (concat (getenv "HOME")  "/go/src/github.com/golang/lint/misc/emacs"))
+(require 'golint)
 
 (eval-after-load 'flycheck
   '(flycheck-add-mode 'javascript-eslint 'web-mode))

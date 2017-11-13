@@ -197,14 +197,15 @@ Attempts to root itself in the root of the source tree (not the checkout root)."
   "return the Connect root"
   (bc-find-matching-directory 'aron/is-connect-root))
 
-(defun aron/go-compile (&optional arg)
+(defun aron/go-compile (&optional arg target)
     "Runs RStudio Connect compile.
 
 If called with a non-nil ARG, the compile command is presented
 for editing before it is executed."
   (interactive "P")
-  (let ((default-directory (aron/find-go-root))
-        (make-command "make -f Makefile.docker build"))
+  (let* ((default-directory (aron/find-go-root))
+         (target (or target "build"))
+         (make-command (concat "make -f Makefile.docker " target)))
     (compile
      (if arg
          (read-from-minibuffer "make command: " make-command)
@@ -233,5 +234,17 @@ presented for editing before it is executed."
      (if arg
          (read-from-minibuffer "make command: " make-command)
        make-command))))
+
+;; This doesn't work. Killing the compile with C-c C-k "kills" it differently
+;; than a Ctrl-C in a terminal. In particular, the docker instance is left
+;; running and license deregistration never fires!! So. Stay away.
+;;
+;; Things work better when running "dmake start" inside a shell, as a C-c C-c
+;; sends a Ctrl-C that is handled as in a terminal.
+(defun aron/go-start (&optional arg)
+    "Runs RStudio Connect.
+"
+  (interactive "P")
+  (aron/go-compile arg "start"))
 
 (provide 'bc-compile)
