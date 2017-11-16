@@ -189,7 +189,6 @@ Attempts to root itself in the root of the source tree (not the checkout root)."
   "return true if this directory looks like the connect root"
   (and
    (file-exists-p (concat dir "src"))
-   (file-exists-p (concat dir "pkg"))
    (file-exists-p (concat dir "Makefile.docker"))
    ))
 
