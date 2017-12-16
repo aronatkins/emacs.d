@@ -437,8 +437,15 @@
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
 
-(add-to-list 'load-path (concat (getenv "HOME")  "/go/src/github.com/golang/lint/misc/emacs"))
-(require 'golint)
+;; if we have golint, use it.
+(let (
+      (golint-location (concat (getenv "HOME")  "/go/src/github.com/golang/lint/misc/emacs"))
+      )
+  (if (file-exists-p golint-location)
+      (progn
+        (add-to-list 'load-path golint-location)
+        (require 'golint)
+        )))
 
 (eval-after-load 'flycheck
   '(flycheck-add-mode 'javascript-eslint 'web-mode))
