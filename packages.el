@@ -52,7 +52,6 @@
  'indent-guide
  ;;'js-comint
  'js2-mode
- 'js2-refactor
  'json-mode
  'markdown-mode
  'magit
@@ -62,6 +61,7 @@
  'google-this
  'nyan-mode
  'persistent-scratch
+ 'prettier-js
  'projectile
  'reveal-in-osx-finder
  'sql-indent

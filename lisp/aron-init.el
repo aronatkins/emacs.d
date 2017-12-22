@@ -322,12 +322,17 @@
             personal-node
           "node")))
 
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
 ;; unbind it.
 (require 'js)
 (define-key js-mode-map (kbd "M-.") nil)
+
+;; Stop js2 from complaining; too many things linting JS!!
+(setq js2-strict-trailing-comma-warning nil) ; trailing commas are fine.
+;; complaints about expect(foo).to.be.null -- code has no side effect is annoying, but
+;; disabling all strict warnings is too broad.
+;; probably want something like: https://github.com/mooz/js2-mode/issues/292#issuecomment-155541237
+;; (setq js2-mode-show-strict-warnings nil)
 
 (add-hook 'js2-mode-hook (lambda ()
   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
@@ -338,23 +343,51 @@
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;; https://github.com/prettier/prettier-emacs
+;; (add-hook 'js-mode-hook 'prettier-js-mode)
+;; (add-hook 'web-mode-hook 'prettier-js-mode)
+;; (setq prettier-js-args '(
+;;    "--trailing-comma" "es5"
+;;    "--single-quote"
+;;  ))
+
+(eval-after-load 'flycheck
+  '(flycheck-add-mode 'javascript-eslint 'web-mode))
+
+;; web-mode (better HTML+JS)
+;; http://web-mode.org
+(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+
+;; might need https://github.com/editorconfig/editorconfig-emacs#customize
+;; to get web-mode to play nicely with editorconfig.
+;(setq web-mode-markup-indent-offset 2)
+;(setq web-mode-attr-indent-offset 4)
+;(setq web-mode-code-indent-offset 2)
+;(setq web-mode-script-padding 2)
+
+;; (custom-set-variables
+;;  '(nxml-child-indent 4)
+;;  '(js-indent-level 2) ; used by js-mode, json-mode
+;;  '(js2-basic-offset 2) ; used by js2-mode
+;; )
+
+
+;; Markdown / RMarkdown
+
 ;; markdown-mode doesn't know about Rmd/Rmd.tmpl
 (add-to-list 'auto-mode-alist '("\\.Rmd$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.Rmd.tmpl$" . markdown-mode))
 
-(custom-set-variables
- '(nxml-child-indent 4)
- '(js-indent-level 2) ; used by js-mode, json-mode
- '(js2-basic-offset 2) ; used by js2-mode
-)
+;; YAML
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
+;; SQL
 (eval-after-load "sql"
   '(load-library "sql-indent"))
 
-(put 'upcase-region 'disabled nil)
 
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(put 'upcase-region 'disabled nil)
 
 ;; https://github.com/zk-phi/indent-guide
 (require 'indent-guide)
@@ -390,10 +423,6 @@
 (require 'go-autocomplete)
 (require 'auto-complete-config)
 (ac-config-default)
-
-;; As of Go-1.4, editor plugins are no longer part of the go distribution.
-;; https://github.com/dominikh/go-mode.el
-;; (require 'go-mode-autoloads)
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
@@ -440,9 +469,6 @@
 (add-to-list 'load-path (concat (getenv "HOME")  "/go/src/github.com/golang/lint/misc/emacs"))
 (require 'golint)
 
-(eval-after-load 'flycheck
-  '(flycheck-add-mode 'javascript-eslint 'web-mode))
-
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
 (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
@@ -457,17 +483,6 @@
 ;; C-c /-XXX
 (require 'google-this)
 (google-this-mode 1)
-
-;; web-mode (better HTML+JS)
-;; http://web-mode.org
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
-
-;; might need https://github.com/editorconfig/editorconfig-emacs#customize
-;; to get web-mode to play nicely with editorconfig.
-(setq web-mode-markup-indent-offset 2)
-(setq web-mode-attr-indent-offset 4)
-(setq web-mode-code-indent-offset 2)
-(setq web-mode-script-padding 2)
 
 ;; supposedly this is how folks configure one set of styles across editors.
 (require 'editorconfig)
