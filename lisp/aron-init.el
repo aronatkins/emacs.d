@@ -344,8 +344,8 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; https://github.com/prettier/prettier-emacs
-;; (add-hook 'js-mode-hook 'prettier-js-mode)
-;; (add-hook 'web-mode-hook 'prettier-js-mode)
+(add-hook 'js-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
 ;; (setq prettier-js-args '(
 ;;    "--trailing-comma" "es5"
 ;;    "--single-quote"
