@@ -157,5 +157,12 @@ the given directory."
       (yank-pop arg)
     (error (insert (get-register ?Y)))))
 
+;; launch an independent emacs instance (mac)
+;; https://www.emacswiki.org/emacs/MacOSTweaks#toc17
+(when (memq window-system '(mac ns))
+  (defun new-emacs ()
+    (interactive)
+    (shell-command "open -n -a /Applications/Emacs.app")))
+
 (provide `aron-func)
 ;;; aron-func.el ends here
