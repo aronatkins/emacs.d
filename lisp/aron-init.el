@@ -484,9 +484,6 @@
 ;; more help for keybindings
 (which-key-mode)
 
-;; keep *scratch* around - http://pragmaticemacs.com/emacs/a-persistent-scratch-buffer/
-(persistent-scratch-setup-default)
-
 ;; C-c /-XXX
 (require 'google-this)
 (google-this-mode 1)
