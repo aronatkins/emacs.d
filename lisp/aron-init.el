@@ -416,9 +416,13 @@
 
 ;; This isn't right always, but is good for connect.
 ;; TODO: set in a context-aware way.
-(setenv "GOPATH" (concat
-                  (expand-file-name "dev/rstudio/connect/_vendor" (getenv "HOME")) ":"
-                  (expand-file-name "dev/rstudio/connect" (getenv "HOME"))))
+;;
+;; try adding to connect/.dir-locals.el:
+;; ((nil . ((eval . (progn
+;;                   (setenv "GOPATH" (expand-file-name "."))
+;;               )))))
+;; also look at using (projectile-project-root)
+(setenv "GOPATH" (expand-file-name "dev/rstudio/connect" (getenv "HOME")))
 
 (require 'go-autocomplete)
 (require 'auto-complete-config)
@@ -500,6 +504,9 @@
 ;;(magithub-feature-autoinject t)
 
 (winner-mode 1)
+
+;; show lines with changes in the LHS.
+(global-git-gutter-mode +1)
 
 ;; https://github.com/BurntSushi/ripgrep
 
