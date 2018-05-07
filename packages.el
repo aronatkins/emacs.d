@@ -44,6 +44,8 @@
  'flycheck
  'flycheck-gometalinter
  'git-timemachine
+ 'git-gutter
+ 'go-dlv
  'go-guru
  'go-mode
  'graphviz-dot-mode
