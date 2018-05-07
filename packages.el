@@ -37,6 +37,7 @@
  'cmake-font-lock
  'crux
  'define-word
+ 'dockerfile-mode
  'editorconfig
  'ess
  'exec-path-from-shell
