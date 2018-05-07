@@ -189,7 +189,7 @@ Attempts to root itself in the root of the source tree (not the checkout root)."
   "return true if this directory looks like the connect root"
   (and
    (file-exists-p (concat dir "src"))
-   (file-exists-p (concat dir "Makefile.docker"))
+   (file-exists-p (concat dir "connect.Rproj"))
    ))
 
 (defun aron/find-go-root ()
@@ -204,7 +204,7 @@ for editing before it is executed."
   (interactive "P")
   (let* ((default-directory (aron/find-go-root))
          (target (or target "build"))
-         (make-command (concat "make -f Makefile.docker " target)))
+         (make-command (concat "make " target)))
     (compile
      (if arg
          (read-from-minibuffer "make command: " make-command)
@@ -226,8 +226,8 @@ presented for editing before it is executed."
   (interactive "P")
   (let* ((package-path (aron/find-go-package))
          (go-root (aron/find-go-root))
-         ;;(make-command (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path " TEST_ARGS=")))
-         (make-command (concat "make -C " go-root " -f Makefile.docker test-verbose TEST=" package-path)))
+         ;;(make-command (concat "make -C " go-root " test-verbose TEST=" package-path " TEST_ARGS=")))
+         (make-command (concat "make -C " go-root " test-verbose TEST=" package-path)))
     ;; go test emits only the package-local path on errors
     (compile
      (if arg
