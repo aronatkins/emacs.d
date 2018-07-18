@@ -11,6 +11,11 @@
 (scroll-bar-mode -1)
 (setq inhibit-startup-message t)
 
+;; the title bar shares the background color
+;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+;; or nil to switch to dark title text
+;; (add-to-list 'default-frame-alist '(ns-appearance . dark))
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
