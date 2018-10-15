@@ -437,6 +437,13 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Directory-Local-Variables.html
 ;; (setenv "GOPATH" (expand-file-name "dev/rstudio/connect" (getenv "HOME")))
 
+(setq safe-local-variable-values
+      (quote
+       ((eval setq project-gopath
+              (expand-file-name
+               (locate-dominating-file buffer-file-name ".dir-locals.el")))
+        (eval setenv "GOPATH" project-gopath))))
+
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
