@@ -417,12 +417,29 @@
 ;; This isn't right always, but is good for connect.
 ;; TODO: set in a context-aware way.
 ;;
-;; try adding to connect/.dir-locals.el:
+;; try adding to connect/.dir-locals.el; inspired by
+;; https://github.com/nelsam/prelude/blob/nelsam/gopath-dir-locals.el
+;; ((go-mode . (
+;;              (eval . (setq project-gopath
+;;                            (expand-file-name
+;;                             (locate-dominating-file buffer-file-name ".dir-locals.el"))))
+;;              (eval . (setenv "GOPATH" project-gopath))
+;;              )))
+;; tried this first; didn't work
 ;; ((nil . ((eval . (progn
 ;;                   (setenv "GOPATH" (expand-file-name "."))
 ;;               )))))
 ;; also look at using (projectile-project-root)
-(setenv "GOPATH" (expand-file-name "dev/rstudio/connect" (getenv "HOME")))
+;;
+;; The old way was to have this globally:
+;;
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Directory-Local-Variables.html
+;; (setenv "GOPATH" (expand-file-name "dev/rstudio/connect" (getenv "HOME")))
+
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 (require 'go-autocomplete)
 (require 'auto-complete-config)
