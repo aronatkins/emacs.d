@@ -145,7 +145,7 @@ that would happen if this function were not defined."
              search-flags search-for pathspec)
      'grep-mode
      ;; buffer name with git grep arguments.
-     (lambda (mode) (format "*grep* %s %s %s" search-flags search-for pathspec))
+     (lambda (mode) (format "*git-grep* %s %s %s" search-flags search-for pathspec))
     )))
 
 (provide 'aron-grep)
