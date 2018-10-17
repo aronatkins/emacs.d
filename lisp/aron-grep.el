@@ -143,7 +143,10 @@ that would happen if this function were not defined."
     (compilation-start
      (format "git --no-pager grep -nH --full-name --no-color %s -e '%s' -- %s"
              search-flags search-for pathspec)
-     'grep-mode)))
+     'grep-mode
+     ;; buffer name with git grep arguments.
+     (lambda (mode) (format "*grep* %s %s %s" search-flags search-for pathspec))
+    )))
 
 (provide 'aron-grep)
 ;;; aron-grep.el ends here
