@@ -70,6 +70,7 @@
  'vagrant
  'vagrant-tramp
  'volatile-highlights
+ 'vue-mode
  'web-mode                              ; possibly better HTML+JS
  'which-key
  'xref-js2

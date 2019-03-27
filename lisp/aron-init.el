@@ -84,6 +84,9 @@
  ;; control-L behavior. http://irreal.org/blog/?p=6436
  ;; also. try out C-M-l !!!
  ;; '(recenter-positions '(top middle bottom))
+
+ ;; stop gfm (markdown) mode from having electric backticks.
+ '(markdown-gfm-use-electric-backquote nil)
  )
 
 ;; make cursor the width of the character it is under
@@ -374,9 +377,12 @@
 
 ;; Markdown / RMarkdown
 
+;; markdown-mode us used automatically but we want gfm-mode (a derived mode).
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 ;; markdown-mode doesn't know about Rmd/Rmd.tmpl
-(add-to-list 'auto-mode-alist '("\\.Rmd$" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.Rmd.tmpl$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.Rmd$" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.Rmd.tmpl$" . gfm-mode))
 
 ;; YAML
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
@@ -442,7 +448,9 @@
        ((eval setq project-gopath
               (expand-file-name
                (locate-dominating-file buffer-file-name ".dir-locals.el")))
-        (eval setenv "GOPATH" project-gopath))))
+        (eval setenv "GOPATH" project-gopath)
+        (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
+        )))
 
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -490,7 +498,9 @@
 (setq flycheck-gometalinter-disable-all t)
 
 ;; gotype requires all dependent packages have been built. which isn't great.
+;; (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow" "golint" "goconst" "ineffassign"))
 (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow"))
+
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
 
@@ -533,6 +543,16 @@
 (global-git-gutter-mode +1)
 
 ;; https://github.com/BurntSushi/ripgrep
+
+;; get compilation buffers to support color output (because no one looks at TERM)
+;; https://stackoverflow.com/questions/13397737/ansi-coloring-in-compilation-mode
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
