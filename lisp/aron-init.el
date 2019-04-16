@@ -8,13 +8,11 @@
 ;; Lots of good config examples:
 ;; http://www.djcbsoftware.nl/dot-emacs.html
 
-(require 'aron-dev)
-(require 'aron-font)
 (require 'aron-func)
 (require 'aron-gdb-hooks)
 (require 'aron-grep)
 (require 'aron-keys)
-(require 'bc-compile)
+(require 'aron-compile)
 
 ;; Controls for the emacs status bar.
 (display-time)                      ; Show the time.
@@ -29,6 +27,8 @@
  ;; only-whitespace (ie. empty lines in a code block that happen to be
  ;; indented).
  ;; '(show-trailing-whitespace t)
+
+'(font-lock-maximum-decoration t)
 
  ;; emacs (pre-23.1) used to use completion-ignore-case for both
  ;; find-file completion and buffer-switching completion.
@@ -167,6 +167,13 @@
 ;; (setq c-basic-offset 4)
 ;;  (c-set-style "java"))
 
+(require 'gud)
+(add-hook 'gdb-mode-hook 'aron/gdb-mode-hook)
+(autoload 'aron/gdb-mode-hook "aron-gdb-hooks")
+
+;; RSP: use c++-mode instead of c-mode for .h files.
+(setq auto-mode-alist (cons '("\\.h\\'" . c++-mode) auto-mode-alist))
+
 (add-hook 'java-mode-hook 'bc-java-mode-hook)
 
 (require 'java-mode-indent-annotations)
@@ -175,9 +182,9 @@
 ;; java convention is to use camelcase, so this is usually good.
 (add-hook 'java-mode-hook 'subword-mode)
 ;; stolen from http://www.emacswiki.org/emacs/IndentingC
-(defun aron-java-mode-hook ()
+(defun aron/java-mode-hook ()
   (c-set-offset 'case-label '+))       ; indent case labels by c-indent-level, too
-(add-hook 'java-mode-hook 'aron-java-mode-hook)
+(add-hook 'java-mode-hook 'aron/java-mode-hook)
 
 ;; avoid problem with java property file quote formatting
 ;; http://emacsblog.org/2007/03/01/quick-tip-highlighting-java-properties-files/
@@ -192,16 +199,6 @@
 ;;
 ;; without this hook, the method gets indented.
 (add-hook 'java-mode-hook 'java-mode-indent-annotations-setup)
-
-;; i'm a rule breaker.
-(add-hook 'java-mode-hook '(lambda() (setq c-basic-offset 2)))
-
-(defun bc-spacing ()
-  (interactive)
-  (setq c-basic-offset 4))
-(defun wn-spacing ()
-  (interactive)
-  (setq c-basic-offset 2))
 
 ;; make some common keywords stand out.
 ;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
@@ -552,7 +549,6 @@
   (ansi-color-apply-on-region compilation-filter-start (point))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
 
 (provide 'aron-init)
 ;;; aron-init.el ends here

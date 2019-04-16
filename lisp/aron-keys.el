@@ -7,7 +7,7 @@
 
 (require 'aron-func)
 (require 'aron-grep)
-(require 'bc-compile)
+(require 'aron-compile)
 (require 'crux)
 
 ;; alter C-y and M-y so M-y uses the last yank instead of erring.
@@ -34,7 +34,6 @@
 (when (memq window-system '(mac ns))
   (define-key ctl-z-map "f" 'reveal-in-osx-finder))
 (define-key ctl-z-map "g" 'goto-line)
-(define-key ctl-z-map "h" 'aron-jdk-help)
 (define-key ctl-z-map "i" 'aron/in-directory)
 (define-key ctl-z-map "j" 'aron/git-grep)
 (define-key ctl-z-map "k" 'copy-region-as-kill)
@@ -44,7 +43,6 @@
 (define-key ctl-z-map "q" 'query-replace)
 (define-key ctl-z-map "r" 'replace-string)
 (define-key ctl-z-map "s" 'aron/lmgtfy)
-(define-key ctl-z-map "t" 'line-to-top-of-window)
 (define-key ctl-z-map "v" 'revert-buffer)
 (define-key ctl-z-map "w" 'widen)
 

@@ -14,35 +14,6 @@ This is just like calling `other-window' with the arg negated."
   (interactive "p")
   (other-window (- arg) all-frames))
 
-;; stolen from xemacs.
-(defun backward-prev-window (arg &optional all-frames)
-  "Select the ARG'th different window on this frame, going backwards.
-This is just like calling `other-window' with -1."
-  (interactive "p")
-  (other-window -1 all-frames))
-
-(defun aron-jdk-help ()
-  "Searches for the current token using Google on the Sun JDK site."
-  (interactive)
-  (browse-url (concat "http://www.google.com/search?" "q=" (current-word) "+site:java.sun.com/javase/6/docs")))
-
-;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Textual-Scrolling.html
-(defun line-to-top-of-window ()
-  "Scroll current line to top of window.
-          Replaces three keystroke sequence C-u 0 C-l."
-  (interactive)
-  (recenter 0))
-          
-;; (global-set-key [kp-multiply] 'line-to-top-of-window)
-
-(defun cygwin-convert-parse-errors-filename (filename)
-  "Convert a Windows path into a cygwin-style Unix path."
-  ;; just handle c:\ for now.
-  (replace-regexp-in-string "\\\\" "/" 
-			    (if (string-match "^\\([cC]:[/\\]\\)" filename)
-				(replace-match "/cygdrive/c/" t t filename)
-			      filename)))
-
 ;; Kills an entire line.  Useful for when you want to delete many
 ;; lines, but don't feel like moving to position 0 first
 (defun my-kill-whole-line ()
@@ -58,6 +29,7 @@ This is just like calling `other-window' with -1."
 	  (point))))
 
 ;; Mark the current file executable
+;; could also use executable-make-buffer-file-executable-if-script-p
 (defun chmod-executable ()
   (interactive)
   (shell-command (concat "chmod +x " (buffer-file-name))))
@@ -75,11 +47,6 @@ This is just like calling `other-window' with -1."
   (goto-char (point-min))
   (while (search-forward "\r\n" nil t)
     (replace-match "\n" nil t)))
-
-(defun tkdiff ()
-  "Launch tkdiff on the current buffer."
-  (interactive)
-  (shell-command (concat "tkdiff" " " (buffer-file-name) " &")))
 
 ;; http://www.blogbyben.com/2013/09/emacs-function-humanifying-urls.html
 (defun url-humanify ()
