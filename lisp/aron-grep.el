@@ -148,5 +148,10 @@ that would happen if this function were not defined."
      (lambda (mode) (format "*git-grep* %s %s %s" search-flags search-for pathspec))
     )))
 
+(defun aron/git-grep-cleanup ()
+  "Purge buffers left behind by aron/git-grep."
+  (interactive)
+  (kill-matching-buffers "\\*git-grep\\* " nil t))
+
 (provide 'aron-grep)
 ;;; aron-grep.el ends here
