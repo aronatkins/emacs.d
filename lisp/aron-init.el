@@ -341,6 +341,13 @@
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
 
+(eval-after-load `vue-mode
+  `(add-hook `vue-mode-hook #'add-node-modules-path))
+;; (eval-after-load `vue-mode
+;;   `(add-hook 'vue-mode-hook
+;;              (lambda ()
+;;                (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
+  
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; https://github.com/prettier/prettier-emacs
@@ -539,7 +546,10 @@
 ;; show lines with changes in the LHS.
 (global-git-gutter-mode +1)
 
+;; https://github.com/jacktasia/dumb-jump uses:
+;; https://github.com/ggreer/the_silver_searcher
 ;; https://github.com/BurntSushi/ripgrep
+(dumb-jump-mode)
 
 ;; get compilation buffers to support color output (because no one looks at TERM)
 ;; https://stackoverflow.com/questions/13397737/ansi-coloring-in-compilation-mode
