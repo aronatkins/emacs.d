@@ -96,4 +96,18 @@ presented for editing before it is executed."
        make-command))))
 (defalias 'aron/test-api 'aron/api-test)
 
+(defun aron/connect-r-test (&optional arg)
+  "Runs RStudio Connect R tests.
+
+If called with a non-nil ARG, the compile command is
+presented for editing before it is executed."
+
+  (interactive "P")
+  (let* ((connect-root (aron/connect-root))
+         (make-command (concat "make -C " connect-root " test-r")))
+    (compile
+     (if arg
+         (read-from-minibuffer "make command: " make-command)
+       make-command))))
+
 (provide 'aron-compile)
