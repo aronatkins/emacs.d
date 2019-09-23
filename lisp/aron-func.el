@@ -131,5 +131,28 @@ the given directory."
     (interactive)
     (shell-command "open -n -a /Applications/Emacs.app")))
 
+(defun aron/eslint-executable ()
+  ""
+  (interactive)
+  (let ((project-dir (locate-dominating-file default-directory "node_modules")))
+    (unless project-dir
+      (error "cannot locate node_modules"))
+    (concat project-dir "node_modules/.bin/eslint")))
+
+;; from https://gist.github.com/ustun/73321bfcb01a8657e5b8
+(defun aron/eslint-fix-file (file-name)
+  ""
+  (interactive)
+  (let* ((eslint-executable (aron/eslint-executable))
+        (command (concat eslint-executable " --fix " file-name)))
+    (message (concat "eslint: " command))
+    (shell-command command)))
+
+(defun aron/eslint-fix-file-and-revert ()
+  ""
+  (interactive)
+  (aron/eslint-fix-file (buffer-file-name))
+  (revert-buffer t t))
+
 (provide `aron-func)
 ;;; aron-func.el ends here
