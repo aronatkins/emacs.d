@@ -63,14 +63,13 @@ There are two things you can do about this warning:
  ;;'js-comint
  'js2-mode
  'json-mode
+ 'lsp-mode
  'markdown-mode
  'magit
  ;; 'magithub
  'gitconfig-mode
  'gitignore-mode
  'google-this
- 'nyan-mode
- 'prettier-js
  'projectile
  'reveal-in-osx-finder
  'sql-indent

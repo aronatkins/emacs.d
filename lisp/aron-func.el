@@ -103,6 +103,24 @@ the given directory."
   (let ((default-directory dir))
     (call-interactively 'compile)))
 
+;; from: http://whattheemacsd.com/file-defuns.el-01.html
+(defun aron/rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
 ; http://emacswiki.org/emacs/DeletingWhitespace#toc18
 ; adapted from `delete-horizontal-space'
 (defun delete-horizontal-space-forward ()

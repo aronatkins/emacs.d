@@ -109,6 +109,20 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (setq ido-create-new-buffer 'always)
+
+;; give ido ~/ magic.
+;; from: http://whattheemacsd.com/setup-ido.el-02.html
+(add-hook 'ido-setup-hook
+ (lambda ()
+   ;; Go straight home
+   (define-key ido-file-completion-map
+     (kbd "~")
+     (lambda ()
+       (interactive)
+       (if (looking-back "/")
+           (insert "~/")
+         (call-interactively 'self-insert-command))))))
+
 (ido-mode 1)
 
 (defalias 'list-buffers 'ibuffer)       ; A richer list-buffers experience.
@@ -337,26 +351,29 @@
 (add-hook 'js2-mode-hook (lambda ()
   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
+(setq js-indent-level 2)
+
 ;; https://github.com/flycheck/flycheck/issues/1087#issuecomment-267587217
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
+(eval-after-load `js2-mode
+  `(add-hook 'js2-mode-hook
+             (lambda ()
+               (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
 
 (eval-after-load `vue-mode
   `(add-hook `vue-mode-hook #'add-node-modules-path))
-;; (eval-after-load `vue-mode
-;;   `(add-hook 'vue-mode-hook
-;;              (lambda ()
-;;                (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
+(eval-after-load `vue-mode
+  `(add-hook 'vue-mode-hook
+             (lambda ()
+               (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
+;; fix bad indents in vue JS blocks
+;; https://github.com/AdamNiederer/vue-mode/issues/74
+;; https://github.com/AdamNiederer/vue-mode/issues/100
+(setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+(setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
   
 (add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; https://github.com/prettier/prettier-emacs
-(add-hook 'js-mode-hook 'prettier-js-mode)
-(add-hook 'web-mode-hook 'prettier-js-mode)
-;; (setq prettier-js-args '(
-;;    "--trailing-comma" "es5"
-;;    "--single-quote"
-;;  ))
 
 (eval-after-load 'flycheck
   '(flycheck-add-mode 'javascript-eslint 'web-mode))
@@ -449,10 +466,12 @@
 
 (setq safe-local-variable-values
       (quote
-       ((eval setq project-gopath
+       (
+        (eval setq project-gopath
               (expand-file-name
                (locate-dominating-file buffer-file-name ".dir-locals.el")))
         (eval setenv "GOPATH" project-gopath)
+        (eval setenv "GOFLAGS" "-mod=vendor")
         (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
         )))
 
@@ -505,6 +524,7 @@
 ;; (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow" "golint" "goconst" "ineffassign"))
 (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow"))
 
+
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
 
@@ -517,6 +537,9 @@
         (add-to-list 'load-path golint-location)
         (require 'golint)
         )))
+
+;; (require 'lsp-mode)
+;; (add-hook 'go-mode-hook 'lsp-deferred)
 
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
@@ -547,6 +570,7 @@
 (global-git-gutter-mode +1)
 
 ;; https://github.com/jacktasia/dumb-jump uses:
+;; git grep
 ;; https://github.com/ggreer/the_silver_searcher
 ;; https://github.com/BurntSushi/ripgrep
 (dumb-jump-mode)
