@@ -584,5 +584,9 @@
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+(require 'todotxt-mode)
+(add-to-list 'auto-mode-alist '("\\todo.txt\\'" . todotxt-mode))
+(setq todotxt-default-file (expand-file-name "~/todo.txt"))
+
 (provide 'aron-init)
 ;;; aron-init.el ends here

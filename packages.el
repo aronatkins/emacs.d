@@ -73,6 +73,7 @@ There are two things you can do about this warning:
  'projectile
  'reveal-in-osx-finder
  'sql-indent
+ 'todotxt-mode
  'vagrant
  'vagrant-tramp
  'volatile-highlights
