@@ -37,10 +37,10 @@ There are two things you can do about this warning:
 
 (ensure-package-installed
  'add-node-modules-path
- 'auto-complete
  'bug-hunter
  'cmake-mode
  'cmake-font-lock
+ 'company
  'crux
  'define-word
  'dockerfile-mode
@@ -53,8 +53,6 @@ There are two things you can do about this warning:
  'flycheck-gometalinter
  'git-timemachine
  'git-gutter
- 'go-dlv
- 'go-guru
  'go-mode
  'graphviz-dot-mode
  'groovy-mode
@@ -64,6 +62,7 @@ There are two things you can do about this warning:
  'js2-mode
  'json-mode
  'lsp-mode
+ 'lsp-ui
  'markdown-mode
  'magit
  ;; 'magithub
@@ -74,6 +73,7 @@ There are two things you can do about this warning:
  'reveal-in-osx-finder
  'sql-indent
  'todotxt-mode
+ 'use-package
  'vagrant
  'vagrant-tramp
  'volatile-highlights
@@ -82,6 +82,7 @@ There are two things you can do about this warning:
  'which-key
  'xref-js2
  'yaml-mode
+ 'yasnippet
  'ztree
  )
 

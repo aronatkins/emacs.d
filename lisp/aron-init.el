@@ -8,6 +8,7 @@
 ;; Lots of good config examples:
 ;; http://www.djcbsoftware.nl/dot-emacs.html
 
+(require 'use-package)
 (require 'aron-func)
 (require 'aron-gdb-hooks)
 (require 'aron-grep)
@@ -437,10 +438,6 @@
 
 ;; Go
 
-;; export GOPATH=/Users/aron/go
-;; export PATH="$GOPATH/bin:$PATH"
-;; go get github.com/rogpeppe/godef
-
 ;; This isn't right always, but is good for connect.
 ;; TODO: set in a context-aware way.
 ;;
@@ -471,72 +468,104 @@
               (expand-file-name
                (locate-dominating-file buffer-file-name ".dir-locals.el")))
         (eval setenv "GOPATH" project-gopath)
+        (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper")
         (eval setenv "GOFLAGS" "-mod=vendor")
         (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
         )))
 
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-(require 'go-autocomplete)
-(require 'auto-complete-config)
-(ac-config-default)
+;; (projectile-mode +1)
+;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
 
-;; http://tleyden.github.io/blog/2014/05/27/configure-emacs-as-a-go-editor-from-scratch-part-2/
-;; http://dominik.honnef.co/posts/2013/03/writing_go_in_emacs/
-
-;; use goimports instead of gofmt
-;; https://godoc.org/golang.org/x/tools/cmd/goimports
-;; and configure it to group "connect" code separately from other 3rd-party modules.
-(setq gofmt-command "goimports")
-(setq gofmt-args '("-local" "connect"))
-
-(defun aron/go-mode-hook--gofmt ()
-  (add-hook 'before-save-hook 'gofmt-before-save))
-(add-hook 'go-mode-hook #'aron/go-mode-hook--gofmt)
-(defun aron/go-mode-hook--bindings ()
-  (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
-  (local-set-key (kbd "C-c i") 'go-goto-imports)
-  (local-set-key (kbd "C-c C-c") 'aron/go-compile)
-  ;; (local-set-key (kbd "C-c C-s") 'aron/go-start) ;; BROKEN
-  (local-set-key (kbd "C-c C-t") 'aron/go-test)
+;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#emacs
+;; https://github.com/golang/go/issues/36899
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred)
+  ;; :custom
+  ;; (lsp-gopls-use-placeholders t)
+  ;; :config
+  ;; (lsp-register-custom-settings
+  ;;  '(("gopls.completeUnimported" t t)
+  ;;    ("gopls.staticcheck" t t)))
+  ;; :config
+  ;; (lsp-register-custom-settings
+  ;;  '(("gopls.linkTarget" "" t)))
   )
-(add-hook 'go-mode-hook #'aron/go-mode-hook--bindings)
-(add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
+
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+(use-package go-mode
+  :ensure t
+  :bind (("C-c i" . go-goto-imports)
+         ("C-c C-c" . aron/go-compile)
+         ;; ("C-c C-s" . aron/go-start) ;; BROKEN
+         ("C-c C-t" . aron/go-test)
+         )
+  )
+
+;; Optional - provides fancier overlays.
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+;; Company mode is a standard completion package that works well with lsp-mode.
+(use-package company
+  :ensure t
+  :config
+  ;; Optionally enable completion-as-you-type behavior.
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1))
+
+;; Optional - provides snippet support.
+(use-package yasnippet
+  :ensure t
+  :commands yas-minor-mode
+  :hook (go-mode . yas-minor-mode))
+
+;; (defun aron/go-mode-hook--gofmt ()
+;;   (add-hook 'before-save-hook 'gofmt-before-save))
+;; (add-hook 'go-mode-hook #'aron/go-mode-hook--gofmt)
+;; (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
 
 ;;(require 'flycheck-gometalinter)
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
+;; (eval-after-load 'flycheck
+;;   '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
 
 ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
 ;;(setq flycheck-gometalinter-vendor t)
 ;; disable linters
 ;; (setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
 ;; Only enable selected linters
-(setq flycheck-gometalinter-disable-all t)
+;; (setq flycheck-gometalinter-disable-all t)
 
 ;; gotype requires all dependent packages have been built. which isn't great.
 ;; (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow" "golint" "goconst" "ineffassign"))
-(setq flycheck-gometalinter-enable-linters '("vet" "vetshadow"))
+;; (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow"))
 
 
 ;; Set different deadline (default: 5s)
 ;(setq flycheck-gometalinter-deadline "10s")
 
 ;; if we have golint, use it.
-(let (
-      (golint-location (concat (getenv "HOME")  "/go/src/github.com/golang/lint/misc/emacs"))
-      )
-  (if (file-exists-p golint-location)
-      (progn
-        (add-to-list 'load-path golint-location)
-        (require 'golint)
-        )))
+;; (let (
+;;       (golint-location (concat (getenv "HOME")  "/go/src/github.com/golang/lint/misc/emacs"))
+;;       )
+;;   (if (file-exists-p golint-location)
+;;       (progn
+;;         (add-to-list 'load-path golint-location)
+;;         (require 'golint)
+;;         )))
 
 ;; (require 'lsp-mode)
 ;; (add-hook 'go-mode-hook 'lsp-deferred)
