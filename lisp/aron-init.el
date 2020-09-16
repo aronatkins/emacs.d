@@ -617,5 +617,9 @@
 (add-to-list 'auto-mode-alist '("\\todo.txt\\'" . todotxt-mode))
 (setq todotxt-default-file (expand-file-name "~/todo.txt"))
 
+;; https://github.com/purcell/whole-line-or-region
+(require 'whole-line-or-region)
+(whole-line-or-region-global-mode)
+
 (provide 'aron-init)
 ;;; aron-init.el ends here

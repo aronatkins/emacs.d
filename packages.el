@@ -80,6 +80,7 @@ There are two things you can do about this warning:
  'vue-mode
  'web-mode                              ; possibly better HTML+JS
  'which-key
+ 'whole-line-or-region
  'xref-js2
  'yaml-mode
  'yasnippet
