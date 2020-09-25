@@ -533,6 +533,11 @@
   :commands yas-minor-mode
   :hook (go-mode . yas-minor-mode))
 
+;; gopls customization example
+;; (lsp-register-custom-settings
+;;  '(("gopls.completeUnimported" t t)
+;;    ("gopls.staticcheck" t t)))
+
 ;; (defun aron/go-mode-hook--gofmt ()
 ;;   (add-hook 'before-save-hook 'gofmt-before-save))
 ;; (add-hook 'go-mode-hook #'aron/go-mode-hook--gofmt)
