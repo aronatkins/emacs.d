@@ -88,6 +88,10 @@
 
  ;; stop gfm (markdown) mode from having electric backticks.
  '(markdown-gfm-use-electric-backquote nil)
+
+ ;; tuning for LSP (https://emacs-lsp.github.io/lsp-mode/page/performance/#tuning)
+ '(gc-cons-threshold 100000000)
+ '(read-process-output-max (* 1024 1024)) ;; 1mb
  )
 
 ;; make cursor the width of the character it is under
