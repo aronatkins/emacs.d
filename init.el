@@ -63,9 +63,11 @@ There are two things you can do about this warning:
 ;; https://emacsthemes.com
 
 ;; deeper-blue has a default mid-grey comment face.
-(custom-set-faces
- '(font-lock-comment-face ((t (:foreground "cornflower blue")))))
-(load-theme 'deeper-blue t)
+;; (custom-set-faces
+;;  '(font-lock-comment-face ((t (:foreground "cornflower blue")))))
+; (load-theme 'deeper-blue t)
+(load-theme 'leuven t)
+;; (disable-theme 'whiteboard)
 
 (require 'aron-init)
 
