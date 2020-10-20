@@ -491,6 +491,9 @@
   :ensure t
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred)
+  :config
+  (lsp-register-custom-settings
+   `(("gopls.local" "connect" t)))
   ;; :custom
   ;; (lsp-gopls-use-placeholders t)
   ;; :config
