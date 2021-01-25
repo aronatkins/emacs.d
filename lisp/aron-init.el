@@ -413,6 +413,7 @@
 ;; YAML
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml.gotmpl$" . yaml-mode))
 
 ;; SQL
 (eval-after-load "sql"
