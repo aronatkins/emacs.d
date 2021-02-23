@@ -92,6 +92,9 @@
  ;; tuning for LSP (https://emacs-lsp.github.io/lsp-mode/page/performance/#tuning)
  '(gc-cons-threshold 100000000)
  '(read-process-output-max (* 1024 1024)) ;; 1mb
+
+ ;; https://www.emacswiki.org/emacs/AlarmBell
+ '(ring-bell-function 'ignore)
  )
 
 ;; make cursor the width of the character it is under
@@ -494,7 +497,10 @@
   :hook (go-mode . lsp-deferred)
   :config
   (lsp-register-custom-settings
-   `(("gopls.local" "connect" t)))
+   `(
+     ("gopls.local" "connect" t)
+     ;;("gopls.experimentalWorkspaceModule" t t)
+     ))
   ;; :custom
   ;; (lsp-gopls-use-placeholders t)
   ;; :config
