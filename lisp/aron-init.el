@@ -476,8 +476,8 @@
               (expand-file-name
                (locate-dominating-file buffer-file-name ".dir-locals.el")))
         (eval setenv "GOPATH" project-gopath)
-        (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper")
-        (eval setenv "GOFLAGS" "-mod=vendor")
+        (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager")
+        ; (eval setenv "GOFLAGS" "-mod=vendor")
         (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
         )))
 
@@ -499,7 +499,7 @@
   (lsp-register-custom-settings
    `(
      ("gopls.local" "connect" t)
-     ;;("gopls.experimentalWorkspaceModule" t t)
+     ; ("gopls.experimentalWorkspaceModule" t t)
      ))
   ;; :custom
   ;; (lsp-gopls-use-placeholders t)
