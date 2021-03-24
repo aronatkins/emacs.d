@@ -61,6 +61,7 @@ There are two things you can do about this warning:
  ;;'js-comint
  'js2-mode
  'json-mode
+ 'just-mode
  'lsp-mode
  'lsp-ui
  'markdown-mode
