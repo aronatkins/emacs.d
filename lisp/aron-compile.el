@@ -38,11 +38,11 @@ for editing before it is executed."
   (interactive "P")
   (let* ((default-directory (aron/connect-root))
          (target (or target "build"))
-         (make-command (concat "just " target)))
+         (compile-command (concat "just " target)))
     (compile
      (if arg
-         (read-from-minibuffer "make command: " make-command)
-       make-command))))
+         (read-from-minibuffer "compilation command: " compile-command)
+       compile-command))))
 
 (defun aron/go-test (&optional arg)
   "Runs RStudio Connect test compile.
@@ -68,7 +68,7 @@ presented for editing before it is executed."
     ;; go test emits only the package-local path on errors
     (compile
      (if arg
-         (read-from-minibuffer "compilation command: " compile-command)
+         (read-from-minibuffer "test command: " compile-command)
        compile-command))))
 
 (defalias 'aron/test-go 'aron/go-test)
@@ -125,10 +125,10 @@ presented for editing before it is executed."
 
   (interactive "P")
   (let* ((connect-root (aron/connect-root))
-         (make-command (concat "make -C " connect-root " test-r")))
+         (compile-command (concat "just " connect-root " test-r")))
     (compile
      (if arg
-         (read-from-minibuffer "make command: " make-command)
-       make-command))))
+         (read-from-minibuffer "test-r command: " compile-command)
+       compile-command))))
 
 (provide 'aron-compile)
