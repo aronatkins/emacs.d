@@ -117,21 +117,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (setq ido-create-new-buffer 'always)
-
-;; give ido ~/ magic.
-;; from: http://whattheemacsd.com/setup-ido.el-02.html
-(add-hook 'ido-setup-hook
- (lambda ()
-   ;; Go straight home
-   (define-key ido-file-completion-map
-     (kbd "~")
-     (lambda ()
-       (interactive)
-       (if (looking-back "/")
-           (insert "~/")
-         (call-interactively 'self-insert-command))))))
-
-(ido-mode 1)
+(ido-mode t)
 
 (defalias 'list-buffers 'ibuffer)       ; A richer list-buffers experience.
 
