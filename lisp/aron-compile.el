@@ -13,6 +13,23 @@ repository root"
   "Return the directory containing the RStudio Connect repository root."
   (locate-dominating-file default-directory 'aron/is-connect-root))
 
+(defun aron/is-connect-module-root (dir)
+  "Return true if this directory looks like an RStudio Connect
+module root."
+  ; This is a pretty terrible heursitic and assumes that packages in
+  ; src/*/vendor do not use just.
+  (and
+   (file-exists-p (concat dir "go.mod"))
+   (file-exists-p (concat dir "justfile"))
+   ))
+
+(defun aron/connect-module-root ()
+  "Return the directory containing the root of an RStudio Connect
+module hierarchy.
+
+Typically, these are directories beneath connect/src."
+  (locate-dominating-file default-directory 'aron/is-connect-module-root))
+
 (defun aron/go-compile (&optional arg target)
     "Runs RStudio Connect compile.
 
@@ -21,19 +38,11 @@ for editing before it is executed."
   (interactive "P")
   (let* ((default-directory (aron/connect-root))
          (target (or target "build"))
-         (make-command (concat "make " target)))
+         (make-command (concat "just " target)))
     (compile
      (if arg
          (read-from-minibuffer "make command: " make-command)
        make-command))))
-
-(defun aron/find-go-package ()
-  "Finds the name of the current Go package."
-  (let* ((connect-root (aron/connect-root))
-         (src-root (concat connect-root "src/"))
-         (package-path (file-relative-name (string-remove-suffix "/" default-directory) src-root)))
-    package-path
-    ))
 
 (defun aron/go-test (&optional arg)
   "Runs RStudio Connect test compile.
@@ -41,15 +50,27 @@ for editing before it is executed."
 If called with a non-nil ARG, the compile command is
 presented for editing before it is executed."
   (interactive "P")
-  (let* ((package-path (aron/find-go-package))
+  (let* (
+         ;; ~/dev/rstudio/connect/
          (connect-root (aron/connect-root))
-         ;;(make-command (concat "make -C " connect-root " test-verbose TEST=" package-path " TEST_ARGS=")))
-         (make-command (concat "make -C " connect-root " test-verbose TEST=" package-path)))
+         ;; ~/dev/rstudio/connect/src/
+         (src-root (concat connect-root "src/"))
+         ;; ~/dev/rstudio/connect/src/connect/
+         (module-root (aron/connect-module-root))
+         ;; connect
+         (module-root-name (string-remove-suffix "/" (file-relative-name module-root src-root)))
+         ;; connect/util
+         (relative-package-path (string-remove-suffix "/" (file-relative-name default-directory src-root)))
+         ;; either "test" or "test-tool"
+         (target (if (string-equal "connect" module-root-name) "test" "test-tool"))
+         (compile-command (concat "just " connect-root " " target " " relative-package-path))
+         )
     ;; go test emits only the package-local path on errors
     (compile
      (if arg
-         (read-from-minibuffer "make command: " make-command)
-       make-command))))
+         (read-from-minibuffer "compilation command: " compile-command)
+       compile-command))))
+
 (defalias 'aron/test-go 'aron/go-test)
 
 ;; This doesn't work. Killing the compile with C-c C-k "kills" it differently
