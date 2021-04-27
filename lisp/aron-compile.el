@@ -30,15 +30,30 @@ module hierarchy.
 Typically, these are directories beneath connect/src."
   (locate-dominating-file default-directory 'aron/is-connect-module-root))
 
-(defun aron/go-compile (&optional arg target)
+(defun aron/go-compile (&optional arg)
     "Runs RStudio Connect compile.
 
 If called with a non-nil ARG, the compile command is presented
 for editing before it is executed."
   (interactive "P")
-  (let* ((default-directory (aron/connect-root))
-         (target (or target "build"))
-         (compile-command (concat "just " target)))
+  (let* (
+         ;; ~/dev/rstudio/connect/
+         (connect-root (aron/connect-root))
+         ;; ~/dev/rstudio/connect/src/
+         (src-root (concat connect-root "src/"))
+         ;; ~/dev/rstudio/connect/src/connect/
+         (module-root (aron/connect-module-root))
+         ;; connect
+         (module-root-name (string-remove-suffix "/" (file-relative-name module-root src-root)))
+         ;; either "server" or "tools"; use "build" to build both, but the
+         ;; paths might not resolve correctly because of the default-directory
+         ;; adjustment.
+         (target (if (string-equal "connect" module-root-name) "server" "tools"))
+         ;; setting the default-directory for the compile helps compilation error paths resolve
+         ;; this is a hack, but we cd into the src/connect directory during the build.
+         (default-directory module-root) ; previously, connect-root.
+         (compile-command (concat "just " connect-root " " target))
+         )
     (compile
      (if arg
          (read-from-minibuffer "compilation command: " compile-command)
@@ -63,6 +78,8 @@ presented for editing before it is executed."
          (relative-package-path (string-remove-suffix "/" (file-relative-name default-directory src-root)))
          ;; either "test" or "test-tool"
          (target (if (string-equal "connect" module-root-name) "test" "test-tool"))
+         ;; setting the default-directory for the compile helps compilation error paths resolve
+         (default-directory module-root) ; previously, connect-root.
          (compile-command (concat "just " connect-root " " target " " relative-package-path))
          )
     ;; go test emits only the package-local path on errors
