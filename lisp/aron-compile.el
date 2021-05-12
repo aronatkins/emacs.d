@@ -78,8 +78,14 @@ presented for editing before it is executed."
          (relative-package-path (string-remove-suffix "/" (file-relative-name default-directory src-root)))
          ;; either "test" or "test-tool"
          (target (if (string-equal "connect" module-root-name) "test" "test-tool"))
-         ;; setting the default-directory for the compile helps compilation error paths resolve
-         (default-directory module-root) ; previously, connect-root.
+         ;; Setting default-directory to module-root helps resolve compilation
+         ;; errors but not test failures.
+         ;;
+         ;; Letting default-directory float to the directory with the current
+         ;; Go file helps resolve test failures but not compilation errors.
+         ;;
+         ;; There is no good choice.
+         (default-directory module-root)
          (compile-command (concat "just " connect-root " " target " " relative-package-path))
          )
     ;; go test emits only the package-local path on errors
@@ -100,7 +106,16 @@ presented for editing before it is executed."
     "Runs RStudio Connect.
 "
   (interactive "P")
-  (aron/go-compile arg "start"))
+  (let* (
+         ;; ~/dev/rstudio/connect/
+         (connect-root (aron/connect-root))
+         (default-directory connect-root)
+         (compile-command (concat "just " connect-root " start"))
+         )
+    (compile
+     (if arg
+         (read-from-minibuffer "start command: " compile-command)
+       compile-command))))
 
 (defun aron/selenium-test (&optional arg)
   "Runs RStudio Connect selenium tests.
