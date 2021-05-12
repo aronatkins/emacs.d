@@ -9,6 +9,7 @@
 ;; http://www.djcbsoftware.nl/dot-emacs.html
 
 (require 'use-package)
+(require 'gcfg-mode)
 (require 'aron-func)
 (require 'aron-gdb-hooks)
 (require 'aron-grep)
@@ -455,17 +456,41 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Directory-Local-Variables.html
 ;; (setenv "GOPATH" (expand-file-name "dev/rstudio/connect" (getenv "HOME")))
 
-(setq safe-local-variable-values
-      (quote
-       (
-        (eval setq project-gopath
-              (expand-file-name
-               (locate-dominating-file buffer-file-name ".dir-locals.el")))
-        (eval setenv "GOPATH" project-gopath)
-        (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager")
-        ; (eval setenv "GOFLAGS" "-mod=vendor")
-        (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
-        )))
+;; (setq safe-local-variable-values
+;;       (quote
+;;        (
+;;         (eval setq project-gopath
+;;               (expand-file-name
+;;                (locate-dominating-file buffer-file-name ".dir-locals.el")))
+;;         (eval setenv "GOPATH" project-gopath)
+;;         (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager")
+;;         ; (eval setenv "GOFLAGS" "-mod=vendor")
+;;         (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
+;;         )))
+
+ (setq safe-local-variable-values
+       (quote
+        (
+  (eval setq project-root
+        (expand-file-name
+         (locate-dominating-file buffer-file-name ".dir-locals.el")))
+  (eval lsp-workspace-folder-add (concat project-root "src/connect"))
+  (eval lsp-workspace-folder-add (concat project-root "src/timestamper"))
+  (eval lsp-workspace-folder-add (concat project-root "src/envmanager"))
+  (eval lsp-workspace-folder-add (concat project-root "src/rsc-session"))
+  (eval lsp-workspace-folder-add (concat project-root "src/metrics-agent"))
+  ;; GOPATH because lsp-mode cannot cope with our repo
+  ;; https://github.com/golang/go/issues/36899
+  ;;(eval setenv "GOPATH" project-gopath)
+  ;; GOPRIVATE so lsp-go does not offer links for private packages
+  ;; https://github.com/golang/go/issues/36998
+  (eval setenv "GOPATH" project-root)
+  (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager,rsc-session,metrics-agent")
+  (eval setenv "GOCACHE" (concat project-root "cache/go"))
+  (eval setenv "GOMODCACHE" (concat project-root "pkg/mod"))
+  (eval setenv "GOFLAGS" "-mod=vendor")
+  )))
+
 
 ;; (projectile-mode +1)
 ;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -473,7 +498,8 @@
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
-(add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
+;; (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("\\.gcfg$" . gcfg-mode))
 
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#emacs
 ;; https://github.com/golang/go/issues/36899
@@ -485,7 +511,7 @@
   (lsp-register-custom-settings
    `(
      ("gopls.local" "connect" t)
-     ; ("gopls.experimentalWorkspaceModule" t t)
+     ("gopls.experimentalWorkspaceModule" t t)
      ))
   ;; :custom
   ;; (lsp-gopls-use-placeholders t)
