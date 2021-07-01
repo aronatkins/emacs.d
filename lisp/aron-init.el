@@ -550,8 +550,9 @@
   :ensure t
   :config
   ;; Optionally enable completion-as-you-type behavior.
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1))
+  ;; (setq company-idle-delay 0)
+  ;; (setq company-minimum-prefix-length 1)
+  )
 
 ;; Optional - provides snippet support.
 (use-package yasnippet
