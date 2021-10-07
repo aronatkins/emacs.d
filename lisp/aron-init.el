@@ -424,9 +424,11 @@
 ;;(nyan-mode)
 
 ;; R
-(require 'ess-r-mode)
+;; NOTE: ess-r defines project-root, which causes all sorts of complications
+;; with lsp-mode.
+;; (require 'ess-r-mode)
 ;; leave underscore alone!
-(ess-toggle-underscore nil)
+;; (ess-toggle-underscore nil)
 
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
@@ -468,29 +470,28 @@
 ;;         (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
 ;;         )))
 
- (setq safe-local-variable-values
-       (quote
-        (
-  (eval setq project-root
-        (expand-file-name
-         (locate-dominating-file buffer-file-name ".dir-locals.el")))
-  (eval lsp-workspace-folder-add (concat project-root "src/connect"))
-  (eval lsp-workspace-folder-add (concat project-root "src/timestamper"))
-  (eval lsp-workspace-folder-add (concat project-root "src/envmanager"))
-  (eval lsp-workspace-folder-add (concat project-root "src/rsc-session"))
-  (eval lsp-workspace-folder-add (concat project-root "src/metrics-agent"))
-  ;; GOPATH because lsp-mode cannot cope with our repo
-  ;; https://github.com/golang/go/issues/36899
-  ;;(eval setenv "GOPATH" project-gopath)
-  ;; GOPRIVATE so lsp-go does not offer links for private packages
-  ;; https://github.com/golang/go/issues/36998
-  (eval setenv "GOPATH" project-root)
-  (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager,rsc-session,metrics-agent")
-  (eval setenv "GOCACHE" (concat project-root "cache/go"))
-  (eval setenv "GOMODCACHE" (concat project-root "pkg/mod"))
-  (eval setenv "GOFLAGS" "-mod=vendor")
-  )))
-
+(setq safe-local-variable-values
+      (quote
+       (
+        (connect-root (expand-file-name (locate-dominating-file buffer-file-name ".dir-locals.el")))
+        ;; lsp-mode wants to use the Connect root as its workspace root by default.
+        (eval . (lsp-workspace-folder-add (concat connect-root "src/connect")))
+        (eval . (lsp-workspace-folder-add (concat connect-root "src/generate")))
+        (eval . (lsp-workspace-folder-add (concat connect-root "src/timestamper")))
+        (eval . (lsp-workspace-folder-add (concat connect-root "src/envmanager")))
+        (eval . (lsp-workspace-folder-add (concat connect-root "src/rsc-quarto")))
+        (eval . (lsp-workspace-folder-add (concat connect-root "src/rsc-session")))
+        ;; GOPATH because lsp-mode cannot cope with our repo
+        ;; https://github.com/golang/go/issues/36899
+        ;;(eval setenv "GOPATH" project-gopath)
+        ;; GOPRIVATE so lsp-go does not offer links for private packages
+        ;; https://github.com/golang/go/issues/36998
+        ;; (eval . (setenv "GOPATH" connect-root))
+        (eval . (setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager"))
+        (eval . (setenv "GOCACHE" (concat connect-root "cache/go")))
+        (eval . (setenv "GOMODCACHE" (concat connect-root "pkg/mod")))
+        ;; (eval . (setenv "GOFLAGS" "-mod=vendor"))
+        )))
 
 ;; (projectile-mode +1)
 ;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -636,6 +637,11 @@
 ;; https://github.com/BurntSushi/ripgrep
 (dumb-jump-mode)
 
+;; Automatically executable scripts
+;; https://emacsredux.com/blog/2021/09/29/make-script-files-executable-automatically/
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
+
 ;; get compilation buffers to support color output (because no one looks at TERM)
 ;; https://stackoverflow.com/questions/13397737/ansi-coloring-in-compilation-mode
 (require 'ansi-color)
@@ -645,9 +651,10 @@
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-(require 'todotxt-mode)
-(add-to-list 'auto-mode-alist '("\\todo.txt\\'" . todotxt-mode))
-(setq todotxt-default-file (expand-file-name "~/todo.txt"))
+; todotxt-mode not available from melpa-stable.
+;;(require 'todotxt-mode)
+;;(add-to-list 'auto-mode-alist '("\\todo.txt\\'" . todotxt-mode))
+;;(setq todotxt-default-file (expand-file-name "~/todo.txt"))
 
 ;; https://github.com/purcell/whole-line-or-region
 (require 'whole-line-or-region)
