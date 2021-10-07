@@ -39,7 +39,7 @@ There are two things you can do about this warning:
  'add-node-modules-path
  'bug-hunter
  'cmake-mode
- 'cmake-font-lock
+ 'cmake-font-lock ; not in melpa-stable
  'company
  'crux
  'define-word
@@ -73,10 +73,10 @@ There are two things you can do about this warning:
  'projectile
  'reveal-in-osx-finder
  'sql-indent
- 'todotxt-mode
+ 'todotxt-mode ; not in melpa-stable
  'use-package
  'vagrant
- 'vagrant-tramp
+ 'vagrant-tramp ; not in melpa-stable
  'volatile-highlights
  'vue-mode
  'web-mode                              ; possibly better HTML+JS
