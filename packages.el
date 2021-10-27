@@ -70,8 +70,7 @@ There are two things you can do about this warning:
  'markdown-mode
  'magit
  ;; 'magithub
- 'gitconfig-mode
- 'gitignore-mode
+ 'git-modes
  'google-this
  'projectile
  'reveal-in-osx-finder
