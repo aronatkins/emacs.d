@@ -25,6 +25,7 @@
 (defvar ctl-z-map (make-sparse-keymap) "Keymap for user extensions.")
 
 (define-key ctl-z-map "b" 'bury-buffer)
+;; C-x C-; can also toggle commenting on line-or-region.
 (define-key ctl-z-map "c" 'comment-or-uncomment-region)
 (define-key ctl-z-map "d" 'aron/compile-in-directory)
 ;; http://oremacs.com/2015/05/22/define-word/

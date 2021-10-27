@@ -61,7 +61,10 @@ There are two things you can do about this warning:
  ;;'js-comint
  'js2-mode
  'json-mode
+ ;; https://github.com/leon-barrett/just-mode.el
  'just-mode
+ ;; https://github.com/psibi/justl.el
+ ;; help for executing justfile targets; not using yet.
  'lsp-mode
  'lsp-ui
  'markdown-mode
