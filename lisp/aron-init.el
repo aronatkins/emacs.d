@@ -17,7 +17,7 @@
 (require 'aron-compile)
 
 ;; Controls for the emacs status bar.
-(display-time)                      ; Show the time.
+;; (display-time)                      ; Show the time.
 (line-number-mode t)                ; Show line-number.
 (column-number-mode t)              ; Show column (character position)
 
@@ -74,6 +74,9 @@
 
  '(ess-default-style (quote GNU))
  '(ess-indent-with-fancy-comments nil)
+ '(ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
+ '(ess-r-flymake-linters "NULL")
+ '(flycheck-lintr-linters "NULL") ;; Use the .lintr configuration rather than the emacs configured default.
 
  '(windmove-wrap-around t)
 
@@ -478,6 +481,7 @@
         (eval . (lsp-workspace-folder-add (concat connect-root "src/connect")))
         (eval . (lsp-workspace-folder-add (concat connect-root "src/generate")))
         (eval . (lsp-workspace-folder-add (concat connect-root "src/timestamper")))
+        (eval . (lsp-workspace-folder-add (concat connect-root "src/linkwalk")))
         (eval . (lsp-workspace-folder-add (concat connect-root "src/envmanager")))
         (eval . (lsp-workspace-folder-add (concat connect-root "src/rsc-quarto")))
         (eval . (lsp-workspace-folder-add (concat connect-root "src/rsc-session")))
