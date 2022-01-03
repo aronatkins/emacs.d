@@ -438,6 +438,10 @@
 
 ;; Go
 
+;; examples
+;; http://joelmccracken.github.io/entries/project-local-variables-in-projectile-with-dirlocals/
+;; https://seandavi.github.io/post/2018-12-08-directory-local-variables-for-custom-emacs-projects/
+
 ;; This isn't right always, but is good for connect.
 ;; TODO: set in a context-aware way.
 ;;
@@ -476,22 +480,23 @@
 (setq safe-local-variable-values
       (quote
        (
-        (connect-root (expand-file-name (locate-dominating-file buffer-file-name ".dir-locals.el")))
+        (eval . (setq connect-root (expand-file-name (locate-dominating-file default-directory ".dir-locals.el"))))
+         
         ;; lsp-mode wants to use the Connect root as its workspace root by default.
-        (eval . (lsp-workspace-folder-add (concat connect-root "src/connect")))
-        (eval . (lsp-workspace-folder-add (concat connect-root "src/generate")))
-        (eval . (lsp-workspace-folder-add (concat connect-root "src/timestamper")))
-        (eval . (lsp-workspace-folder-add (concat connect-root "src/linkwalk")))
-        (eval . (lsp-workspace-folder-add (concat connect-root "src/envmanager")))
-        (eval . (lsp-workspace-folder-add (concat connect-root "src/rsc-quarto")))
-        (eval . (lsp-workspace-folder-add (concat connect-root "src/rsc-session")))
+        (eval . (lsp-workspace-folders-add (concat connect-root "src/connect")))
+        (eval . (lsp-workspace-folders-add (concat connect-root "src/generate")))
+        (eval . (lsp-workspace-folders-add (concat connect-root "src/timestamper")))
+        (eval . (lsp-workspace-folders-add (concat connect-root "src/linkwalk")))
+        (eval . (lsp-workspace-folders-add (concat connect-root "src/envmanager")))
+        (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-quarto")))
+        (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-session")))
         ;; GOPATH because lsp-mode cannot cope with our repo
         ;; https://github.com/golang/go/issues/36899
         ;;(eval setenv "GOPATH" project-gopath)
         ;; GOPRIVATE so lsp-go does not offer links for private packages
         ;; https://github.com/golang/go/issues/36998
         ;; (eval . (setenv "GOPATH" connect-root))
-        (eval . (setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager"))
+        (eval . (setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,linkwalk,envmanager,rsc-quarto,rsc-session"))
         (eval . (setenv "GOCACHE" (concat connect-root "cache/go")))
         (eval . (setenv "GOMODCACHE" (concat connect-root "pkg/mod")))
         ;; (eval . (setenv "GOFLAGS" "-mod=vendor"))
