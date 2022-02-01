@@ -21,15 +21,6 @@
     table)
   "Syntax table for `gcfg-mode'.")
 
-(setq gcfg-mode-syntax-table
-  (let ((table (make-syntax-table)))
-    ;; semicolon and hash comments
-    ; (modify-syntax-entry ?\; "<" table)
-    (modify-syntax-entry ?\; "<" table)
-    (modify-syntax-entry ?\# "<" table)
-    (modify-syntax-entry ?\n ">" table)
-    table))
-
 (defvar gcfg-font-lock-keywords
   '(("^\\[\\(.*\\)\\]"
      (1 font-lock-function-name-face))
@@ -50,7 +41,9 @@ If `prog-mode' is defined, inherit from it."
 ;;;###autoload(autoload 'gcfg-mode "gcfg-mode" nil t)
 (gcfg-define-prog-mode gcfg-mode "gcfg"
   "Major mode for editing gcfg files."
-  (setq font-lock-defaults '(gcfg-font-lock-keywords nil)))
+  (setq font-lock-defaults '(gcfg-font-lock-keywords nil))
+  (setq comment-start ";; ")
+  )
 
 ;;;###autoload(add-to-list 'auto-mode-alist '("\\.gcfg\\'" . gcfg-mode))
 
