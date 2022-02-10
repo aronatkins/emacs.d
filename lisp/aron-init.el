@@ -403,6 +403,11 @@
 (add-to-list 'auto-mode-alist '("\\.Rmd$" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.Rmd.tmpl$" . gfm-mode))
 
+;; Quarto Markdown
+;; markdown-mode doesn't know about qmd
+;; (add-to-list 'auto-mode-alist '("\\.qmd$" . gfm-mode))
+(require 'quarto-mode)
+
 ;; YAML
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))

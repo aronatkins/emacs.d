@@ -72,6 +72,8 @@ There are two things you can do about this warning:
  ;; 'magithub
  'git-modes
  'google-this
+ 'polymode ; needed by quarto-mode
+ 'poly-markdown ; needed by quarto-mode
  'projectile
  'reveal-in-osx-finder
  'sql-indent
