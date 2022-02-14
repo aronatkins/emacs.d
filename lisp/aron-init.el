@@ -403,10 +403,21 @@
 (add-to-list 'auto-mode-alist '("\\.Rmd$" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.Rmd.tmpl$" . gfm-mode))
 
-;; Quarto Markdown
+;; Quarto begin
 ;; markdown-mode doesn't know about qmd
 ;; (add-to-list 'auto-mode-alist '("\\.qmd$" . gfm-mode))
 (require 'quarto-mode)
+
+;; disable flycheck on indirect buffers, such as those created by
+;; quarto-mode+polymode.
+(defun flycheck-buffer-not-indirect-p (&rest _)
+  "Ensure that the current buffer is not indirect."
+  (null (buffer-base-buffer)))
+
+(advice-add 'flycheck-may-check-automatically
+            :before-while #'flycheck-buffer-not-indirect-p)
+
+;; Quarto end
 
 ;; YAML
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
