@@ -133,10 +133,6 @@
 ;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
 (auto-compression-mode t)
 
-(require 'comint)
-(setq comint-completion-addsuffix (quote ("/" . " ")))
-(setq completion-ignored-extensions (quote ("CVS/" ".o" "~" ".bin" ".lbin" ".fasl" ".ufsl" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".dvi" ".fmt" ".tfm" ".pdf" ".class" ".fas" ".lib" ".x86f" ".sparcf" ".lo" ".la" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs")))
-
 (put 'narrow-to-region 'disabled nil)
 
 ;; (put 'downcase-region 'disabled nil) ;; What's this do?
@@ -254,6 +250,8 @@
 ;; ------------------------------------------------------------
 ;; SSH / Shell
 (require 'comint)
+
+(setq comint-completion-addsuffix (quote ("/" . " ")))
 
 ;; This RE should match on any password request. It is used by
 ;; comint-watch-for-password-prompt.
