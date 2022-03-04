@@ -37,6 +37,7 @@ There are two things you can do about this warning:
 
 (ensure-package-installed
  'add-node-modules-path
+ 'bats-mode
  'bug-hunter
  'cmake-mode
  'cmake-font-lock ; not in melpa-stable

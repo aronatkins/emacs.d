@@ -217,18 +217,6 @@
 
 ;; ------------------------------------------------------------
 ;; Python
-;;(require 'python-mode)
-;(autoload 'python-mode "python-mode" "Python mode" t)
-
-;; some Linux distributions already configure auto-mode-alist and
-;; interpreter-mode-alist for Python, but we can't be sure.
-(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
-(setq interpreter-mode-alist
-      (append '(("python"    . python-mode)
-		("python2.2" . python-mode)) interpreter-mode-alist))
-;(autoload 'python-mode "python-mode" "Python editing mode." t)
-
-;;(add-hook 'python-mode-hook '(lambda () (setq py-indent-offset 2)) )
 
 ;; configure docstring formatting.
 (custom-set-variables

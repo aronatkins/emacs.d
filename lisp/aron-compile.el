@@ -163,4 +163,18 @@ presented for editing before it is executed."
          (read-from-minibuffer "test-r command: " compile-command)
        compile-command))))
 
+(defun aron/connect-python-test (&optional arg)
+  "Runs RStudio Connect Python tests.
+
+If called with a non-nil ARG, the compile command is
+presented for editing before it is executed."
+
+  (interactive "P")
+  (let* ((connect-root (aron/connect-root))
+         (compile-command (concat "just " connect-root " test-python")))
+    (compile
+     (if arg
+         (read-from-minibuffer "test-python command: " compile-command)
+       compile-command))))
+
 (provide 'aron-compile)
