@@ -64,6 +64,9 @@ There are two things you can do about this warning:
  'json-mode
  ;; https://github.com/leon-barrett/just-mode.el
  'just-mode
+ ;; https://github.com/fniessen/emacs-leuven-theme
+ ;; leuven is bundled with emacs, but may be outdated.
+ 'leuven-theme
  ;; https://github.com/psibi/justl.el
  ;; help for executing justfile targets; not using yet.
  'lsp-mode

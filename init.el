@@ -65,9 +65,16 @@ There are two things you can do about this warning:
 ;; deeper-blue has a default mid-grey comment face.
 ;; (custom-set-faces
 ;;  '(font-lock-comment-face ((t (:foreground "cornflower blue")))))
-; (load-theme 'deeper-blue t)
-(load-theme 'leuven t)
+;; (load-theme 'deeper-blue t)
 ;; (disable-theme 'whiteboard)
+
+;; disable scaling of text in things like Markdown files; must happen prior to
+;; theme-load.
+(require 'leuven-theme)
+(setq leuven-scale-outline-headlines nil)
+(setq leuven-scale-org-agenda-structure nil)
+(setq leuven-scale-volatile-highlight nil)
+(load-theme 'leuven t)
 
 (require 'aron-init)
 
