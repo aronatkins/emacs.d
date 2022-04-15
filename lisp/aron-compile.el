@@ -160,7 +160,21 @@ presented for editing before it is executed."
          (compile-command (concat "just " connect-root " test-r")))
     (compile
      (if arg
-         (read-from-minibuffer "test-r command: " compile-command)
+         (read-from-minibuffer "command: " compile-command)
+       compile-command))))
+
+(defun aron/connect-packrat-test (&optional arg)
+  "Runs RStudio Connect packrat tests (testing R, driven by Python).
+
+If called with a non-nil ARG, the compile command is
+presented for editing before it is executed."
+
+  (interactive "P")
+  (let* ((connect-root (aron/connect-root))
+         (compile-command (concat "just " connect-root " test-packrat")))
+    (compile
+     (if arg
+         (read-from-minibuffer "command: " compile-command)
        compile-command))))
 
 (defun aron/connect-python-test (&optional arg)
@@ -174,7 +188,7 @@ presented for editing before it is executed."
          (compile-command (concat "just " connect-root " test-python")))
     (compile
      (if arg
-         (read-from-minibuffer "test-python command: " compile-command)
+         (read-from-minibuffer "command: " compile-command)
        compile-command))))
 
 (provide 'aron-compile)
