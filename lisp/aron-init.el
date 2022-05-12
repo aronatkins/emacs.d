@@ -72,8 +72,6 @@
  ;; brew install aspell
 ;; '(ispell-program-name "/usr/local/bin/aspell")
 
- '(ess-default-style (quote GNU))
- '(ess-indent-with-fancy-comments nil)
  '(ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
  '(ess-r-flymake-linters "NULL")
  '(flycheck-lintr-linters "NULL") ;; Use the .lintr configuration rather than the emacs configured default.
@@ -434,6 +432,10 @@
 ;; (require 'ess-r-mode)
 ;; leave underscore alone!
 ;; (ess-toggle-underscore nil)
+(add-hook 'ess-mode-hook (lambda()
+                           (ess-set-style 'RStudio)
+                           (setq ess-align-arguments-in-calls nil)
+                           ))
 
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
