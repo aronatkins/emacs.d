@@ -73,6 +73,7 @@ There are two things you can do about this warning:
  'lsp-ui
  'markdown-mode
  'magit
+ 'nginx-mode
  ;; 'magithub
  'git-modes
  'google-this
