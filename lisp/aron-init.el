@@ -354,6 +354,9 @@
 ;; https://github.com/AdamNiederer/vue-mode/issues/100
 (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
 (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+;; suppress the region background color, per https://github.com/AdamNiederer/vue-mode
+;; may want to scope this just to vue-mode.
+(setq mmm-submode-decoration-level 0)
   
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -525,7 +528,7 @@
   (lsp-register-custom-settings
    `(
      ("gopls.local" "connect" t)
-     ("gopls.experimentalWorkspaceModule" t t)
+     ;; ("gopls.experimentalWorkspaceModule" t t)
      ))
   ;; :custom
   ;; (lsp-gopls-use-placeholders t)
@@ -537,6 +540,9 @@
   ;; (lsp-register-custom-settings
   ;;  '(("gopls.linkTarget" "" t)))
   )
+
+;; https://emacs.blog/2022/02/20/golang-ide-setup-in-emacs/
+;; https://github.com/golang/go/issues/50955
 
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.

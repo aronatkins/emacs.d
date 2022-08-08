@@ -30,8 +30,32 @@ module hierarchy.
 Typically, these are directories beneath connect/src."
   (locate-dominating-file default-directory 'aron/is-connect-module-root))
 
+(defun aron/is-dashboard-root (dir)
+  "Return true if this directory looks like it contains the code for the RStudio Connect dashboard."
+  (file-exists-p (concat dir "package.json")))
+
+(defun aron/dashboard-root ()
+  "Return the directory containing the root of the RStudio Connect dashboard."
+  (locate-dominating-file default-directory 'aron/is-dashboard-root))
+
+(defun aron/dashboard-compile (&optional arg)
+  "Runs RStudio Connect dashboard compilation.
+
+If called with a non-nil ARG, the compile command is presented
+for editing before it is executed."
+  (interactive "P")
+  (let* (
+         (dashboard-root (aron/dashboard-root))
+         (default-directory dashboard-root)
+         (compile-command (concat "just " dashboard-root " build"))
+         )
+    (compile
+     (if arg
+         (read-from-minibuffer "compilation command: " compile-command)
+       compile-command))))
+
 (defun aron/go-compile (&optional arg)
-    "Runs RStudio Connect compile.
+    "Runs RStudio Connect server compilation.
 
 If called with a non-nil ARG, the compile command is presented
 for editing before it is executed."
@@ -190,5 +214,39 @@ presented for editing before it is executed."
      (if arg
          (read-from-minibuffer "command: " compile-command)
        compile-command))))
+
+(defun aron/eslint-executable ()
+  ""
+  (interactive)
+  (let ((project-dir (locate-dominating-file default-directory "node_modules")))
+    (unless project-dir
+      (error "cannot locate node_modules"))
+    (concat project-dir "node_modules/.bin/eslint")))
+
+;; from https://gist.github.com/ustun/73321bfcb01a8657e5b8
+(defun aron/eslint-fix-file (file-name)
+  ""
+  (interactive)
+  (let* ((eslint-executable (aron/eslint-executable))
+        (command (concat eslint-executable " --fix " file-name)))
+    (message (concat "eslint: " command))
+    (shell-command command)))
+
+(defun aron/eslint-fix-file-docker (file-name)
+  "Use the Connect dashboard Dockerfile to run eslint."
+  (interactive)
+  (let* ((default-directory (aron/dashboard-root))
+         (command (concat "just docker-run-unsafe eslint --fix " (file-relative-name file-name default-directory))))
+    (message (concat "eslint-docker (from " default-directory "): " command))
+    (shell-command command)
+    ))
+
+(defun aron/eslint-fix-file-and-revert ()
+  ""
+  (interactive)
+  ;; (aron/eslint-fix-file (buffer-file-name))
+  (aron/eslint-fix-file-docker (buffer-file-name))
+  (revert-buffer t t))
+
 
 (provide 'aron-compile)
