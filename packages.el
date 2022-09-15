@@ -57,6 +57,7 @@ There are two things you can do about this warning:
  'go-mode
  'graphviz-dot-mode
  'groovy-mode
+ 'hcl-mode
  'hungry-delete  ;; not loaded by default
  'indent-guide
  ;;'js-comint
