@@ -248,5 +248,17 @@ presented for editing before it is executed."
   (aron/eslint-fix-file-docker (buffer-file-name))
   (revert-buffer t t))
 
+(defun aron/packer-fix-file (file-name)
+  "Run 'packer fmt' on the named file."
+  (interactive)
+  (let* ((command (concat "packer fmt " file-name)))
+    (message (concat "formatting: " command))
+    (shell-command command)))
+
+(defun aron/packer-fix-file-and-revert ()
+  "Run 'packer fmt' on the current buffer file and revert."
+  (interactive)
+  (aron/packer-fix-file (buffer-file-name))
+  (revert-buffer t t))
 
 (provide 'aron-compile)

@@ -679,5 +679,10 @@
 (require 'whole-line-or-region)
 (whole-line-or-region-global-mode)
 
+(eval-after-load `hcl-mode
+  `(add-hook 'hcl-mode-hook
+             (lambda ()
+               (add-hook 'after-save-hook #'aron/packer-fix-file-and-revert nil t))))
+
 (provide 'aron-init)
 ;;; aron-init.el ends here
