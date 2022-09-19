@@ -244,9 +244,12 @@ presented for editing before it is executed."
 (defun aron/eslint-fix-file-and-revert ()
   ""
   (interactive)
-  ;; (aron/eslint-fix-file (buffer-file-name))
-  (aron/eslint-fix-file-docker (buffer-file-name))
-  (revert-buffer t t))
+  (let* ((connect-root (aron/connect-root)))
+    (if connect-root
+        (aron/eslint-fix-file-docker (buffer-file-name))
+      (aron/eslint-fix-file (buffer-file-name))
+      )
+    (revert-buffer t t)))
 
 (defun aron/packer-fix-file (file-name)
   "Run 'packer fmt' on the named file."
