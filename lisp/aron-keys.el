@@ -86,9 +86,8 @@
 ;; C-M-n C-M-p
 
 ;; todo.txt bindings
-(define-key global-map "\C-co" 'todotxt-open-file)
-(define-key global-map "\C-ct" 'todotxt-add-todo)
-
+;; https://github.com/rpdillon/todotxt.el
+(define-key global-map "\C-ct" 'todotxt)
 
 (provide 'aron-keys)
 ;;; aron-keys.el ends here

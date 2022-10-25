@@ -82,7 +82,7 @@ There are two things you can do about this warning:
  'quarto-mode
  'reveal-in-osx-finder
  'sql-indent
- 'todotxt-mode ; not in melpa-stable
+ 'todotxt ; not in melpa-stable
  'use-package
  'vagrant
  'vagrant-tramp ; not in melpa-stable

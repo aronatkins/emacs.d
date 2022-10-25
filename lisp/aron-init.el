@@ -670,11 +670,6 @@
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-; todotxt-mode not available from melpa-stable.
-;;(require 'todotxt-mode)
-;;(add-to-list 'auto-mode-alist '("\\todo.txt\\'" . todotxt-mode))
-;;(setq todotxt-default-file (expand-file-name "~/todo.txt"))
-
 ;; https://github.com/purcell/whole-line-or-region
 (require 'whole-line-or-region)
 (whole-line-or-region-global-mode)
