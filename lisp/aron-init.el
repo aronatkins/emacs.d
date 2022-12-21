@@ -182,8 +182,6 @@
 
 (add-hook 'java-mode-hook 'bc-java-mode-hook)
 
-(require 'java-mode-indent-annotations)
-
 ;; c-subword-mode treats changes of case to be word boundaries. the
 ;; java convention is to use camelcase, so this is usually good.
 (add-hook 'java-mode-hook 'subword-mode)
@@ -196,15 +194,6 @@
 ;; http://emacsblog.org/2007/03/01/quick-tip-highlighting-java-properties-files/
 (add-hook 'conf-javaprop-mode-hook
           '(lambda () (conf-quote-normal nil)))
-
-;; the annotations setup causes @ann to not trigger indentation on
-;; newline. a declaration would line up the "right way."
-;;
-;;   @CrappyAnnotation
-;;   public void doCrap() { }
-;;
-;; without this hook, the method gets indented.
-(add-hook 'java-mode-hook 'java-mode-indent-annotations-setup)
 
 ;; make some common keywords stand out.
 ;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
@@ -257,17 +246,6 @@
 ;; (setq remote-shell-program "/usr/local/bin/ssh")
 ;; (setq rlogin-program       "/usr/local/bin/slogin")
 
-
-;; ------------------------------------------------------------
-;; Perforce
-;;
-;; The P4 library takes quite a while to load.. is it because we
-;; haven't set up the environment variables yet?
-;;
-;; Reference:
-;; http://p4el.sourceforge.net/p4.el.html
-(if (or (getenv "P4CONFIG") (getenv "P4CLIENT"))
-    (load-library "p4"))
 
 (put 'narrow-to-region 'disabled nil)
 
@@ -484,30 +462,30 @@
 ;;         (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
 ;;         )))
 
-(setq safe-local-variable-values
-      (quote
-       (
-        (eval . (setq connect-root (expand-file-name (locate-dominating-file default-directory ".dir-locals.el"))))
+;; (setq safe-local-variable-values
+;;       (quote
+;;        (
+;;         (eval . (setq connect-root (expand-file-name (locate-dominating-file default-directory ".dir-locals.el"))))
          
-        ;; lsp-mode wants to use the Connect root as its workspace root by default.
-        (eval . (lsp-workspace-folders-add (concat connect-root "src/connect")))
-        (eval . (lsp-workspace-folders-add (concat connect-root "src/generate")))
-        (eval . (lsp-workspace-folders-add (concat connect-root "src/timestamper")))
-        (eval . (lsp-workspace-folders-add (concat connect-root "src/linkwalk")))
-        (eval . (lsp-workspace-folders-add (concat connect-root "src/envmanager")))
-        (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-quarto")))
-        (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-session")))
-        ;; GOPATH because lsp-mode cannot cope with our repo
-        ;; https://github.com/golang/go/issues/36899
-        ;;(eval setenv "GOPATH" project-gopath)
-        ;; GOPRIVATE so lsp-go does not offer links for private packages
-        ;; https://github.com/golang/go/issues/36998
-        ;; (eval . (setenv "GOPATH" connect-root))
-        (eval . (setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,linkwalk,envmanager,rsc-quarto,rsc-session"))
-        (eval . (setenv "GOCACHE" (concat connect-root "cache/go")))
-        (eval . (setenv "GOMODCACHE" (concat connect-root "pkg/mod")))
-        ;; (eval . (setenv "GOFLAGS" "-mod=vendor"))
-        )))
+;;         ;; lsp-mode wants to use the Connect root as its workspace root by default.
+;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/connect")))
+;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/generate")))
+;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/timestamper")))
+;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/linkwalk")))
+;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/envmanager")))
+;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-quarto")))
+;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-session")))
+;;         ;; GOPATH because lsp-mode cannot cope with our repo
+;;         ;; https://github.com/golang/go/issues/36899
+;;         ;;(eval setenv "GOPATH" project-gopath)
+;;         ;; GOPRIVATE so lsp-go does not offer links for private packages
+;;         ;; https://github.com/golang/go/issues/36998
+;;         ;; (eval . (setenv "GOPATH" connect-root))
+;;         (eval . (setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,linkwalk,envmanager,rsc-quarto,rsc-session"))
+;;         (eval . (setenv "GOCACHE" (concat connect-root "cache/go")))
+;;         (eval . (setenv "GOMODCACHE" (concat connect-root "pkg/mod")))
+;;         ;; (eval . (setenv "GOFLAGS" "-mod=vendor"))
+;;         )))
 
 ;; (projectile-mode +1)
 ;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -553,7 +531,8 @@
 
 (use-package go-mode
   :ensure t
-  :bind (("C-c i" . go-goto-imports)
+  :bind (
+         ;; ("C-c i" . go-goto-imports)
          ("C-c C-c" . aron/go-compile)
          ;; ("C-c C-s" . aron/go-start) ;; BROKEN
          ("C-c C-t" . aron/go-test)
