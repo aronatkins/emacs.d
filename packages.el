@@ -42,7 +42,6 @@ There are two things you can do about this warning:
  'cmake-font-lock ; not in melpa-stable
  'company
  'crux
- 'define-word
  'dockerfile-mode
  'dumb-jump
  'editorconfig
@@ -51,15 +50,12 @@ There are two things you can do about this warning:
  'expand-region
  'flycheck
  'flycheck-gometalinter
- 'git-timemachine
  'git-gutter
  'go-mode
  'graphviz-dot-mode
  'groovy-mode
  'hcl-mode
- 'hungry-delete  ;; not loaded by default
  'indent-guide
- ;;'js-comint
  'js2-mode
  'json-mode
  ;; https://github.com/leon-barrett/just-mode.el
@@ -83,7 +79,6 @@ There are two things you can do about this warning:
  'todotxt ; not in melpa-stable
  'use-package
  'vagrant
- 'vagrant-tramp ; not in melpa-stable
  'volatile-highlights
  'vue-mode
  'web-mode                              ; possibly better HTML+JS

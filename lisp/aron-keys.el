@@ -28,8 +28,6 @@
 ;; C-x C-; can also toggle commenting on line-or-region.
 (define-key ctl-z-map "c" 'comment-or-uncomment-region)
 (define-key ctl-z-map "d" 'aron/compile-in-directory)
-;; http://oremacs.com/2015/05/22/define-word/
-(define-key ctl-z-map "D" 'define-word-at-point)
 (define-key ctl-z-map "e" 'er/expand-region)
 (define-key ctl-z-map "F" 'flush-lines)
 (when (memq window-system '(mac ns))

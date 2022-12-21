@@ -218,19 +218,6 @@
 (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.json.erb\\'" . json-mode))
 
-;; http://www.emacswiki.org/emacs/NodeJs
-;; http://js-comint-el.sourceforge.net
-;; also consider: https://github.com/abicky/nodejs-repl.el
-
-;;(require 'js-comint)
-
-;; may need to add --interactive
-;; (setq inferior-js-program-command
-;;       (let ((personal-node (substitute-in-file-name "$HOME/opt/node/bin/node")))
-;;         (if (file-exists-p personal-node)
-;;             personal-node
-;;           "node")))
-
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
 ;; unbind it.
 (require 'js)

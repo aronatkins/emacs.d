@@ -30,9 +30,6 @@ C-u C-u C-n 16 lines down
 M-z -- zap to named character
 
 functions:
-c-hungry-* -- greedy deletion of whitespace.
-;; http://endlessparentheses.com/hungry-delete-mode.html
-hungry-delete-mode -- delete always greedy
 whitespace-mode -- show whitespace, EOL, etc.
 terminal -- instead of shell.
 occur -- show lines matching regexp
@@ -63,6 +60,3 @@ https://github.com/emacs-tw/awesome-emacs
 
 windmove (C-x o replacement)
 http://www.emacswiki.org/emacs/WindMove
-
-js-comint
-http://js-comint-el.sourceforge.net
