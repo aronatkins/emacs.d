@@ -76,7 +76,6 @@ There are two things you can do about this warning:
  'nginx-mode
  ;; 'magithub
  'git-modes
- 'google-this
  'projectile
  'quarto-mode
  'reveal-in-osx-finder

@@ -103,15 +103,23 @@ that would happen if this function were not defined."
 		(rename-uniquely)))))
     (concat "*" (downcase mode) "*" )))
 
-(defvar aron/lmgtfy-symbol-history nil 
-  "Internal variable for aron/lmgtfy; do not modify")
-(defun aron/lmgtfy (search-for)
-  "Google for something."
-  (interactive (list (read-from-minibuffer "search for: "
+(require 'url)
+(defvar aron/web-search-symbol-history nil
+  "Internal variable for `aron/web-search` tracking search
+  history; do not modify.")
+(defvar aron/web-search-uri "https://duckduckgo.com/"
+  "Base URI used by `aron/web-search` for web searches.")
+(defvar aron/web-search-query "q"
+  "Query argument for `aron/web-search-uri` indicating the target
+  search phrase; used by `aron/web-search`.")
+
+(defun aron/web-search (search-for)
+  "Search for something."
+  (interactive (list (read-from-minibuffer "web search for: "
                                            (thing-at-point 'symbol)
                                            nil nil
-                                           'aron/lmgtfy-symbol-history)))
-  (browse-url (concat "http://www.google.com/search?q=" search-for)))
+                                           'aron/web-search-symbol-history)))
+  (browse-url (concat aron/web-search-uri "?" (url-build-query-string `((,aron/web-search-query ,search-for))))))
 
 ;; inspired by http://oremacs.com/2015/04/19/git-grep-ivy/
 (defvar aron/git-grep-symbol-history nil
@@ -123,7 +131,7 @@ that would happen if this function were not defined."
 (defun aron/git-grep (search-for search-flags pathspec)
   "Grep for a string in the current git repository."
   (interactive (list 
-                (read-from-minibuffer "search for: "
+                (read-from-minibuffer "git search for: "
                                       (thing-at-point 'symbol)
                                       nil nil
                                       'aron/git-grep-symbol-history)
@@ -151,7 +159,9 @@ that would happen if this function were not defined."
 (defun aron/git-grep-cleanup ()
   "Purge buffers left behind by aron/git-grep."
   (interactive)
-  (kill-matching-buffers "\\*git-grep\\* " nil t))
+  (progn
+    (kill-matching-buffers "\\*git-grep\\* " nil t)
+    (message "Cleaned git-grep buffers.")))
 
 (provide 'aron-grep)
 ;;; aron-grep.el ends here

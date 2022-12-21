@@ -11,8 +11,8 @@
 (require 'crux)
 
 ;; alter C-y and M-y so M-y uses the last yank instead of erring.
-(global-set-key (kbd "M-y") (quote aron/yank-pop))
-(global-set-key (kbd "C-y") (quote aron/yank))
+;;(global-set-key (kbd "M-y") (quote aron/yank-pop))
+;;(global-set-key (kbd "C-y") (quote aron/yank))
 
 ;; fix the backspace problems on many terminals
 ;(global-set-key "\C-x\C-h" 'help-command)
@@ -37,13 +37,14 @@
 (define-key ctl-z-map "g" 'goto-line)
 (define-key ctl-z-map "i" 'aron/in-directory)
 (define-key ctl-z-map "j" 'aron/git-grep)
+(define-key ctl-z-map "J" 'aron/git-grep-cleanup)
 (define-key ctl-z-map "k" 'copy-region-as-kill)
 (define-key ctl-z-map "l" 'aron-grep)
 (define-key ctl-z-map "m" 'magit-status)
 (define-key ctl-z-map "o" 'crux-open-with)
 (define-key ctl-z-map "q" 'query-replace)
 (define-key ctl-z-map "r" 'replace-string)
-(define-key ctl-z-map "s" 'aron/lmgtfy)
+(define-key ctl-z-map "s" 'aron/web-search)
 (define-key ctl-z-map "v" 'revert-buffer)
 (define-key ctl-z-map "w" 'widen)
 

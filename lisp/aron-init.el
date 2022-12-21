@@ -11,7 +11,6 @@
 (require 'use-package)
 (require 'gcfg-mode)
 (require 'aron-func)
-(require 'aron-gdb-hooks)
 (require 'aron-grep)
 (require 'aron-keys)
 (require 'aron-compile)
@@ -157,49 +156,13 @@
 ;; spell all code comments
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
-;; ------------------------------------------------------------
-;; Force M-x ftp to use 'sftp' instead of 'ftp' for connections.
-(require 'net-utils)
-(setq ftp-program "sftp")
-
-;; ------------------------------------------------------------
-;; Java
-(require 'cc-mode)
-(defun bc-java-mode-hook ()
-  (setq c-basic-offset 4))
-
-;;  (interactive)
-;;  (setq c-basic-offset 2)
-;; (setq c-basic-offset 4)
-;;  (c-set-style "java"))
-
-(require 'gud)
-(add-hook 'gdb-mode-hook 'aron/gdb-mode-hook)
-(autoload 'aron/gdb-mode-hook "aron-gdb-hooks")
-
 ;; RSP: use c++-mode instead of c-mode for .h files.
 (setq auto-mode-alist (cons '("\\.h\\'" . c++-mode) auto-mode-alist))
-
-(add-hook 'java-mode-hook 'bc-java-mode-hook)
-
-;; c-subword-mode treats changes of case to be word boundaries. the
-;; java convention is to use camelcase, so this is usually good.
-(add-hook 'java-mode-hook 'subword-mode)
-;; stolen from http://www.emacswiki.org/emacs/IndentingC
-(defun aron/java-mode-hook ()
-  (c-set-offset 'case-label '+))       ; indent case labels by c-indent-level, too
-(add-hook 'java-mode-hook 'aron/java-mode-hook)
-
-;; avoid problem with java property file quote formatting
-;; http://emacsblog.org/2007/03/01/quick-tip-highlighting-java-properties-files/
-(add-hook 'conf-javaprop-mode-hook
-          '(lambda () (conf-quote-normal nil)))
 
 ;; make some common keywords stand out.
 ;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
 (defvar fixme-and-friends
   '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
-(font-lock-add-keywords 'java-mode fixme-and-friends)
 (font-lock-add-keywords 'python-mode fixme-and-friends)
 
 ;; ------------------------------------------------------------
@@ -209,7 +172,6 @@
 (custom-set-variables
  '(python-fill-docstring-style 'django)    ; Disable the emacs startup message.
 )
-
 
 ;; ------------------------------------------------------------
 ;; Ruby
@@ -246,35 +208,7 @@
 ;; (setq remote-shell-program "/usr/local/bin/ssh")
 ;; (setq rlogin-program       "/usr/local/bin/slogin")
 
-
 (put 'narrow-to-region 'disabled nil)
-
-;; ------------------------------------------------------------
-;; PMD integration.
-;; (defvar pmd-lisp-path (concat contrib-lisp-path "/pmd")
-;;   "*Path to my version of pmd.el load libraries.")
-;; (add-to-list 'load-path pmd-lisp-path)
-;;
-;; (setq opt-home (concat (getenv "HOME") "/opt"))
-;; (setq pmd-java-home (concat opt-home "/jdk/bin/java"))
-;; (setq pmd-home (concat opt-home "/pmd"))
-;; (setq pmd-ruleset-list (list "basic" "braces" "codesize" "design" "naming" "imports" "unusedcode"))
-;;
-;; (require 'pmd)
-
-;; C-x f //ssh:aron@host.com:/path/to/something
-;; with ssh as default, can just:
-;; C-x f /aron@host.com:/path/to/something
-;;
-;; a good article with a "sudo-edit"
-;; http://nflath.com/2009/08/tramp/
-;;
-;; with ubuntu 11.10, tramp REALLY affects emacs startup time. it also
-;; appears that tramp is auto-loaded when you type in a filename that
-;; looks like a tramp file. like /shazbot:silly.txt
-;;
-;;(require 'tramp)
-;;(setq tramp-default-method "ssh")
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
@@ -287,14 +221,15 @@
 ;; http://www.emacswiki.org/emacs/NodeJs
 ;; http://js-comint-el.sourceforge.net
 ;; also consider: https://github.com/abicky/nodejs-repl.el
+
 ;;(require 'js-comint)
 
 ;; may need to add --interactive
-(setq inferior-js-program-command
-      (let ((personal-node (substitute-in-file-name "$HOME/opt/node/bin/node")))
-        (if (file-exists-p personal-node)
-            personal-node
-          "node")))
+;; (setq inferior-js-program-command
+;;       (let ((personal-node (substitute-in-file-name "$HOME/opt/node/bin/node")))
+;;         (if (file-exists-p personal-node)
+;;             personal-node
+;;           "node")))
 
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
 ;; unbind it.
@@ -302,6 +237,7 @@
 (define-key js-mode-map (kbd "M-.") nil)
 
 ;; Stop js2 from complaining; too many things linting JS!!
+(require 'js2-mode)
 (setq js2-strict-trailing-comma-warning nil) ; trailing commas are fine.
 ;; complaints about expect(foo).to.be.null -- code has no side effect is annoying, but
 ;; disabling all strict warnings is too broad.
@@ -327,15 +263,18 @@
   `(add-hook 'vue-mode-hook
              (lambda ()
                (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
+(require 'mmm-mode)
 ;; fix bad indents in vue JS blocks
 ;; https://github.com/AdamNiederer/vue-mode/issues/74
 ;; https://github.com/AdamNiederer/vue-mode/issues/100
+;; the mmm-X-enter-hook variables appear as free variables
 (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
 (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
 ;; suppress the region background color, per https://github.com/AdamNiederer/vue-mode
 ;; may want to scope this just to vue-mode.
 (setq mmm-submode-decoration-level 0)
-  
+
+(require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (eval-after-load 'flycheck
@@ -609,20 +548,12 @@
 ;; more help for keybindings
 (which-key-mode)
 
-;; C-c /-XXX
-(require 'google-this)
-(google-this-mode 1)
-
 ;; supposedly this is how folks configure one set of styles across editors.
 (require 'editorconfig)
 (editorconfig-mode 1)
 
 ;; super awesome window movement. on the mac: command-arrow.
 (windmove-default-keybindings 'super)
-
-;; magit / magithub
-;;(require 'magithub)
-;;(magithub-feature-autoinject t)
 
 (winner-mode 1)
 
@@ -644,9 +575,7 @@
 ;; https://stackoverflow.com/questions/13397737/ansi-coloring-in-compilation-mode
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region compilation-filter-start (point))
-  (toggle-read-only))
+  (ansi-color-apply-on-region compilation-filter-start (point)))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; https://github.com/purcell/whole-line-or-region

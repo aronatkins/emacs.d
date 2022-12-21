@@ -68,7 +68,7 @@ This is just like calling `other-window' with the arg negated."
         (search-forward "&" nil t nil)
         (insert "\n  ")
         (save-excursion
-          (previous-line)
+          (forward-line -1)
           (beginning-of-line)
           (let ((start (search-forward "="))
                 (end (search-forward "&")))
