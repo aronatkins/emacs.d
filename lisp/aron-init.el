@@ -542,6 +542,14 @@
 ;; super awesome window movement. on the mac: command-arrow.
 (windmove-default-keybindings 'super)
 
+;; magit / magithub
+;;(require 'magithub)
+;;(magithub-feature-autoinject t)
+
+;; .dotfiles/.gitignore_global is not named .gitignore because it is not an
+;; ignore for that repo.
+(add-to-list 'auto-mode-alist '("\\.gitignore.*" . gitignore-mode))
+
 (winner-mode 1)
 
 ;; show lines with changes in the LHS.
