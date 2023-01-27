@@ -42,6 +42,7 @@ There are two things you can do about this warning:
  'cmake-font-lock ; not in melpa-stable
  'company
  'crux
+ 'deadgrep ; for ripgrep (see: https://irreal.org/blog/?p=11097, https://github.com/BurntSushi/ripgrep & https://github.com/Wilfred/deadgrep)
  'dockerfile-mode
  'dumb-jump
  'editorconfig
