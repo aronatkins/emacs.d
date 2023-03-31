@@ -85,6 +85,7 @@ There are two things you can do about this warning:
  'web-mode                              ; possibly better HTML+JS
  'which-key
  'whole-line-or-region
+ 'writegood-mode
  'xref-js2
  'yaml-mode
  'yasnippet
