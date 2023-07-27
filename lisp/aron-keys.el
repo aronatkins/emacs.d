@@ -66,6 +66,7 @@
 
 ;; define this because it works well with "C-x o"
 (define-key ctl-x-map "p" 'backward-other-window)
+;; balance-windows: Ctrl-x +
 ;; overridden by P4 commands. ugh.
 
 (add-hook 'java-mode-hook (function (lambda ()
