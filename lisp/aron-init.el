@@ -559,7 +559,7 @@
 ;; git grep
 ;; https://github.com/ggreer/the_silver_searcher
 ;; https://github.com/BurntSushi/ripgrep
-(dumb-jump-mode)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
 ;; Automatically executable scripts
 ;; https://emacsredux.com/blog/2021/09/29/make-script-files-executable-automatically/
