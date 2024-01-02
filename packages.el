@@ -68,6 +68,7 @@ There are two things you can do about this warning:
  ;; help for executing justfile targets; not using yet.
  'lsp-mode
  'lsp-ui
+ 'lua-mode
  'markdown-mode
  'magit
  'nginx-mode

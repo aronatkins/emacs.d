@@ -96,6 +96,8 @@
 
  ;; https://www.emacswiki.org/emacs/AlarmBell
  '(ring-bell-function 'ignore)
+
+ '(lua-indent-level 2)
  )
 
 ;; make cursor the width of the character it is under
