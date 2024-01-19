@@ -66,8 +66,6 @@ There are two things you can do about this warning:
  'leuven-theme
  ;; https://github.com/psibi/justl.el
  ;; help for executing justfile targets; not using yet.
- 'lsp-mode
- 'lsp-ui
  'lua-mode
  'markdown-mode
  'magit

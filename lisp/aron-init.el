@@ -349,113 +349,42 @@
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
 
-;; Go
-
-;; examples
-;; http://joelmccracken.github.io/entries/project-local-variables-in-projectile-with-dirlocals/
-;; https://seandavi.github.io/post/2018-12-08-directory-local-variables-for-custom-emacs-projects/
-
-;; This isn't right always, but is good for connect.
-;; TODO: set in a context-aware way.
-;;
-;; try adding to connect/.dir-locals.el; inspired by
-;; https://github.com/nelsam/prelude/blob/nelsam/gopath-dir-locals.el
-;; ((go-mode . (
-;;              (eval . (setq project-gopath
-;;                            (expand-file-name
-;;                             (locate-dominating-file buffer-file-name ".dir-locals.el"))))
-;;              (eval . (setenv "GOPATH" project-gopath))
-;;              )))
-;; tried this first; didn't work
-;; ((nil . ((eval . (progn
-;;                   (setenv "GOPATH" (expand-file-name "."))
-;;               )))))
-;; also look at using (projectile-project-root)
-;;
-;; The old way was to have this globally:
-;;
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html
-;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Directory-Local-Variables.html
-;; (setenv "GOPATH" (expand-file-name "dev/rstudio/connect" (getenv "HOME")))
-
-;; (setq safe-local-variable-values
-;;       (quote
-;;        (
-;;         (eval setq project-gopath
-;;               (expand-file-name
-;;                (locate-dominating-file buffer-file-name ".dir-locals.el")))
-;;         (eval setenv "GOPATH" project-gopath)
-;;         (eval setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,envmanager")
-;;         ; (eval setenv "GOFLAGS" "-mod=vendor")
-;;         (eval setenv "GOCACHE" (concat project-gopath "cache/go"))
-;;         )))
-
-;; (setq safe-local-variable-values
-;;       (quote
-;;        (
-;;         (eval . (setq connect-root (expand-file-name (locate-dominating-file default-directory ".dir-locals.el"))))
-         
-;;         ;; lsp-mode wants to use the Connect root as its workspace root by default.
-;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/connect")))
-;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/generate")))
-;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/timestamper")))
-;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/linkwalk")))
-;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/envmanager")))
-;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-quarto")))
-;;         (eval . (lsp-workspace-folders-add (concat connect-root "src/rsc-session")))
-;;         ;; GOPATH because lsp-mode cannot cope with our repo
-;;         ;; https://github.com/golang/go/issues/36899
-;;         ;;(eval setenv "GOPATH" project-gopath)
-;;         ;; GOPRIVATE so lsp-go does not offer links for private packages
-;;         ;; https://github.com/golang/go/issues/36998
-;;         ;; (eval . (setenv "GOPATH" connect-root))
-;;         (eval . (setenv "GOPRIVATE" "github.com/rstudio,connect,timestamper,linkwalk,envmanager,rsc-quarto,rsc-session"))
-;;         (eval . (setenv "GOCACHE" (concat connect-root "cache/go")))
-;;         (eval . (setenv "GOMODCACHE" (concat connect-root "pkg/mod")))
-;;         ;; (eval . (setenv "GOFLAGS" "-mod=vendor"))
-;;         )))
-
-;; (projectile-mode +1)
-;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
 ;; (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gcfg-mode))
 
-;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#emacs
-;; https://github.com/golang/go/issues/36899
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred)
-  :config
-  (lsp-register-custom-settings
-   `(
-     ("gopls.local" "connect" t)
-     ;; ("gopls.experimentalWorkspaceModule" t t)
-     ))
-  ;; :custom
-  ;; (lsp-gopls-use-placeholders t)
-  ;; :config
-  ;; (lsp-register-custom-settings
-  ;;  '(("gopls.completeUnimported" t t)
-  ;;    ("gopls.staticcheck" t t)))
-  ;; :config
-  ;; (lsp-register-custom-settings
-  ;;  '(("gopls.linkTarget" "" t)))
-  )
+;; Go
+;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
+;; https://github.com/joaotavora/eglot/issues/574
+(require 'project)
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
 
-;; https://emacs.blog/2022/02/20/golang-ide-setup-in-emacs/
-;; https://github.com/golang/go/issues/50955
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
 
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+(add-hook 'project-find-functions #'project-find-go-module)
+
+(require 'company)
+(require 'yasnippet)
+
+(require 'go-mode)
+(require 'eglot)
+(add-hook 'go-mode-hook 'eglot-ensure)
+
+(defun aron/eglot-organize-imports() (interactive)
+       (eglot-code-actions nil nil "source.organizeImports" t))
+(defun aron/eglot-before-save-go ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
+  (add-hook 'before-save-hook #'aron/eglot-organize-imports nil t))
+(add-hook 'go-mode-hook #'aron/eglot-before-save-go)
+
+;; TODO:
+;; - gpls.local=connect
+;; before-save-hook lsp-organize-imports
 
 (use-package go-mode
   :ensure t
@@ -466,11 +395,6 @@
          ("C-c C-t" . aron/go-test)
          )
   )
-
-;; Optional - provides fancier overlays.
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
@@ -486,48 +410,6 @@
   :ensure t
   :commands yas-minor-mode
   :hook (go-mode . yas-minor-mode))
-
-;; gopls customization example
-;; (lsp-register-custom-settings
-;;  '(("gopls.completeUnimported" t t)
-;;    ("gopls.staticcheck" t t)))
-
-;; (defun aron/go-mode-hook--gofmt ()
-;;   (add-hook 'before-save-hook 'gofmt-before-save))
-;; (add-hook 'go-mode-hook #'aron/go-mode-hook--gofmt)
-;; (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
-
-;;(require 'flycheck-gometalinter)
-;; (eval-after-load 'flycheck
-;;   '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
-
-;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
-;;(setq flycheck-gometalinter-vendor t)
-;; disable linters
-;; (setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
-;; Only enable selected linters
-;; (setq flycheck-gometalinter-disable-all t)
-
-;; gotype requires all dependent packages have been built. which isn't great.
-;; (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow" "golint" "goconst" "ineffassign"))
-;; (setq flycheck-gometalinter-enable-linters '("vet" "vetshadow"))
-
-
-;; Set different deadline (default: 5s)
-;(setq flycheck-gometalinter-deadline "10s")
-
-;; if we have golint, use it.
-;; (let (
-;;       (golint-location (concat (getenv "HOME")  "/go/src/github.com/golang/lint/misc/emacs"))
-;;       )
-;;   (if (file-exists-p golint-location)
-;;       (progn
-;;         (add-to-list 'load-path golint-location)
-;;         (require 'golint)
-;;         )))
-
-;; (require 'lsp-mode)
-;; (add-hook 'go-mode-hook 'lsp-deferred)
 
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
