@@ -67,9 +67,9 @@
  '(flycheck-disabled-checkers (quote (emacs-lisp-checkdoc)))
  '(flycheck-emacs-lisp-load-path load-path)
 
- ;; BUG: This is platform-specific (Mac). Uses aspell installed with homebrew.
+ ;; macOS: Install aspell with homebrew.
  ;; brew install aspell
-;; '(ispell-program-name "/usr/local/bin/aspell")
+ '(ispell-program-name "aspell")
 
  '(ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
  '(ess-r-flymake-linters "NULL")
