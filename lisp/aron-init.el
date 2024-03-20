@@ -111,16 +111,20 @@
 ;; (setq enable-recursive-minibuffers t)
 ;; (setq version-control nil)           ; numbered backups for files which have them
 
-;;(require 'icomplete)        ; active minibuffer completion
-;;(icomplete-mode)
-
+;; completion ---
 ;; https://www.masteringemacs.org/article/introduction-to-ido-mode
 ;; display any item that contains the typed chars .. quite a shift
 (require 'ido)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
-(setq ido-create-new-buffer 'always)
+;; (setq ido-create-new-buffer 'always)
 (ido-mode t)
+
+;; (require 'icomplete)        ; active minibuffer completion
+;; (setq completion-styles '(flex))
+;; (setq completion-styles '(substring))
+;; (icomplete-mode)
+;; (fido-mode)
 
 (defalias 'list-buffers 'ibuffer)       ; A richer list-buffers experience.
 
@@ -299,7 +303,10 @@
 ;; Quarto begin
 ;; markdown-mode doesn't know about qmd
 ;; (add-to-list 'auto-mode-alist '("\\.qmd$" . gfm-mode))
-(require 'quarto-mode)
+
+;;(require 'quarto-mode)
+(require 'poly-markdown)
+(add-to-list 'auto-mode-alist '("\\.qmd" . poly-markdown-mode))
 
 ;; disable flycheck on indirect buffers, such as those created by
 ;; quarto-mode+polymode.
@@ -374,6 +381,9 @@
 (require 'go-mode)
 (require 'eglot)
 (add-hook 'go-mode-hook 'eglot-ensure)
+(add-hook 'python-mode-hook 'eglot-ensure)
+(add-to-list 'eglot-server-programs
+             '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
 
 (defun aron/eglot-organize-imports() (interactive)
        (eglot-code-actions nil nil "source.organizeImports" t))
@@ -382,9 +392,19 @@
   (add-hook 'before-save-hook #'aron/eglot-organize-imports nil t))
 (add-hook 'go-mode-hook #'aron/eglot-before-save-go)
 
-;; TODO:
-;; - gpls.local=connect
-;; before-save-hook lsp-organize-imports
+;; (setenv "GOPRIVATE" "github.com/rstudio,connect,linkwalk,envmanager,rsc-quarto,rsc-session")
+
+;; src/connect/.dir-locals.el
+;; ((nil (eglot-workspace-configuration
+;;        . ((gopls
+;;            . (
+;;               ;; https://github.com/golang/tools/blob/master/gopls/doc/settings.md#local-string
+;;               (local . "connect")
+;;               ;; https://github.com/golang/tools/blob/master/gopls/doc/settings.md#staticcheck-bool
+;;               (staticcheck . t)
+;;               )
+;;            ))
+;;        )))
 
 (use-package go-mode
   :ensure t
