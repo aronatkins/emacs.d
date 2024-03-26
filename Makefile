@@ -5,7 +5,9 @@ else
   EMACS=emacs
 endif
 
-all:
+all: clean install
+
+install:
 	${EMACS} --script packages.el
 
 clean:
