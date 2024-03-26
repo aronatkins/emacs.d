@@ -486,5 +486,15 @@
              (lambda ()
                (add-hook 'after-save-hook #'aron/packer-fix-file-and-revert nil t))))
 
+;; (require 'copilot)
+;; (use-package copilot
+;;   :ensure t
+;;   :config
+;;   (setq copilot-log-max nil)
+;;   :hook (
+;;     (prog-mode . copilot-mode)
+;;   )
+;; )
+
 (provide 'aron-init)
 ;;; aron-init.el ends here

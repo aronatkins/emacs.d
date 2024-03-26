@@ -89,6 +89,12 @@ There are two things you can do about this warning:
  'yaml-mode
  'yasnippet
  'ztree
+
+ ;; for copilot.el
+ ;; 's
+ ;; 'f
+ ;; 'editorconfig
+ ;; 'jsonrpc
  )
 
 ;; activate installed packages
