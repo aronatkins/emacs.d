@@ -380,16 +380,16 @@
 
 (require 'go-mode)
 (require 'eglot)
+
 (add-hook 'go-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
 (add-to-list 'eglot-server-programs
              '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
 
-(defun aron/eglot-organize-imports() (interactive)
-       (eglot-code-actions nil nil "source.organizeImports" t))
+;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#organizing-imports-with-eglot
 (defun aron/eglot-before-save-go ()
   (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
-  (add-hook 'before-save-hook #'aron/eglot-organize-imports nil t))
+  (add-hook 'before-save-hook #'eglot-code-action-organize-imports nil t))
 (add-hook 'go-mode-hook #'aron/eglot-before-save-go)
 
 ;; (setenv "GOPRIVATE" "github.com/rstudio,connect,linkwalk,envmanager,rsc-quarto,rsc-session")
