@@ -389,7 +389,10 @@
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#organizing-imports-with-eglot
 (defun aron/eglot-before-save-go ()
   (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
-  (add-hook 'before-save-hook #'eglot-code-action-organize-imports nil t))
+  (add-hook 'before-save-hook
+            (lambda ()
+              (call-interactively 'eglot-code-action-organize-imports))
+            -9 t))
 (add-hook 'go-mode-hook #'aron/eglot-before-save-go)
 
 ;; (setenv "GOPRIVATE" "github.com/rstudio,connect,linkwalk,envmanager,rsc-quarto,rsc-session")
