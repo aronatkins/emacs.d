@@ -499,5 +499,11 @@
 ;;   )
 ;; )
 
+
+;; (use-package ellama
+;;   :ensure t
+;;   :init
+;;   (setopt ellama-keymap-prefix "C-c e"))
+
 (provide 'aron-init)
 ;;; aron-init.el ends here
