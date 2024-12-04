@@ -50,7 +50,7 @@ There are two things you can do about this warning:
  'exec-path-from-shell
  'expand-region
  'flycheck
- 'flycheck-gometalinter
+ 'flycheck-golangci-lint
  'git-gutter
  'go-mode
  'graphviz-dot-mode
@@ -60,7 +60,9 @@ There are two things you can do about this warning:
  'js2-mode
  'json-mode
  ;; https://github.com/leon-barrett/just-mode.el
- 'just-mode
+ ;; 'just-mode
+ ;; https://github.com/leon-barrett/just-ts-mode.el
+ 'just-ts-mode
  ;; https://github.com/fniessen/emacs-leuven-theme
  ;; leuven is bundled with emacs, but may be outdated.
  'leuven-theme

@@ -356,6 +356,11 @@
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
 
+(use-package just-ts-mode
+  :defer t
+  :ensure t
+  :config
+  (just-ts-mode-install-grammar))
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
@@ -394,6 +399,10 @@
               (call-interactively 'eglot-code-action-organize-imports))
             -9 t))
 (add-hook 'go-mode-hook #'aron/eglot-before-save-go)
+
+(use-package flycheck-golangci-lint
+  :ensure t
+  :hook (go-mode . flycheck-golangci-lint-setup))
 
 ;; (setenv "GOPRIVATE" "github.com/rstudio,connect,linkwalk,envmanager,rsc-quarto,rsc-session")
 

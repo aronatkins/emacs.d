@@ -236,7 +236,7 @@ presented for editing before it is executed."
   "Use the Connect dashboard Dockerfile to run eslint."
   (interactive)
   (let* ((default-directory (aron/dashboard-root))
-         (command (concat "just docker-run-unsafe eslint -c src/eslint.config.mjs --fix " (file-relative-name file-name default-directory))))
+         (command (concat "just docker-run-unsafe eslint -c eslint.config.mjs --fix " (file-relative-name file-name default-directory))))
     (message (concat "eslint-docker (from " default-directory "): " command))
     (shell-command command)
     ))
