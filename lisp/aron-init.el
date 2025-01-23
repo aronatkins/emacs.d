@@ -158,6 +158,15 @@
 
 ;; fill all text. spell all text.
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
+;; consider disabling auto-fill for markdown files.
+;; use visual-fill-mode and consider using visual-fill-column to control the wrap width according to fill-column.
+;; https://melpa.org/#/visual-fill-column https://codeberg.org/joostkremers/visual-fill-column
+;;
+;; turn off auto-fill and turn on visual-line.
+;;
+;; (auto-fill-mode)
+;; (visual-line-mode)
+;; (visual-line-fill-column-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 ;; spell all code comments
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
