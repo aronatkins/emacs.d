@@ -81,6 +81,7 @@ There are two things you can do about this warning:
  'todotxt ; not in melpa-stable
  'use-package
  'vagrant
+ 'visual-fill-column
  'volatile-highlights
  'vue-mode
  'web-mode                              ; possibly better HTML+JS
