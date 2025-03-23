@@ -142,6 +142,13 @@ the given directory."
       (yank-pop arg)
     (error (insert (get-register ?Y)))))
 
+(defun aron/documentation ()
+  "logical wrapping, not physical wrapping"
+  (interactive)
+  (auto-fill-mode -1)
+  (visual-line-mode)
+  (visual-line-fill-column-mode))
+
 ;; launch an independent emacs instance (mac)
 ;; https://www.emacswiki.org/emacs/MacOSTweaks#toc17
 (when (memq window-system '(mac ns))
