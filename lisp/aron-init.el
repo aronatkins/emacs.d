@@ -15,6 +15,10 @@
 (require 'aron-keys)
 (require 'aron-compile)
 
+(require 'company)
+(require 'yasnippet)
+(require 'eglot)
+
 ;; Controls for the emacs status bar.
 ;; (display-time)                      ; Show the time.
 (line-number-mode t)                ; Show line-number.
@@ -71,8 +75,6 @@
  ;; brew install aspell
  '(ispell-program-name "aspell")
 
- '(ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
- '(ess-r-flymake-linters "NULL")
  '(flycheck-lintr-linters "NULL") ;; Use the .lintr configuration rather than the emacs configured default.
 
  '(windmove-wrap-around t)
@@ -357,10 +359,27 @@
 ;; (require 'ess-r-mode)
 ;; leave underscore alone!
 ;; (ess-toggle-underscore nil)
-(add-hook 'ess-mode-hook (lambda()
-                           (ess-set-style 'RStudio)
-                           (setq ess-align-arguments-in-calls nil)
-                           ))
+;; (add-hook 'ess-r-mode-hook (lambda()
+;;                            (ess-set-style 'RStudio)
+;;                            (setq ess-align-arguments-in-calls nil)
+;;                            ))
+
+(use-package ess
+  :defer t
+  :ensure t
+  :init
+  ;; (setq ess-indent-offset 2)
+  (setq ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
+  ;; (setq ess-r-flymake-linters "NULL")
+)
+(add-hook 'ess-r-mode-hook (lambda() (ess-set-style 'RStudio)))
+(add-hook 'ess-r-mode-hook 'eglot-ensure)
+(add-to-list 'eglot-server-programs
+             '((R-mode ess-r-mode) . ("~/bin/air" "language-server")))
+(defun aron/eglot-before-save-r ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
+)
+(add-hook 'ess-r-mode-hook #'aron/eglot-before-save-r)
 
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
@@ -389,11 +408,7 @@
 
 (add-hook 'project-find-functions #'project-find-go-module)
 
-(require 'company)
-(require 'yasnippet)
-
 (require 'go-mode)
-(require 'eglot)
 
 (add-hook 'go-mode-hook 'eglot-ensure)
 (add-hook 'python-mode-hook 'eglot-ensure)
