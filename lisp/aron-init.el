@@ -364,15 +364,15 @@
 ;;                            (setq ess-align-arguments-in-calls nil)
 ;;                            ))
 
-(use-package ess
-  :defer t
-  :ensure t
-  :init
-  ;; (setq ess-indent-offset 2)
+(require 'ess-r-mode)
+
+(defun aron/ess-r-settings ()
+  (ess-set-style 'RStudio)
+  (setq ess-indent-offset 2)
+  (setq tab-width 2)
   (setq ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
-  ;; (setq ess-r-flymake-linters "NULL")
 )
-(add-hook 'ess-r-mode-hook (lambda() (ess-set-style 'RStudio)))
+(add-hook 'ess-r-mode-hook #'aron/ess-r-settings)
 (add-hook 'ess-r-mode-hook 'eglot-ensure)
 (add-to-list 'eglot-server-programs
              '((R-mode ess-r-mode) . ("~/bin/air" "language-server")))
