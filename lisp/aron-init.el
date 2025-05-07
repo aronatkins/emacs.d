@@ -479,6 +479,8 @@
 (require 'editorconfig)
 (editorconfig-mode 1)
 
+(setopt safe-local-variable-values '((js2-basic-offset . 2)))
+
 ;; super awesome window movement. on the mac: command-arrow.
 (windmove-default-keybindings 'super)
 
