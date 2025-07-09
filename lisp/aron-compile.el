@@ -13,22 +13,11 @@ repository root"
   "Return the directory containing the RStudio Connect repository root."
   (locate-dominating-file default-directory 'aron/is-connect-root))
 
-(defun aron/is-connect-module-root (dir)
-  "Return true if this directory looks like an RStudio Connect
-module root."
-  ; This is a pretty terrible heursitic and assumes that packages in
-  ; src/*/vendor do not use just.
-  (and
-   (file-exists-p (concat dir "go.mod"))
-   (file-exists-p (concat dir "justfile"))
-   ))
+(defun aron/go-module-root ()
+  "Return the root directory of a Go module hierarchy.
 
-(defun aron/connect-module-root ()
-  "Return the directory containing the root of an RStudio Connect
-module hierarchy.
-
-Typically, these are directories beneath connect/src."
-  (locate-dominating-file default-directory 'aron/is-connect-module-root))
+Assumes that a vendored Go module does not include a go.mod file."
+  (locate-dominating-file default-directory "go.mod"))
 
 (defun aron/is-dashboard-root (dir)
   "Return true if this directory looks like it contains the code for the RStudio Connect dashboard."
@@ -55,70 +44,108 @@ for editing before it is executed."
        compile-command))))
 
 (defun aron/go-compile (&optional arg)
-    "Runs RStudio Connect server compilation.
+  "Compiles a Go project with special awareness of the Posit Connect project.
 
-If called with a non-nil ARG, the compile command is presented
-for editing before it is executed."
+When ARG is non-nil, the compile command is presented for editing before
+it is executed."
   (interactive "P")
-  (let* (
-         ;; ~/dev/rstudio/connect/
-         (connect-root (aron/connect-root))
-         ;; ~/dev/rstudio/connect/src/
-         (src-root (concat connect-root "src/"))
-         ;; ~/dev/rstudio/connect/src/connect/
-         (module-root (aron/connect-module-root))
-         ;; connect
-         (module-root-name (string-remove-suffix "/" (file-relative-name module-root src-root)))
-         ;; either "server" or "tools"; use "build" to build both, but the
-         ;; paths might not resolve correctly because of the default-directory
-         ;; adjustment.
-         (target (if (string-equal "connect" module-root-name) "server" "tools"))
-         ;; setting the default-directory for the compile helps compilation error paths resolve
-         ;; this is a hack, but we cd into the src/connect directory during the build.
-         (default-directory module-root) ; previously, connect-root.
-         (compile-command (concat "just " connect-root " " target))
-         )
-    (compile
-     (if arg
-         (read-from-minibuffer "compilation command: " compile-command)
-       compile-command))))
+  (let*
+      (
+       ;; ~/dev/rstudio/connect/
+       (connect-root (aron/connect-root))
+       ;; ~/dev/rstudio/connect/src/connect/
+       (module-root (aron/go-module-root))
+       )
+    (if connect-root
+        (let*
+            (
+             ;; ~/dev/rstudio/connect/src/
+             (src-root (concat connect-root "src/"))
+             ;; connect
+             (module-root-name (string-remove-suffix "/" (file-relative-name module-root src-root)))
+             ;; either "server" or "tools"; use "build" to build both, but the
+             ;; paths might not resolve correctly because of the default-directory
+             ;; adjustment.
+             (target (if (string-equal "connect" module-root-name) "server" "tools"))
+             ;; setting the default-directory for the compile helps compilation error paths resolve
+             ;; this is a hack, but we cd into the src/connect directory during the build.
+             (default-directory module-root)
+             (compile-command (concat "just " connect-root " " target))
+             )
+          (compile
+           (if arg
+               (read-from-minibuffer "compilation command: " compile-command)
+             compile-command))
+          )
+      ;; if not connect-root
+      (let*
+          (
+           (default-directory module-root)
+           (compile-command "go build ./...")
+           )
+        (compile
+         (if arg
+             (read-from-minibuffer "compilation command: " compile-command)
+           compile-command))
+        )
+      )
+    )
+  )
 
 (defun aron/go-test (&optional arg)
-  "Runs RStudio Connect test compile.
+  "Tests a Go p roject with special awareness of the Posit Connect project.
 
-If called with a non-nil ARG, the compile command is
-presented for editing before it is executed."
+When ARG is non-nil, the compile command is presented for editing before
+it is executed."
   (interactive "P")
-  (let* (
-         ;; ~/dev/rstudio/connect/
-         (connect-root (aron/connect-root))
-         ;; ~/dev/rstudio/connect/src/
-         (src-root (concat connect-root "src/"))
-         ;; ~/dev/rstudio/connect/src/connect/
-         (module-root (aron/connect-module-root))
-         ;; connect
-         (module-root-name (string-remove-suffix "/" (file-relative-name module-root src-root)))
-         ;; connect/util
-         (relative-package-path (string-remove-suffix "/" (file-relative-name default-directory src-root)))
-         ;; either "test" or "test-tool"
-         (target (if (string-equal "connect" module-root-name) "test" "test-tool"))
-         ;; Setting default-directory to module-root helps resolve compilation
-         ;; errors but not test failures.
-         ;;
-         ;; Letting default-directory float to the directory with the current
-         ;; Go file helps resolve test failures but not compilation errors.
-         ;;
-         ;; There is no good choice.
-         (default-directory module-root)
-         (compile-command (concat "just " connect-root " " target " " relative-package-path))
-         )
-    ;; go test emits only the package-local path on errors
-    (compile
-     (if arg
-         (read-from-minibuffer "test command: " compile-command)
-       compile-command))))
-
-(defalias 'aron/test-go 'aron/go-test)
+  (let*
+      (
+       ;; ~/dev/rstudio/connect/
+       (connect-root (aron/connect-root))
+       ;; ~/dev/rstudio/connect/src/connect/
+       (module-root (aron/go-module-root))
+       )
+    (if connect-root
+        (let*
+            (
+             ;; ~/dev/rstudio/connect/src/
+             (src-root (concat connect-root "src/"))
+             ;; connect
+             (module-root-name (string-remove-suffix "/" (file-relative-name module-root src-root)))
+             ;; connect/util
+             (relative-package-path (string-remove-suffix "/" (file-relative-name default-directory src-root)))
+             ;; either "test" or "test-tool"
+             (target (if (string-equal "connect" module-root-name) "test" "test-tool"))
+             ;; Setting default-directory to module-root helps resolve compilation
+             ;; errors but not test failures.
+             ;;
+             ;; Letting default-directory float to the directory with the current
+             ;; Go file helps resolve test failures but not compilation errors.
+             ;;
+             ;; There is no good choice.
+             (default-directory module-root)
+             (compile-command (concat "just " connect-root " " target " " relative-package-path))
+             )
+          ;; go test emits only the package-local path on errors
+          (compile
+           (if arg
+               (read-from-minibuffer "test command: " compile-command)
+             compile-command))
+          )
+      ;; if not connect-root
+      (let*
+          (
+           (default-directory module-root)
+           (compile-command "go test ./...")
+           )
+        (compile
+         (if arg
+             (read-from-minibuffer "compilation command: " compile-command)
+           compile-command))
+        )
+      )
+    )
+  )
 
 ;; This doesn't work. Killing the compile with C-c C-k "kills" it differently
 ;; than a Ctrl-C in a terminal. In particular, the docker instance is left
