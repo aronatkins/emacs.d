@@ -144,6 +144,8 @@
 
 ; Setting this variable will cause the compile buffer to always stay at the end.
 (setq compilation-scroll-output t)
+;; avoid most compilation-line truncation.
+(setq compilation-max-output-line-length 4000)
 ;; compilation-spawned shells are "interactive", meaning we get .bashrc
 ;; https://stackoverflow.com/a/17595062
 (defadvice compile (around use-bashrc activate)
@@ -390,10 +392,22 @@
   :config
   (just-ts-mode-install-grammar))
 
+;; (use-package templ-ts-mode
+;;   :defer t
+;;   :ensure t
+;;   :config
+;;   (templ-ts-mode-grammar-install))
+
+(require 'templ-mode)
+
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
 ;; (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gcfg-mode))
+
+(add-hook 'python-mode-hook 'eglot-ensure)
+(add-to-list 'eglot-server-programs
+             '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
 
 ;; Go
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
@@ -411,9 +425,6 @@
 (require 'go-mode)
 
 (add-hook 'go-mode-hook 'eglot-ensure)
-(add-hook 'python-mode-hook 'eglot-ensure)
-(add-to-list 'eglot-server-programs
-             '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
 
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#organizing-imports-with-eglot
 (defun aron/eglot-before-save-go ()
@@ -479,7 +490,13 @@
 (require 'editorconfig)
 (editorconfig-mode 1)
 
-(setopt safe-local-variable-values '((js2-basic-offset . 2)))
+;; (setopt safe-local-variable-values
+;;         '(
+;;           (js2-basic-offset . 2)
+;;           (templ-mode-command . tool)
+;;           )
+;;         )
+(add-to-list 'safe-local-variable-values '(templ-mode-command . tool))
 
 ;; super awesome window movement. on the mac: command-arrow.
 (windmove-default-keybindings 'super)
@@ -539,6 +556,23 @@
 ;;   :ensure t
 ;;   :init
 ;;   (setopt ellama-keymap-prefix "C-c e"))
+
+;; (require 'gptel)
+
+;; (setenv "AWS_PROFILE" "connect-team")
+;; (setenv "AWS_REGION" "us-east-2")
+;; (setq
+;;  ;; requires curl 8.14
+;;  ;; https://github.com/curl/curl/commit/c19465ca556d2d05a058b4690c27eb228d05f2e6
+;;  gptel-use-curl "/opt/homebrew/opt/curl/bin/curl"
+;;  gptel-model 'claude-3-7-sonnet-20250219
+;;  gptel-backend
+;;  (gptel-make-bedrock "AWS"
+;;    :region "us-east-2"
+;;    :models '((claude-3-7-sonnet-20250219 . "anthropic.claude-3-7-sonnet-20250219-v1:0"))
+;;    :model-region 'us
+;;    )
+;;  )
 
 (provide 'aron-init)
 ;;; aron-init.el ends here

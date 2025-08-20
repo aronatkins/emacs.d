@@ -53,6 +53,7 @@ There are two things you can do about this warning:
  'flycheck-golangci-lint
  'git-gutter
  'go-mode
+ ;; 'gptel
  'graphviz-dot-mode
  'groovy-mode
  'hcl-mode
@@ -77,7 +78,9 @@ There are two things you can do about this warning:
  'projectile
  'quarto-mode
  'reveal-in-osx-finder
+ 'rust-mode
  'sql-indent
+;; 'templ-ts-mode
  'todotxt ; not in melpa-stable
  'use-package
  'vagrant

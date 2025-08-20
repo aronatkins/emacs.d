@@ -60,3 +60,10 @@ https://github.com/emacs-tw/awesome-emacs
 
 windmove (C-x o replacement)
 http://www.emacswiki.org/emacs/WindMove
+
+## tree-sitter
+
+M-x treesit-install-language-grammar
+
+https://github.com/IndianBoy42/tree-sitter-just
+https://github.com/vrischmann/tree-sitter-templ
