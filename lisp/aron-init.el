@@ -386,11 +386,11 @@
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
 
-(use-package just-ts-mode
-  :defer t
-  :ensure t
-  :config
-  (just-ts-mode-install-grammar))
+;; (use-package just-ts-mode
+;;   :defer t
+;;   :ensure t
+;;   :config
+;;   (just-ts-mode-install-grammar))
 
 ;; (use-package templ-ts-mode
 ;;   :defer t
