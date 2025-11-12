@@ -435,6 +435,7 @@
             -9 t))
 (add-hook 'go-mode-hook #'aron/eglot-before-save-go)
 
+;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/24
 (use-package flycheck-golangci-lint
   :ensure t
   :hook (go-mode . flycheck-golangci-lint-setup))
@@ -539,7 +540,7 @@
 (eval-after-load `hcl-mode
   `(add-hook 'hcl-mode-hook
              (lambda ()
-               (add-hook 'after-save-hook #'aron/packer-fix-file-and-revert nil t))))
+               (add-hook 'after-save-hook #'aron/hcl-fix-file-and-revert nil t))))
 
 ;; (require 'copilot)
 ;; (use-package copilot

@@ -278,17 +278,18 @@ presented for editing before it is executed."
       )
     (revert-buffer t t)))
 
-(defun aron/packer-fix-file (file-name)
-  "Run 'packer fmt' on the named file."
+;; go install github.com/hashicorp/hcl/v2/cmd/hclfmt@latest
+(defun aron/hcl-fix-file (file-name)
+  "Run an HCL formatting command on the named file."
   (interactive)
-  (let* ((command (concat "packer fmt " file-name)))
+  (let* ((command (concat "hclfmt -w " file-name)))
     (message (concat "formatting: " command))
     (shell-command command)))
 
-(defun aron/packer-fix-file-and-revert ()
-  "Run 'packer fmt' on the current buffer file and revert."
+(defun aron/hcl-fix-file-and-revert ()
+  "Run an HCL formatting command on the current buffer file and revert."
   (interactive)
-  (aron/packer-fix-file (buffer-file-name))
+  (aron/hcl-fix-file (buffer-file-name))
   (revert-buffer t t))
 
 (provide 'aron-compile)
