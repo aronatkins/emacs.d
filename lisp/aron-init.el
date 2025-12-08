@@ -440,7 +440,7 @@
 (use-package flycheck-golangci-lint
   :ensure t
   :init
-  ;; hack to avoid version detection problems.
+  ;; hack to avoid version detection problems related to golangci-lint not being discovered because of PATH shenanigans.
   (setq flycheck-golangci-lint--version `(2 6 2))
   :hook (go-mode . flycheck-golangci-lint-setup))
 
