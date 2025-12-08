@@ -436,8 +436,12 @@
 (add-hook 'go-mode-hook #'aron/eglot-before-save-go)
 
 ;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/24
+;; keep correct version of golangci-lint in PATH.
 (use-package flycheck-golangci-lint
   :ensure t
+  :init
+  ;; hack to avoid version detection problems.
+  (setq flycheck-golangci-lint--version `(2 6 2))
   :hook (go-mode . flycheck-golangci-lint-setup))
 
 ;; (setenv "GOPRIVATE" "github.com/rstudio,connect,linkwalk,envmanager,rsc-quarto,rsc-session")
