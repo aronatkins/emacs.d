@@ -135,8 +135,9 @@ it is executed."
       ;; if not connect-root
       (let*
           (
+           (relative-package-path (string-remove-suffix "/" (file-relative-name default-directory module-root)))
            (default-directory module-root)
-           (compile-command "go test ./...")
+           (compile-command (concat "go test ./" relative-package-path "/..."))
            )
         (compile
          (if arg
