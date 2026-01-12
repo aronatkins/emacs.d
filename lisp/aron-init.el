@@ -376,6 +376,7 @@
 ;; Tree-sitter grammar sources
 (setq treesit-language-source-alist
       '((go "https://github.com/tree-sitter/tree-sitter-go")
+        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
         (just "https://github.com/IndianBoy42/tree-sitter-just")
         (python "https://github.com/tree-sitter/tree-sitter-python")
@@ -470,6 +471,11 @@
          )
   :init
   (aron/ensure-treesit-grammar 'go))
+
+(use-package go-mod-ts-mode
+  :mode "go\\.mod\\'"
+  :init
+  (aron/ensure-treesit-grammar 'gomod))
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
