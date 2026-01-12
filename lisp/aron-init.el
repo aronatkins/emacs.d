@@ -19,10 +19,6 @@
 (require 'yasnippet)
 (require 'eglot)
 
-;; Controls for the emacs status bar.
-;; (display-time)                      ; Show the time.
-(line-number-mode t)                ; Show line-number.
-(column-number-mode t)              ; Show column (character position)
 
 (custom-set-variables
  '(inhibit-startup-message t)    ; Disable the emacs startup message.
@@ -68,14 +64,9 @@
  '(search-highlight t)               ; incremental search highlights
  '(split-width-threshold nil) ; stop L/R window splitting
 
- '(flycheck-disabled-checkers (quote (emacs-lisp-checkdoc)))
- '(flycheck-emacs-lisp-load-path load-path)
-
  ;; macOS: Install aspell with homebrew.
  ;; brew install aspell
  '(ispell-program-name "aspell")
-
- '(flycheck-lintr-linters "NULL") ;; Use the .lintr configuration rather than the emacs configured default.
 
  '(windmove-wrap-around t)
 
@@ -270,11 +261,14 @@
 ;; may want to scope this just to vue-mode.
 (setq mmm-submode-decoration-level 0)
 
-(require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-(eval-after-load 'flycheck
-  '(flycheck-add-mode 'javascript-eslint 'web-mode))
+(use-package flycheck
+  :hook (after-init . global-flycheck-mode)
+  :custom
+  (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  (flycheck-emacs-lisp-load-path load-path)
+  (flycheck-lintr-linters "NULL") ;; Use the .lintr configuration rather than the emacs configured default.
+  :config
+  (flycheck-add-mode 'javascript-eslint 'web-mode))
 
 ;; web-mode (better HTML+JS)
 ;; http://web-mode.org

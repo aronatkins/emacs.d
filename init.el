@@ -11,6 +11,10 @@
 (scroll-bar-mode -1)
 (setq inhibit-startup-message t)
 
+;; Mode line indicators
+(line-number-mode t)
+(column-number-mode t)
+
 ;; the title bar shares the background color
 ;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 ;; or nil to switch to dark title text
