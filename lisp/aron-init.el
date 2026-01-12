@@ -18,78 +18,79 @@
 (use-package eglot)
 
 
-(custom-set-variables
- '(inhibit-startup-message t)    ; Disable the emacs startup message.
- '(initial-scratch-message nil)  ; Disable information about *scratch*
+;; Disable the emacs startup message.
+(setopt inhibit-startup-message t)
+;; Disable information about *scratch*
+(setopt initial-scratch-message nil)
 
- ;; trailing whitespace is nice, but it also highlights lines with
- ;; only-whitespace (ie. empty lines in a code block that happen to be
- ;; indented).
- ;; '(show-trailing-whitespace t)
+;; trailing whitespace is nice, but it also highlights lines with
+;; only-whitespace (ie. empty lines in a code block that happen to be
+;; indented).
+;; (setopt show-trailing-whitespace t)
 
-'(font-lock-maximum-decoration t)
+(setopt font-lock-maximum-decoration t)
 
- ;; emacs (pre-23.1) used to use completion-ignore-case for both
- ;; find-file completion and buffer-switching completion.
- '(completion-ignore-case t)
- '(read-file-name-completion-ignore-case t)
- '(read-buffer-completion-ignore-case t)
+;; emacs (pre-23.1) used to use completion-ignore-case for both
+;; find-file completion and buffer-switching completion.
+(setopt completion-ignore-case t)
+(setopt read-file-name-completion-ignore-case t)
+(setopt read-buffer-completion-ignore-case t)
 
- ;; Make fill mode accept ". " as a sentence end.
- '(sentence-end-double-space nil)
+;; Make fill mode accept ". " as a sentence end.
+(setopt sentence-end-double-space nil)
 
- ;; reasonable max width for filled regions.
- '(fill-column               78)
+;; reasonable max width for filled regions.
+(setopt fill-column 78)
 
- ;; show unfinished keystrokes early.
- '(echo-keystrokes 0.1)
+;; show unfinished keystrokes early.
+(setopt echo-keystrokes 0.1)
 
- ;; Visual feedback on selections
- ;; (setq-default transient-mark-mode t)
- '(transient-mark-mode t)
+;; Visual feedback on selections
+(setopt transient-mark-mode t)
 
- ;; Always end a file with a newline
- '(require-final-newline t)
+;; Always end a file with a newline
+(setopt require-final-newline t)
 
- ;; Stop at the end of the file, not just add lines
- '(next-line-add-newlines nil)
+;; Stop at the end of the file, not just add lines
+(setopt next-line-add-newlines nil)
 
- ;; Do not insert tabs.
- ;;(setq-default indent-tabs-mode nil)
- '(indent-tabs-mode nil)
+;; Do not insert tabs.
+(setopt indent-tabs-mode nil)
 
- '(query-replace-highlight t)        ; highlight during query
- '(search-highlight t)               ; incremental search highlights
- '(split-width-threshold nil) ; stop L/R window splitting
+;; highlight during query
+(setopt query-replace-highlight t)
+;; incremental search highlights
+(setopt search-highlight t)
+;; stop L/R window splitting
+(setopt split-width-threshold nil)
 
- ;; macOS: Install aspell with homebrew.
- ;; brew install aspell
- '(ispell-program-name "aspell")
+;; macOS: Install aspell with homebrew.
+;; brew install aspell
+(setopt ispell-program-name "aspell")
 
- '(windmove-wrap-around t)
+(setopt windmove-wrap-around t)
 
-  ; ask me before death. Command-q is an accident!
- '(confirm-kill-emacs #'y-or-n-p)
+;; ask me before death. Command-q is an accident!
+(setopt confirm-kill-emacs #'y-or-n-p)
 
- ; quickly help an old man.
- '(which-key-idle-delay 0.5)
+;; quickly help an old man.
+(setopt which-key-idle-delay 0.5)
 
- ;; control-L behavior. http://irreal.org/blog/?p=6436
- ;; also. try out C-M-l !!!
- ;; '(recenter-positions '(top middle bottom))
+;; control-L behavior. http://irreal.org/blog/?p=6436
+;; also. try out C-M-l !!!
+;; (setopt recenter-positions '(top middle bottom))
 
- ;; stop gfm (markdown) mode from having electric backticks.
- '(markdown-gfm-use-electric-backquote nil)
+;; stop gfm (markdown) mode from having electric backticks.
+(setopt markdown-gfm-use-electric-backquote nil)
 
- ;; tuning for LSP (https://emacs-lsp.github.io/lsp-mode/page/performance/#tuning)
- '(gc-cons-threshold 100000000)
- '(read-process-output-max (* 1024 1024)) ;; 1mb
+;; tuning for LSP (https://emacs-lsp.github.io/lsp-mode/page/performance/#tuning)
+(setopt gc-cons-threshold 100000000)
+(setopt read-process-output-max (* 1024 1024)) ;; 1mb
 
- ;; https://www.emacswiki.org/emacs/AlarmBell
- '(ring-bell-function 'ignore)
+;; https://www.emacswiki.org/emacs/AlarmBell
+(setopt ring-bell-function 'ignore)
 
- '(lua-indent-level 2)
- )
+(setopt lua-indent-level 2)
 
 ;; make cursor the width of the character it is under
 ;; i.e. full width of a TAB
@@ -106,9 +107,9 @@
 ;; https://www.masteringemacs.org/article/introduction-to-ido-mode
 ;; display any item that contains the typed chars .. quite a shift
 (require 'ido)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-;; (setq ido-create-new-buffer 'always)
+(setopt ido-enable-flex-matching t)
+(setopt ido-everywhere t)
+;; (setopt ido-create-new-buffer 'always)
 (ido-mode t)
 
 ;; (require 'icomplete)        ; active minibuffer completion
@@ -121,8 +122,8 @@
 
 ; uniquify: buffer names are uniquified with parts of the file path.
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward)
-(setq uniquify-after-kill-buffer-p t)
+(setopt uniquify-buffer-name-style 'post-forward)
+(setopt uniquify-after-kill-buffer-p t)
 
 ;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
 (auto-compression-mode t)
@@ -132,9 +133,9 @@
 ;; (put 'downcase-region 'disabled nil) ;; What's this do?
 
 ; Setting this variable will cause the compile buffer to always stay at the end.
-(setq compilation-scroll-output t)
+(setopt compilation-scroll-output t)
 ;; avoid most compilation-line truncation.
-(setq compilation-max-output-line-length 4000)
+(setopt compilation-max-output-line-length 4000)
 ;; compilation-spawned shells are "interactive", meaning we get .bashrc
 ;; https://stackoverflow.com/a/17595062
 (define-advice compile (:around (orig-fun &rest args) use-bashrc)
@@ -143,7 +144,7 @@
     (apply orig-fun args)))
 
 ; symmetric scroll up/down. http://irreal.org/blog/?p=3963
-(setq scroll-preserve-screen-position 'always)
+(setopt scroll-preserve-screen-position 'always)
 
 ;; http://pragmaticemacs.com/emacs/volatile-highlights/
 (require 'volatile-highlights)
@@ -188,12 +189,12 @@
 ;; SSH / Shell
 (require 'comint)
 
-(setq comint-completion-addsuffix (quote ("/" . " ")))
+(setopt comint-completion-addsuffix (quote ("/" . " ")))
 
 ;; This RE should match on any password request. It is used by
 ;; comint-watch-for-password-prompt.
-(setq comint-password-prompt-regexp
-      "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'")
+(setopt comint-password-prompt-regexp
+        "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'")
 
 (autoload 'ssh "ssh" "Allows SSH logins to act like shell-mode" t)
 ;; Watch for password requests & force hidden password entry.
@@ -223,7 +224,7 @@
 
 ;; Stop js2 from complaining; too many things linting JS!!
 (require 'js2-mode)
-(setq js2-strict-trailing-comma-warning nil) ; trailing commas are fine.
+(setopt js2-strict-trailing-comma-warning nil) ; trailing commas are fine.
 ;; complaints about expect(foo).to.be.null -- code has no side effect is annoying, but
 ;; disabling all strict warnings is too broad.
 ;; probably want something like: https://github.com/mooz/js2-mode/issues/292#issuecomment-155541237
@@ -232,7 +233,7 @@
 (add-hook 'js2-mode-hook (lambda ()
   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
-(setq js-indent-level 2)
+(setopt js-indent-level 2)
 
 ;; https://github.com/flycheck/flycheck/issues/1087#issuecomment-267587217
 (eval-after-load 'js2-mode
@@ -257,7 +258,7 @@
 (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
 ;; suppress the region background color, per https://github.com/AdamNiederer/vue-mode
 ;; may want to scope this just to vue-mode.
-(setq mmm-submode-decoration-level 0)
+(setopt mmm-submode-decoration-level 0)
 
 (use-package flycheck
   :hook (after-init . global-flycheck-mode)
