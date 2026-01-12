@@ -325,9 +325,12 @@
 (put 'upcase-region 'disabled nil)
 
 ;; https://github.com/zk-phi/indent-guide
-(require 'indent-guide)
-(set-face-foreground 'indent-guide-face "gray")
-(indent-guide-global-mode)
+(use-package indent-guide
+  :ensure t
+  :custom-face
+  (indent-guide-face ((t (:foreground "gray"))))
+  :config
+  (indent-guide-global-mode))
 
 ;; http://www.lunaryorn.com/2014/09/13/boosting-which-func-mode.html
 (which-function-mode)
