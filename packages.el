@@ -66,7 +66,6 @@
  'rust-mode
  'sql-indent
 ;; 'templ-ts-mode
- 'todotxt ; not in melpa-stable
  'use-package
  'vagrant
  'visual-fill-column

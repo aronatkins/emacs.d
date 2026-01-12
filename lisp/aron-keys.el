@@ -85,9 +85,5 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-by-Parens.html
 ;; C-M-n C-M-p
 
-;; todo.txt bindings
-;; https://github.com/rpdillon/todotxt.el
-(define-key global-map "\C-ct" 'todotxt)
-
 (provide 'aron-keys)
 ;;; aron-keys.el ends here

@@ -227,8 +227,6 @@
 ;; (setq remote-shell-program "/usr/local/bin/ssh")
 ;; (setq rlogin-program       "/usr/local/bin/slogin")
 
-(put 'narrow-to-region 'disabled nil)
-
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
@@ -545,39 +543,6 @@
   `(add-hook 'hcl-mode-hook
              (lambda ()
                (add-hook 'after-save-hook #'aron/hcl-fix-file-and-revert nil t))))
-
-;; (require 'copilot)
-;; (use-package copilot
-;;   :ensure t
-;;   :config
-;;   (setq copilot-log-max nil)
-;;   :hook (
-;;     (prog-mode . copilot-mode)
-;;   )
-;; )
-
-
-;; (use-package ellama
-;;   :ensure t
-;;   :init
-;;   (setopt ellama-keymap-prefix "C-c e"))
-
-;; (require 'gptel)
-
-;; (setenv "AWS_PROFILE" "connect-team")
-;; (setenv "AWS_REGION" "us-east-2")
-;; (setq
-;;  ;; requires curl 8.14
-;;  ;; https://github.com/curl/curl/commit/c19465ca556d2d05a058b4690c27eb228d05f2e6
-;;  gptel-use-curl "/opt/homebrew/opt/curl/bin/curl"
-;;  gptel-model 'claude-3-7-sonnet-20250219
-;;  gptel-backend
-;;  (gptel-make-bedrock "AWS"
-;;    :region "us-east-2"
-;;    :models '((claude-3-7-sonnet-20250219 . "anthropic.claude-3-7-sonnet-20250219-v1:0"))
-;;    :model-region 'us
-;;    )
-;;  )
 
 (provide 'aron-init)
 ;;; aron-init.el ends here
