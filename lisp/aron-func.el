@@ -156,5 +156,10 @@ the given directory."
     (interactive)
     (shell-command "open -n -a /Applications/Emacs.app")))
 
+(defun aron/ensure-treesit-grammar (lang)
+  "Install tree-sitter grammar for LANG if not already installed."
+  (unless (treesit-language-available-p lang)
+    (treesit-install-language-grammar lang)))
+
 (provide `aron-func)
 ;;; aron-func.el ends here

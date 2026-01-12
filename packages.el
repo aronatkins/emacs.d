@@ -37,7 +37,6 @@
  'flycheck
  'flycheck-golangci-lint
  'git-gutter
- 'go-mode
  ;; 'gptel
  'graphviz-dot-mode
  'groovy-mode
@@ -65,7 +64,7 @@
  'reveal-in-osx-finder
  'rust-mode
  'sql-indent
-;; 'templ-ts-mode
+ 'templ-ts-mode
  'use-package
  'vagrant
  'visual-fill-column

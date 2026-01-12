@@ -384,19 +384,25 @@
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
 
-;; (use-package just-ts-mode
-;;   :defer t
-;;   :ensure t
-;;   :config
-;;   (just-ts-mode-install-grammar))
+;; Tree-sitter grammar sources
+(setq treesit-language-source-alist
+      '((go "https://github.com/tree-sitter/tree-sitter-go")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+        (just "https://github.com/IndianBoy42/tree-sitter-just")
+        (templ "https://github.com/vrischmann/tree-sitter-templ")))
 
-;; (use-package templ-ts-mode
-;;   :defer t
-;;   :ensure t
-;;   :config
-;;   (templ-ts-mode-grammar-install))
+(use-package just-ts-mode
+  :ensure t
+  :mode ("justfile\\'" "\\.just\\'")
+  :init
+  (aron/ensure-treesit-grammar 'just))
 
-(require 'templ-mode)
+(use-package templ-ts-mode
+  :ensure t
+  :mode "\\.templ\\'"
+  :init
+  (aron/ensure-treesit-grammar 'javascript)
+  (aron/ensure-treesit-grammar 'templ))
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
@@ -420,9 +426,7 @@
 
 (add-hook 'project-find-functions #'project-find-go-module)
 
-(require 'go-mode)
-
-(add-hook 'go-mode-hook 'eglot-ensure)
+(add-hook 'go-ts-mode-hook 'eglot-ensure)
 
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#organizing-imports-with-eglot
 (defun aron/eglot-before-save-go ()
@@ -431,7 +435,7 @@
             (lambda ()
               (call-interactively 'eglot-code-action-organize-imports))
             -9 t))
-(add-hook 'go-mode-hook #'aron/eglot-before-save-go)
+(add-hook 'go-ts-mode-hook #'aron/eglot-before-save-go)
 
 ;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/24
 ;; keep correct version of golangci-lint in PATH.
@@ -440,7 +444,7 @@
   :init
   ;; hack to avoid version detection problems related to golangci-lint not being discovered because of PATH shenanigans.
   (setq flycheck-golangci-lint--version `(2 6 2))
-  :hook (go-mode . flycheck-golangci-lint-setup))
+  :hook (go-ts-mode . flycheck-golangci-lint-setup))
 
 ;; (setenv "GOPRIVATE" "github.com/rstudio,connect,linkwalk,envmanager,rsc-quarto,rsc-session")
 
@@ -456,15 +460,16 @@
 ;;            ))
 ;;        )))
 
-(use-package go-mode
-  :ensure t
+(use-package go-ts-mode
+  :mode "\\.go\\'"
   :bind (
          ;; ("C-c i" . go-goto-imports)
          ("C-c C-c" . aron/go-compile)
          ;; ("C-c C-s" . aron/go-start) ;; BROKEN
          ("C-c C-t" . aron/go-test)
          )
-  )
+  :init
+  (aron/ensure-treesit-grammar 'go))
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
@@ -479,7 +484,7 @@
 (use-package yasnippet
   :ensure t
   :commands yas-minor-mode
-  :hook (go-mode . yas-minor-mode))
+  :hook (go-ts-mode . yas-minor-mode))
 
 ;; cmake
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
@@ -496,10 +501,8 @@
 ;; (setopt safe-local-variable-values
 ;;         '(
 ;;           (js2-basic-offset . 2)
-;;           (templ-mode-command . tool)
 ;;           )
 ;;         )
-(add-to-list 'safe-local-variable-values '(templ-mode-command . tool))
 
 ;; super awesome window movement. on the mac: command-arrow.
 (windmove-default-keybindings 'super)
