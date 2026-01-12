@@ -424,17 +424,6 @@
 
 (add-hook 'project-find-functions #'project-find-go-module)
 
-(add-hook 'go-ts-mode-hook 'eglot-ensure)
-
-;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#organizing-imports-with-eglot
-(defun aron/eglot-before-save-go ()
-  (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
-  (add-hook 'before-save-hook
-            (lambda ()
-              (call-interactively 'eglot-code-action-organize-imports))
-            -9 t))
-(add-hook 'go-ts-mode-hook #'aron/eglot-before-save-go)
-
 ;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/24
 ;; keep correct version of golangci-lint in PATH.
 (use-package flycheck-golangci-lint
@@ -466,8 +455,18 @@
          ;; ("C-c C-s" . aron/go-start) ;; BROKEN
          ("C-c C-t" . aron/go-test)
          )
+  :preface
+  ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#organizing-imports-with-eglot
+  (defun aron/eglot-before-save-go ()
+    (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
+    (add-hook 'before-save-hook
+              (lambda ()
+                (call-interactively 'eglot-code-action-organize-imports))
+              -9 t))
   :init
-  (aron/ensure-treesit-grammar 'go))
+  (aron/ensure-treesit-grammar 'go)
+  :hook ((go-ts-mode . eglot-ensure)
+         (go-ts-mode . aron/eglot-before-save-go)))
 
 (use-package go-mod-ts-mode
   :mode "go\\.mod\\'"
