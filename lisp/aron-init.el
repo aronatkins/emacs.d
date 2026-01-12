@@ -204,66 +204,54 @@
 ;; (setq remote-shell-program "/usr/local/bin/ssh")
 ;; (setq rlogin-program       "/usr/local/bin/slogin")
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-
-(add-to-list 'auto-mode-alist '("\\.jslintrc\\'" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.jshintrc\\'" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.json.erb\\'" . json-mode))
+(use-package json-mode
+  :mode ("\\.eslintrc\\'" "\\.json.erb\\'"))
 
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
 ;; unbind it.
-(require 'js)
-(define-key js-mode-map (kbd "M-.") nil)
-
-;; Stop js2 from complaining; too many things linting JS!!
-(require 'js2-mode)
-(setopt js2-strict-trailing-comma-warning nil) ; trailing commas are fine.
-;; complaints about expect(foo).to.be.null -- code has no side effect is annoying, but
-;; disabling all strict warnings is too broad.
-;; probably want something like: https://github.com/mooz/js2-mode/issues/292#issuecomment-155541237
-;; (setq js2-mode-show-strict-warnings nil)
-
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-
-(setopt js-indent-level 2)
-
-;; https://github.com/flycheck/flycheck/issues/1087#issuecomment-267587217
-(eval-after-load 'js2-mode
-  '(add-hook 'js2-mode-hook #'add-node-modules-path))
-(eval-after-load `js2-mode
-  `(add-hook 'js2-mode-hook
-             (lambda ()
-               (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
-
-(eval-after-load `vue-mode
-  `(add-hook `vue-mode-hook #'add-node-modules-path))
-(eval-after-load `vue-mode
-  `(add-hook 'vue-mode-hook
-             (lambda ()
-               (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
-(use-package mmm-mode
+(use-package js
+  :bind (:map js-mode-map ("M-." . nil))
   :custom
-  ;; suppress the region background color, per https://github.com/AdamNiederer/vue-mode
-  ;; may want to scope this just to vue-mode.
-  (mmm-submode-decoration-level 0)
+  (js-indent-level 2))
+
+(defun aron/js2-mode-setup ()
+  "Setup for js2-mode."
+  (add-node-modules-path)
+  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)
+  (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))
+
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :hook (js2-mode . aron/js2-mode-setup)
+  :custom
+  (js2-strict-trailing-comma-warning nil))
+
+(defun aron/vue-mode-setup ()
+  "Setup for vue-mode."
+  (add-node-modules-path)
+  (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))
+
+(defun aron/mmm-fix-syntax-ppss ()
+  "Fix syntax parsing in mmm submodes."
+  (setq syntax-ppss-table nil))
+
+(use-package vue-mode
+  :hook (vue-mode . aron/vue-mode-setup)
   :config
+  ;; suppress the region background color
+  (setq mmm-submode-decoration-level 0)
   ;; fix bad indents in vue JS blocks
   ;; https://github.com/AdamNiederer/vue-mode/issues/74
   ;; https://github.com/AdamNiederer/vue-mode/issues/100
-  (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-  (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil))))
+  (add-hook 'mmm-js-mode-enter-hook #'aron/mmm-fix-syntax-ppss)
+  (add-hook 'mmm-typescript-mode-enter-hook #'aron/mmm-fix-syntax-ppss))
 
 (use-package flycheck
   :hook (after-init . global-flycheck-mode)
   :custom
   (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (flycheck-emacs-lisp-load-path load-path)
-  (flycheck-lintr-linters "NULL") ;; Use the .lintr configuration rather than the emacs configured default.
   :config
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
   ;; Disable flycheck on indirect buffers (e.g., quarto-mode+polymode)
   (defun flycheck-buffer-not-indirect-p (&rest _)
     "Ensure that the current buffer is not indirect."
@@ -271,9 +259,10 @@
   (advice-add 'flycheck-may-check-automatically
               :before-while #'flycheck-buffer-not-indirect-p))
 
-;; web-mode (better HTML+JS)
-;; http://web-mode.org
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+(use-package html-ts-mode
+  :mode "\\.html\\'"
+  :init
+  (aron/ensure-treesit-grammar 'html))
 
 ;; might need https://github.com/editorconfig/editorconfig-emacs#customize
 ;; to get web-mode to play nicely with editorconfig.
@@ -346,7 +335,8 @@
   (setq ess-indent-offset 2)
   (setq tab-width 2)
   (setq ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
-)
+  ;; Use .lintr configuration rather than emacs default.
+  (setq-local flycheck-lintr-linters "NULL"))
 (add-hook 'ess-r-mode-hook #'aron/ess-r-settings)
 (add-hook 'ess-r-mode-hook 'eglot-ensure)
 ;; brew install air
@@ -368,6 +358,7 @@
   (treesit-language-source-alist
    '((go "https://github.com/tree-sitter/tree-sitter-go")
      (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
      (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
      (just "https://github.com/IndianBoy42/tree-sitter-just")
      (python "https://github.com/tree-sitter/tree-sitter-python")

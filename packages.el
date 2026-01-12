@@ -67,8 +67,7 @@
  'visual-fill-column
  'volatile-highlights
  'vue-mode
- 'web-mode                              ; possibly better HTML+JS
- 'whole-line-or-region
+  'whole-line-or-region
  'writegood-mode
  'xref-js2
  'yasnippet
