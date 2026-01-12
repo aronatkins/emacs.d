@@ -38,13 +38,9 @@ If `prog-mode' is defined, inherit from it."
      ,mode ,(and (fboundp 'prog-mode) 'prog-mode)
      ,name ,@args))
 
-;;;###autoload(autoload 'gcfg-mode "gcfg-mode" nil t)
 (gcfg-define-prog-mode gcfg-mode "gcfg"
   "Major mode for editing gcfg files."
   (setq font-lock-defaults '(gcfg-font-lock-keywords nil))
-  (setq comment-start ";; ")
-  )
-
-;;;###autoload(add-to-list 'auto-mode-alist '("\\.gcfg\\'" . gcfg-mode))
+  (setq comment-start ";; "))
 
 (provide 'gcfg-mode)

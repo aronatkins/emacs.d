@@ -9,7 +9,6 @@
 ;; http://www.djcbsoftware.nl/dot-emacs.html
 
 (require 'use-package)
-(require 'gcfg-mode)
 (require 'aron-func)
 (require 'aron-grep)
 (require 'aron-keys)
@@ -404,8 +403,8 @@
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
-;; (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
-(add-to-list 'auto-mode-alist '("\\.gcfg$" . gcfg-mode))
+(use-package gcfg-mode
+  :mode "\\.gcfg\\'")
 
 (use-package python
   :mode ("\\.py\\'" . python-ts-mode)
