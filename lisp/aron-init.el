@@ -371,15 +371,17 @@
 ;; Groovy / Jenkinsfile
 (setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
 
-;; Tree-sitter grammar sources
-(setq treesit-language-source-alist
-      '((go "https://github.com/tree-sitter/tree-sitter-go")
-        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-        (just "https://github.com/IndianBoy42/tree-sitter-just")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (templ "https://github.com/vrischmann/tree-sitter-templ")
-        (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")))
+(use-package treesit
+  :custom
+  ;; Tree-sitter grammar sources
+  (treesit-language-source-alist
+   '((go "https://github.com/tree-sitter/tree-sitter-go")
+     (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+     (just "https://github.com/IndianBoy42/tree-sitter-just")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (templ "https://github.com/vrischmann/tree-sitter-templ")
+     (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml"))))
 
 (use-package yaml-ts-mode
   :mode ("\\.yml\\'" "\\.yaml\\'" "\\.yaml\\.gotmpl\\'")
