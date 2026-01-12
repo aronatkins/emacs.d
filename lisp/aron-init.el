@@ -18,10 +18,11 @@
 (line-number-mode t)
 (column-number-mode t)
 
-;; Disable the emacs startup message.
-(setopt inhibit-startup-message t)
 ;; Disable information about *scratch*
 (setopt initial-scratch-message nil)
+
+;; Suppress native compilation warnings popup (still logged to *Messages*)
+(setopt native-comp-async-report-warnings-errors 'silent)
 
 ;; trailing whitespace is nice, but it also highlights lines with
 ;; only-whitespace (ie. empty lines in a code block that happen to be
@@ -292,11 +293,9 @@
 ;(setq web-mode-code-indent-offset 2)
 ;(setq web-mode-script-padding 2)
 
-;; (custom-set-variables
-;;  '(nxml-child-indent 4)
-;;  '(js-indent-level 2) ; used by js-mode, json-mode
-;;  '(js2-basic-offset 2) ; used by js2-mode
-;; )
+;; (setopt nxml-child-indent 4)
+;; (setopt js-indent-level 2)  ; used by js-mode, json-mode
+;; (setopt js2-basic-offset 2) ; used by js2-mode
 
 
 ;; Markdown / RMarkdown

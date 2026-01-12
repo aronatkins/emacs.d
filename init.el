@@ -21,19 +21,9 @@
 (if (equal default-directory "/")
     (cd (getenv "HOME")))
 
-; From: https://melpa.org/#/getting-started
+;; Add MELPA to package archives
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-; (package-initialize)
-
-;; Expliticly initialize package(ELPA) so we can require its modules in
-;; aron-init. This changes the default initialization order of emacs.
-;; http://www.emacswiki.org/emacs/ELPA#toc6
-
-;; (add-hook 'after-init-hook (lambda () (load "aron-init")))
-;; (add-hook 'after-init-hook (lambda () (require 'aron-init)))
-(setq package-enable-at-startup nil)
-(package-initialize)
 
 ;; Fix PATH on OSX.
 (when (memq window-system '(mac ns))

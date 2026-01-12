@@ -12,8 +12,5 @@
 
 (setq inhibit-startup-message t)
 
-;; Prevent package.el from loading packages before init.el runs
-(setq package-enable-at-startup nil)
-
 (provide 'early-init)
 ;;; early-init.el ends here
