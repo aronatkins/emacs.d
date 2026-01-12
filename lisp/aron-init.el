@@ -69,18 +69,12 @@
 ;; brew install aspell
 (setopt ispell-program-name "aspell")
 
-(setopt windmove-wrap-around t)
-
 ;; ask me before death. Command-q is an accident!
 (setopt confirm-kill-emacs #'y-or-n-p)
-
-;; quickly help an old man.
-(setopt which-key-idle-delay 0.5)
 
 ;; control-L behavior. http://irreal.org/blog/?p=6436
 ;; also. try out C-M-l !!!
 ;; (setopt recenter-positions '(top middle bottom))
-
 
 ;; tuning for LSP (https://emacs-lsp.github.io/lsp-mode/page/performance/#tuning)
 (setopt gc-cons-threshold 100000000)
@@ -90,6 +84,28 @@
 (setopt ring-bell-function 'ignore)
 
 (setopt lua-indent-level 2)
+
+;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
+(auto-compression-mode t)
+
+;; Enable commands disabled by default.
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+;; (put 'downcase-region 'disabled nil) ;; What's this do?
+
+; Setting this variable will cause the compile buffer to always stay at the end.
+(setopt compilation-scroll-output t)
+;; avoid most compilation-line truncation.
+(setopt compilation-max-output-line-length 4000)
+;; compilation-spawned shells are "interactive", meaning we get .bashrc
+;; https://stackoverflow.com/a/17595062
+(define-advice compile (:around (orig-fun &rest args) use-bashrc)
+  "Load .bashrc in any calls to bash (e.g. so we can use aliases)"
+  (let ((shell-command-switch "-ic"))
+    (apply orig-fun args)))
+
+; symmetric scroll up/down. http://irreal.org/blog/?p=3963
+(setopt scroll-preserve-screen-position 'always)
 
 ;; make cursor the width of the character it is under
 ;; i.e. full width of a TAB
@@ -129,48 +145,22 @@
 
 (use-package eglot)
 
-;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
-(auto-compression-mode t)
-
-(put 'narrow-to-region 'disabled nil)
-
-;; (put 'downcase-region 'disabled nil) ;; What's this do?
-
-; Setting this variable will cause the compile buffer to always stay at the end.
-(setopt compilation-scroll-output t)
-;; avoid most compilation-line truncation.
-(setopt compilation-max-output-line-length 4000)
-;; compilation-spawned shells are "interactive", meaning we get .bashrc
-;; https://stackoverflow.com/a/17595062
-(define-advice compile (:around (orig-fun &rest args) use-bashrc)
-  "Load .bashrc in any calls to bash (e.g. so we can use aliases)"
-  (let ((shell-command-switch "-ic"))
-    (apply orig-fun args)))
-
-; symmetric scroll up/down. http://irreal.org/blog/?p=3963
-(setopt scroll-preserve-screen-position 'always)
-
 (use-package volatile-highlights
   :config
   (volatile-highlights-mode t))
 
-;; fill all text. spell all text.
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
 ;; consider disabling auto-fill for markdown files.
 ;; use visual-fill-mode and consider using visual-fill-column to control the wrap width according to fill-column.
 ;; https://melpa.org/#/visual-fill-column https://codeberg.org/joostkremers/visual-fill-column
-;;
-;; turn off auto-fill and turn on visual-line.
-;;
-;; (auto-fill-mode)
-;; (visual-line-mode)
-;; (visual-line-fill-column-mode)
-(add-hook 'text-mode-hook 'flyspell-mode)
-;; spell all code comments
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(use-package text-mode
+  :hook ((text-mode . turn-on-auto-fill)
+         (text-mode . flyspell-mode)))
 
-;; RSP: use c++-mode instead of c-mode for .h files.
-(setq auto-mode-alist (cons '("\\.h\\'" . c++-mode) auto-mode-alist))
+(use-package prog-mode
+  :hook (prog-mode . flyspell-prog-mode))
+
+;; To use c++-mode for .h files in a specific project, add to .dir-locals.el:
+;; ((c-mode . ((mode . c++))))
 
 ;; make some common keywords stand out.
 ;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
@@ -178,29 +168,23 @@
   '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
 (font-lock-add-keywords 'python-mode fixme-and-friends)
 
-;; ------------------------------------------------------------
-;; SSH / Shell
-(require 'comint)
+(use-package comint
+  :custom
+  (comint-completion-addsuffix '("/" . " "))
+  ;; Match password prompts for comint-watch-for-password-prompt.
+  (comint-password-prompt-regexp
+   "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'")
+  :config
+  (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt))
 
-(setopt comint-completion-addsuffix (quote ("/" . " ")))
+(defun aron/shell-mode-setup ()
+  "Setup for shell-mode."
+  ;; https://www.johndcook.com/blog/2016/11/30/setting-up-emacs-shell-on-a-mac/
+  (local-set-key (kbd "<M-up>") 'comint-previous-input)
+  (local-set-key (kbd "<M-down>") 'comint-next-input))
 
-;; This RE should match on any password request. It is used by
-;; comint-watch-for-password-prompt.
-(setopt comint-password-prompt-regexp
-        "\\(\\([Oo]ld \\|[Nn]ew \\|Kerberos \\|'s \\|login \\|CVS \\|^\\)[Pp]assword\\( (again)\\)?\\|pass ?phrase\\|Enter passphrase\\)\\( for \\(RSA key \\)?[^@ \t\n]+\\(@[^@ \t\n]+\\)?\\)?\\(, try again\\)?:\\s *\\'")
-
-(autoload 'ssh "ssh" "Allows SSH logins to act like shell-mode" t)
-;; Watch for password requests & force hidden password entry.
-(add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
-
-;; https://www.johndcook.com/blog/2016/11/30/setting-up-emacs-shell-on-a-mac/
-(defun aron/shell-mode-hook--bindings ()
-    (local-set-key (kbd "<M-up>") 'comint-previous-input)
-    (local-set-key (kbd "<M-down>") 'comint-next-input))
-(add-hook 'shell-mode-hook #'aron/shell-mode-hook--bindings)
-
-;; (setq remote-shell-program "/usr/local/bin/ssh")
-;; (setq rlogin-program       "/usr/local/bin/slogin")
+(use-package shell
+  :hook (shell-mode . aron/shell-mode-setup))
 
 (use-package json-mode
   :mode ("\\.eslintrc\\'" "\\.json.erb\\'"))
@@ -273,7 +257,6 @@
 ;; (setopt js-indent-level 2)  ; used by js-mode, json-mode
 ;; (setopt js2-basic-offset 2) ; used by js2-mode
 
-
 ;; Markdown / RMarkdown
 
 ;; gfm-mode is a GitHub-flavored markdown mode (part of markdown-mode package)
@@ -293,9 +276,6 @@
   :ensure t
   :hook (sql-mode . sqlind-minor-mode))
 
-
-(put 'upcase-region 'disabled nil)
-
 ;; https://github.com/zk-phi/indent-guide
 (use-package indent-guide
   :ensure t
@@ -305,7 +285,9 @@
   (indent-guide-global-mode))
 
 ;; http://www.lunaryorn.com/2014/09/13/boosting-which-func-mode.html
-(which-function-mode)
+(use-package which-func
+  :config
+  (which-function-mode))
 
 ;; https://github.com/TeMPOraL/nyan-mode
 ;;(nyan-mode)
@@ -462,13 +444,15 @@
   :commands yas-minor-mode
   :hook (go-ts-mode . yas-minor-mode))
 
-;; cmake
-(autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
-(add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
+(use-package cmake-font-lock
+  :hook (cmake-mode . cmake-font-lock-activate))
 
 ;; http://pragmaticemacs.com/emacs/get-pop-up-help-for-keybindings-with-which-key/
-;; more help for keybindings
-(which-key-mode)
+(use-package which-key
+  :custom
+  (which-key-idle-delay 0.5)
+  :config
+  (which-key-mode))
 
 (use-package editorconfig
   :config
@@ -481,7 +465,11 @@
 ;;         )
 
 ;; super awesome window movement. on the mac: command-arrow.
-(windmove-default-keybindings 'super)
+(use-package windmove
+  :custom
+  (windmove-wrap-around t)
+  :config
+  (windmove-default-keybindings 'super))
 
 ;; magit / magithub
 ;;(require 'magithub)
@@ -504,12 +492,14 @@
 ;; git grep
 ;; https://github.com/ggreer/the_silver_searcher
 ;; https://github.com/BurntSushi/ripgrep
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+(use-package dumb-jump
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 ;; Automatically executable scripts
 ;; https://emacsredux.com/blog/2021/09/29/make-script-files-executable-automatically/
-(add-hook 'after-save-hook
-          'executable-make-buffer-file-executable-if-script-p)
+(use-package executable
+  :hook (after-save . executable-make-buffer-file-executable-if-script-p))
 
 ;; get compilation buffers to support color output (because no one looks at TERM)
 ;; https://stackoverflow.com/questions/13397737/ansi-coloring-in-compilation-mode
