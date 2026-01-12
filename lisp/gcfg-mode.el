@@ -44,3 +44,4 @@ If `prog-mode' is defined, inherit from it."
   (setq comment-start ";; "))
 
 (provide 'gcfg-mode)
+;;; gcfg-mode.el ends here
