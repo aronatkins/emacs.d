@@ -9,7 +9,7 @@ all: clean install
 
 install:
 	${EMACS} --script packages.el
-	${EMACS} --batch -l init.el
+	${EMACS} --script lisp/aron-treesitter.el
 
 clean:
 	rm -rf elpa tree-sitter

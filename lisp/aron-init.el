@@ -9,6 +9,7 @@
 ;; Lots of good config examples:
 ;; http://www.djcbsoftware.nl/dot-emacs.html
 
+(require 'aron-treesitter)
 (require 'aron-func)
 (require 'aron-grep)
 (require 'aron-keys)
@@ -313,19 +314,6 @@
 
 (use-package jenkinsfile-mode
   :mode "Jenkinsfile.*")
-
-(use-package treesit
-  :custom
-  ;; Tree-sitter grammar sources
-  (treesit-language-source-alist
-   '((go "https://github.com/tree-sitter/tree-sitter-go")
-     (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-     (just "https://github.com/IndianBoy42/tree-sitter-just")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (templ "https://github.com/vrischmann/tree-sitter-templ")
-     (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml"))))
 
 (use-package yaml-ts-mode
   :mode ("\\.yml\\'" "\\.yaml\\'" "\\.yaml\\.gotmpl\\'")
