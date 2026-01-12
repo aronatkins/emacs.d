@@ -317,9 +317,10 @@
 ;; Quarto end
 
 ;; YAML
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml.gotmpl$" . yaml-mode))
+(use-package yaml-ts-mode
+  :mode ("\\.yml\\'" "\\.yaml\\'" "\\.yaml\\.gotmpl\\'")
+  :init
+  (aron/ensure-treesit-grammar 'yaml))
 
 ;; SQL
 (eval-after-load "sql"
@@ -378,7 +379,8 @@
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
         (just "https://github.com/IndianBoy42/tree-sitter-just")
         (python "https://github.com/tree-sitter/tree-sitter-python")
-        (templ "https://github.com/vrischmann/tree-sitter-templ")))
+        (templ "https://github.com/vrischmann/tree-sitter-templ")
+        (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")))
 
 (use-package just-ts-mode
   :ensure t

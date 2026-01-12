@@ -75,7 +75,6 @@
  'whole-line-or-region
  'writegood-mode
  'xref-js2
- 'yaml-mode
  'yasnippet
  'ztree
  )
