@@ -161,5 +161,5 @@ the given directory."
   (unless (treesit-language-available-p lang)
     (treesit-install-language-grammar lang)))
 
-(provide `aron-func)
+(provide 'aron-func)
 ;;; aron-func.el ends here
