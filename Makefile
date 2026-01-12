@@ -9,6 +9,7 @@ all: clean install
 
 install:
 	${EMACS} --script packages.el
+	${EMACS} --batch -l init.el
 
 clean:
-	rm -rf elpa
+	rm -rf elpa tree-sitter

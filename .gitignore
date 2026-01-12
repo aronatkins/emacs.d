@@ -1,6 +1,7 @@
 *.elc
 tramp
 elpa
+tree-sitter
 url
 .persistent-scratch
 ido.last
