@@ -6,7 +6,6 @@
 ;;; Code:
 
 (require 'aron-func)
-(require 'magit)
 
 (defvar aron-grep-ignored-patterns  (list 
    "TAGS"
@@ -140,7 +139,10 @@ that would happen if this function were not defined."
                                       nil nil
                                       'aron/git-grep-flags-history)
                 (read-from-minibuffer "pathspecs: "
-                                      (file-name-directory (or (magit-file-relative-name) ""))
+                                      (file-name-directory
+                                       (or (and buffer-file-name (vc-root-dir)
+                                                (file-relative-name buffer-file-name (vc-root-dir)))
+                                           ""))
                                       nil nil
                                       'aron/git-grep-pathspec-history)
                 ))
@@ -153,7 +155,7 @@ that would happen if this function were not defined."
              search-flags search-for pathspec)
      'grep-mode
      ;; buffer name with git grep arguments.
-     (lambda (mode) (format "*git-grep* %s %s %s" search-flags search-for pathspec))
+     (lambda (_mode) (format "*git-grep* %s %s %s" search-flags search-for pathspec))
     )))
 
 (defun aron/git-grep-cleanup ()
