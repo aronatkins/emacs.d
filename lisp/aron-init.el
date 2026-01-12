@@ -129,13 +129,10 @@
   :config
   (ido-mode t))
 
-;; (require 'icomplete)        ; active minibuffer completion
-;; (setq completion-styles '(flex))
-;; (setq completion-styles '(substring))
-;; (icomplete-mode)
-;; (fido-mode)
-
-(defalias 'list-buffers 'ibuffer)       ; A richer list-buffers experience.
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer)
+  :config
+  (defalias 'list-buffers 'ibuffer))
 
 ;; uniquify: buffer names are uniquified with parts of the file path.
 (use-package uniquify
