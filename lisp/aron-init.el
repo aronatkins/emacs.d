@@ -374,8 +374,10 @@
 )
 (add-hook 'ess-r-mode-hook #'aron/ess-r-settings)
 (add-hook 'ess-r-mode-hook 'eglot-ensure)
-(add-to-list 'eglot-server-programs
-             '((R-mode ess-r-mode) . ("~/bin/air" "language-server")))
+(if (file-executable-p (expand-file-name "~/bin/air"))
+    (add-to-list 'eglot-server-programs
+                 '((R-mode ess-r-mode) . ("~/bin/air" "language-server")))
+  (warn "R language server not found: ~/bin/air"))
 (defun aron/eglot-before-save-r ()
   (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
 )
@@ -410,8 +412,10 @@
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gcfg-mode))
 
 (add-hook 'python-mode-hook 'eglot-ensure)
-(add-to-list 'eglot-server-programs
-             '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
+(if (file-executable-p (expand-file-name "~/python/env/bin/pylsp"))
+    (add-to-list 'eglot-server-programs
+                 '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
+  (warn "Python language server not found: ~/python/env/bin/pylsp"))
 
 ;; Go
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
