@@ -387,6 +387,7 @@
 
 (use-package templ-ts-mode
   :ensure t
+  :after go-ts-mode
   :mode "\\.templ\\'"
   :init
   (aron/ensure-treesit-grammar 'javascript)
