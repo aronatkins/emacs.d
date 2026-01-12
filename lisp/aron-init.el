@@ -268,7 +268,13 @@
   (flycheck-emacs-lisp-load-path load-path)
   (flycheck-lintr-linters "NULL") ;; Use the .lintr configuration rather than the emacs configured default.
   :config
-  (flycheck-add-mode 'javascript-eslint 'web-mode))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  ;; Disable flycheck on indirect buffers (e.g., quarto-mode+polymode)
+  (defun flycheck-buffer-not-indirect-p (&rest _)
+    "Ensure that the current buffer is not indirect."
+    (null (buffer-base-buffer)))
+  (advice-add 'flycheck-may-check-automatically
+              :before-while #'flycheck-buffer-not-indirect-p))
 
 ;; web-mode (better HTML+JS)
 ;; http://web-mode.org
@@ -304,15 +310,6 @@
 ;;(require 'quarto-mode)
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.qmd" . poly-markdown-mode))
-
-;; disable flycheck on indirect buffers, such as those created by
-;; quarto-mode+polymode.
-(defun flycheck-buffer-not-indirect-p (&rest _)
-  "Ensure that the current buffer is not indirect."
-  (null (buffer-base-buffer)))
-
-(advice-add 'flycheck-may-check-automatically
-            :before-while #'flycheck-buffer-not-indirect-p)
 
 ;; Quarto end
 
