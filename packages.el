@@ -30,7 +30,6 @@
  'deadgrep ; for ripgrep (see: https://irreal.org/blog/?p=11097, https://github.com/BurntSushi/ripgrep & https://github.com/Wilfred/deadgrep)
  'dockerfile-mode
  'dumb-jump
- 'editorconfig
  'ess
  'exec-path-from-shell
  'expand-region
@@ -59,19 +58,16 @@
  'nginx-mode
  ;; 'magithub
  'git-modes
- 'projectile
  'quarto-mode
  'reveal-in-osx-finder
  'rust-mode
  'sql-indent
  'templ-ts-mode
- 'use-package
  'vagrant
  'visual-fill-column
  'volatile-highlights
  'vue-mode
  'web-mode                              ; possibly better HTML+JS
- 'which-key
  'whole-line-or-region
  'writegood-mode
  'xref-js2

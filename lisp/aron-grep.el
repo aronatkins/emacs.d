@@ -1,7 +1,7 @@
-;;; package ---  What Aron likes.
+;;; aron-grep.el --- Grep utilities  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;; You know.
+;; Custom grep and search functions.
 
 ;;; Code:
 

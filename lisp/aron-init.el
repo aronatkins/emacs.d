@@ -1,18 +1,21 @@
-;;; package ---  What Aron likes.
+;;; aron-init.el --- Personal configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;; You know.
+;; Personal Emacs settings and preferences.
 
 ;;; Code:
 
 ;; Lots of good config examples:
 ;; http://www.djcbsoftware.nl/dot-emacs.html
 
-(require 'use-package)
 (require 'aron-func)
 (require 'aron-grep)
 (require 'aron-keys)
 (require 'aron-compile)
+
+;; Mode line indicators
+(line-number-mode t)
+(column-number-mode t)
 
 (use-package eglot)
 

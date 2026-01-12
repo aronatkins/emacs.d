@@ -1,7 +1,7 @@
-;;; package ---  Aron's key bindings
+;;; aron-keys.el --- Key bindings  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;; You know.
+;; Personal key bindings and keyboard customizations.
 
 ;;; Code:
 

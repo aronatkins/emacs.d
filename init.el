@@ -1,19 +1,10 @@
-;;; package ---  get it started.
+;;; init.el --- Emacs initialization  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;; You know.
+;; Main entry point for Emacs configuration.
 
 ;;; Code:
 
-;; Turn off interface stuff early to avoid flicker
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq inhibit-startup-message t)
-
-;; Mode line indicators
-(line-number-mode t)
-(column-number-mode t)
 
 ;; the title bar shares the background color
 ;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -68,3 +59,4 @@
 (require 'aron-init)
 
 (provide 'init)
+;;; init.el ends here

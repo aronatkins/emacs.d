@@ -1,7 +1,7 @@
-;;; package ---  Aron's utility functions
+;;; aron-func.el --- Utility functions  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;;; You know.
+;; Personal utility functions.
 
 ;;; Code:
 

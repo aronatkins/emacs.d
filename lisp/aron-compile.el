@@ -1,3 +1,10 @@
+;;; aron-compile.el --- Compilation commands  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;; Project-aware compilation and test commands.
+
+;;; Code:
+
 (require 'compile)
 (require 'aron-grep)
 
@@ -294,3 +301,4 @@ presented for editing before it is executed."
   (revert-buffer t t))
 
 (provide 'aron-compile)
+;;; aron-compile.el ends here
