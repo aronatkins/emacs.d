@@ -391,6 +391,7 @@
       '((go "https://github.com/tree-sitter/tree-sitter-go")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
         (just "https://github.com/IndianBoy42/tree-sitter-just")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
         (templ "https://github.com/vrischmann/tree-sitter-templ")))
 
 (use-package just-ts-mode
@@ -411,7 +412,12 @@
 ;; (add-to-list 'auto-mode-alist '("\\.gcfg$" . gitconfig-mode))
 (add-to-list 'auto-mode-alist '("\\.gcfg$" . gcfg-mode))
 
-(add-hook 'python-mode-hook 'eglot-ensure)
+(use-package python
+  :mode ("\\.py\\'" . python-ts-mode)
+  :init
+  (aron/ensure-treesit-grammar 'python)
+  :hook (python-ts-mode . eglot-ensure))
+
 (if (file-executable-p (expand-file-name "~/python/env/bin/pylsp"))
     (add-to-list 'eglot-server-programs
                  '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
