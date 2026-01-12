@@ -185,14 +185,6 @@
 (font-lock-add-keywords 'python-mode fixme-and-friends)
 
 ;; ------------------------------------------------------------
-;; Python
-
-;; configure docstring formatting.
-(custom-set-variables
- '(python-fill-docstring-style 'django)    ; Disable the emacs startup message.
-)
-
-;; ------------------------------------------------------------
 ;; Ruby
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (setq auto-mode-alist (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
@@ -416,7 +408,9 @@
   :mode ("\\.py\\'" . python-ts-mode)
   :init
   (aron/ensure-treesit-grammar 'python)
-  :hook (python-ts-mode . eglot-ensure))
+  :hook (python-ts-mode . eglot-ensure)
+  :custom
+  (python-fill-docstring-style 'django))
 
 (if (file-executable-p (expand-file-name "~/python/env/bin/pylsp"))
     (add-to-list 'eglot-server-programs
