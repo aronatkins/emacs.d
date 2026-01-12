@@ -1,3 +1,4 @@
+
 ;;; aron-init.el --- Personal configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
@@ -16,9 +17,6 @@
 ;; Mode line indicators
 (line-number-mode t)
 (column-number-mode t)
-
-(use-package eglot)
-
 
 ;; Disable the emacs startup message.
 (setopt inhibit-startup-message t)
@@ -129,6 +127,8 @@
   :custom
   (uniquify-buffer-name-style 'post-forward)
   (uniquify-after-kill-buffer-p t))
+
+(use-package eglot)
 
 ;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
 (auto-compression-mode t)
