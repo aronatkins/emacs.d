@@ -316,12 +316,6 @@
 
 ;; Quarto end
 
-;; YAML
-(use-package yaml-ts-mode
-  :mode ("\\.yml\\'" "\\.yaml\\'" "\\.yaml\\.gotmpl\\'")
-  :init
-  (aron/ensure-treesit-grammar 'yaml))
-
 ;; SQL
 (eval-after-load "sql"
   '(load-library "sql-indent"))
@@ -382,6 +376,11 @@
         (python "https://github.com/tree-sitter/tree-sitter-python")
         (templ "https://github.com/vrischmann/tree-sitter-templ")
         (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")))
+
+(use-package yaml-ts-mode
+  :mode ("\\.yml\\'" "\\.yaml\\'" "\\.yaml\\.gotmpl\\'")
+  :init
+  (aron/ensure-treesit-grammar 'yaml))
 
 (use-package just-ts-mode
   :ensure t
