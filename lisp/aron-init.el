@@ -152,9 +152,9 @@
 ; symmetric scroll up/down. http://irreal.org/blog/?p=3963
 (setopt scroll-preserve-screen-position 'always)
 
-;; http://pragmaticemacs.com/emacs/volatile-highlights/
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
+(use-package volatile-highlights
+  :config
+  (volatile-highlights-mode t))
 
 ;; fill all text. spell all text.
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -179,17 +179,6 @@
 (defvar fixme-and-friends
   '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
 (font-lock-add-keywords 'python-mode fixme-and-friends)
-
-;; ------------------------------------------------------------
-;; Ruby
-(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(setq auto-mode-alist (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
-(setq interpreter-mode-alist (append '(("ruby" . ruby-mode)) interpreter-mode-alist))
-
-;; ------------------------------------------------------------
-;; Makefiles
-(autoload 'file-mode "makefile-mode" "Makefile mode" t)
-(setq auto-mode-alist (cons '("Makefile" . makefile-mode) auto-mode-alist))
 
 ;; ------------------------------------------------------------
 ;; SSH / Shell
@@ -370,8 +359,8 @@
 )
 (add-hook 'ess-r-mode-hook #'aron/eglot-before-save-r)
 
-;; Groovy / Jenkinsfile
-(setq auto-mode-alist (cons '("Jenkinsfile" . groovy-mode) auto-mode-alist))
+(use-package jenkinsfile-mode
+  :mode "Jenkinsfile.*")
 
 (use-package treesit
   :custom
@@ -415,12 +404,12 @@
   (aron/ensure-treesit-grammar 'python)
   :hook (python-ts-mode . eglot-ensure)
   :custom
-  (python-fill-docstring-style 'django))
-
-(if (file-executable-p (expand-file-name "~/python/env/bin/pylsp"))
-    (add-to-list 'eglot-server-programs
-                 '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
-  (warn "Python language server not found: ~/python/env/bin/pylsp"))
+  (python-fill-docstring-style 'django)
+  :config
+  (if (file-executable-p (expand-file-name "~/python/env/bin/pylsp"))
+      (add-to-list 'eglot-server-programs
+                   '((python-mode python-ts-mode) . ("~/python/env/bin/pylsp")))
+    (warn "Python language server not found: ~/python/env/bin/pylsp")))
 
 ;; Go
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
@@ -507,9 +496,9 @@
 ;; more help for keybindings
 (which-key-mode)
 
-;; supposedly this is how folks configure one set of styles across editors.
-(require 'editorconfig)
-(editorconfig-mode 1)
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
 
 ;; (setopt safe-local-variable-values
 ;;         '(
@@ -524,14 +513,18 @@
 ;;(require 'magithub)
 ;;(magithub-feature-autoinject t)
 
-;; .dotfiles/.gitignore_global is not named .gitignore because it is not an
-;; ignore for that repo.
-(add-to-list 'auto-mode-alist '("\\.gitignore.*" . gitignore-mode))
+(use-package git-modes
+  ;; Expand from just .gitignore because .dotfiles repo has .gitignore_global;
+  ;; it is not an ignore file for that repository.
+  :mode ("\\.gitignore.*" . gitignore-mode))
 
-(winner-mode 1)
+(use-package winner
+  :config
+  (winner-mode 1))
 
-;; show lines with changes in the LHS.
-(global-git-gutter-mode +1)
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode +1))
 
 ;; https://github.com/jacktasia/dumb-jump uses:
 ;; git grep
@@ -546,19 +539,19 @@
 
 ;; get compilation buffers to support color output (because no one looks at TERM)
 ;; https://stackoverflow.com/questions/13397737/ansi-coloring-in-compilation-mode
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (ansi-color-apply-on-region compilation-filter-start (point)))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(use-package ansi-color
+  :hook (compilation-filter . ansi-color-compilation-filter))
 
-;; https://github.com/purcell/whole-line-or-region
-(require 'whole-line-or-region)
-(whole-line-or-region-global-mode)
+(use-package whole-line-or-region
+  :config
+  (whole-line-or-region-global-mode))
 
-(eval-after-load `hcl-mode
-  `(add-hook 'hcl-mode-hook
-             (lambda ()
-               (add-hook 'after-save-hook #'aron/hcl-fix-file-and-revert nil t))))
+(defun aron/hcl-mode-setup ()
+  "Setup for hcl-mode."
+  (add-hook 'after-save-hook #'aron/hcl-fix-file-and-revert nil t))
+
+(use-package hcl-mode
+  :hook (hcl-mode . aron/hcl-mode-setup))
 
 (provide 'aron-init)
 ;;; aron-init.el ends here

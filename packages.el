@@ -38,7 +38,7 @@
  'git-gutter
  ;; 'gptel
  'graphviz-dot-mode
- 'groovy-mode
+ 'jenkinsfile-mode
  'hcl-mode
  'indent-guide
  'js2-mode
