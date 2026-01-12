@@ -81,8 +81,6 @@
 ;; also. try out C-M-l !!!
 ;; (setopt recenter-positions '(top middle bottom))
 
-;; stop gfm (markdown) mode from having electric backticks.
-(setopt markdown-gfm-use-electric-backquote nil)
 
 ;; tuning for LSP (https://emacs-lsp.github.io/lsp-mode/page/performance/#tuning)
 (setopt gc-cons-threshold 100000000)
@@ -278,22 +276,17 @@
 
 ;; Markdown / RMarkdown
 
-;; markdown-mode us used automatically but we want gfm-mode (a derived mode).
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-;; markdown-mode doesn't know about Rmd/Rmd.tmpl
-(add-to-list 'auto-mode-alist '("\\.Rmd$" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.Rmd.tmpl$" . gfm-mode))
+;; gfm-mode is a GitHub-flavored markdown mode (part of markdown-mode package)
+(use-package markdown-mode
+  :mode (("\\.markdown\\'" . gfm-mode)
+         ("\\.md\\'" . gfm-mode)
+         ("\\.Rmd\\'" . gfm-mode)
+         ("\\.Rmd\\.tmpl\\'" . gfm-mode))
+  :custom
+  (markdown-gfm-use-electric-backquote nil))
 
-;; Quarto begin
-;; markdown-mode doesn't know about qmd
-;; (add-to-list 'auto-mode-alist '("\\.qmd$" . gfm-mode))
-
-;;(require 'quarto-mode)
-(require 'poly-markdown)
-(add-to-list 'auto-mode-alist '("\\.qmd" . poly-markdown-mode))
-
-;; Quarto end
+(use-package poly-markdown
+  :mode "\\.qmd\\'")
 
 ;; SQL
 (use-package sql-indent
@@ -317,37 +310,27 @@
 ;; https://github.com/TeMPOraL/nyan-mode
 ;;(nyan-mode)
 
-;; R
-;; NOTE: ess-r defines project-root, which causes all sorts of complications
-;; with lsp-mode.
-;; (require 'ess-r-mode)
-;; leave underscore alone!
-;; (ess-toggle-underscore nil)
-;; (add-hook 'ess-r-mode-hook (lambda()
-;;                            (ess-set-style 'RStudio)
-;;                            (setq ess-align-arguments-in-calls nil)
-;;                            ))
-
-(require 'ess-r-mode)
-
-(defun aron/ess-r-settings ()
-  (ess-set-style 'RStudio)
-  (setq ess-indent-offset 2)
+(defun aron/ess-r-mode-setup ()
+  "Setup for ess-r-mode."
   (setq tab-width 2)
-  (setq ess-use-flymake nil) ;; disable Flymake in favor of flycheck.
   ;; Use .lintr configuration rather than emacs default.
-  (setq-local flycheck-lintr-linters "NULL"))
-(add-hook 'ess-r-mode-hook #'aron/ess-r-settings)
-(add-hook 'ess-r-mode-hook 'eglot-ensure)
+  (setq-local flycheck-lintr-linters "NULL")
+  ;; Format on save via eglot.
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+
+(use-package ess-r-mode
+  :hook ((ess-r-mode . aron/ess-r-mode-setup)
+         (ess-r-mode . eglot-ensure))
+  :custom
+  (ess-indent-offset 2)
+  (ess-use-flymake nil)
+  :config
+  (ess-set-style 'RStudio)
 ;; brew install air
 (if (executable-find "air")
     (add-to-list 'eglot-server-programs
                  '((R-mode ess-r-mode) . ("air" "language-server")))
-  (warn "R language server not found: air"))
-(defun aron/eglot-before-save-r ()
-  (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
-)
-(add-hook 'ess-r-mode-hook #'aron/eglot-before-save-r)
+  (warn "R language server not found: air")))
 
 (use-package jenkinsfile-mode
   :mode "Jenkinsfile.*")
