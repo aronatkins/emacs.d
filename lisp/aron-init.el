@@ -106,11 +106,13 @@
 ;; completion ---
 ;; https://www.masteringemacs.org/article/introduction-to-ido-mode
 ;; display any item that contains the typed chars .. quite a shift
-(require 'ido)
-(setopt ido-enable-flex-matching t)
-(setopt ido-everywhere t)
-;; (setopt ido-create-new-buffer 'always)
-(ido-mode t)
+(use-package ido
+  :custom
+  (ido-enable-flex-matching t)
+  (ido-everywhere t)
+  ;; (ido-create-new-buffer 'always)
+  :config
+  (ido-mode t))
 
 ;; (require 'icomplete)        ; active minibuffer completion
 ;; (setq completion-styles '(flex))
@@ -120,10 +122,11 @@
 
 (defalias 'list-buffers 'ibuffer)       ; A richer list-buffers experience.
 
-; uniquify: buffer names are uniquified with parts of the file path.
-(require 'uniquify)
-(setopt uniquify-buffer-name-style 'post-forward)
-(setopt uniquify-after-kill-buffer-p t)
+;; uniquify: buffer names are uniquified with parts of the file path.
+(use-package uniquify
+  :custom
+  (uniquify-buffer-name-style 'post-forward)
+  (uniquify-after-kill-buffer-p t))
 
 ;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
 (auto-compression-mode t)
