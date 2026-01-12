@@ -252,16 +252,17 @@
   `(add-hook 'vue-mode-hook
              (lambda ()
                (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))))
-(require 'mmm-mode)
-;; fix bad indents in vue JS blocks
-;; https://github.com/AdamNiederer/vue-mode/issues/74
-;; https://github.com/AdamNiederer/vue-mode/issues/100
-;; the mmm-X-enter-hook variables appear as free variables
-(setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-(setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-;; suppress the region background color, per https://github.com/AdamNiederer/vue-mode
-;; may want to scope this just to vue-mode.
-(setopt mmm-submode-decoration-level 0)
+(use-package mmm-mode
+  :custom
+  ;; suppress the region background color, per https://github.com/AdamNiederer/vue-mode
+  ;; may want to scope this just to vue-mode.
+  (mmm-submode-decoration-level 0)
+  :config
+  ;; fix bad indents in vue JS blocks
+  ;; https://github.com/AdamNiederer/vue-mode/issues/74
+  ;; https://github.com/AdamNiederer/vue-mode/issues/100
+  (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+  (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil))))
 
 (use-package flycheck
   :hook (after-init . global-flycheck-mode)
@@ -316,8 +317,9 @@
 ;; Quarto end
 
 ;; SQL
-(eval-after-load "sql"
-  '(load-library "sql-indent"))
+(use-package sql-indent
+  :ensure t
+  :hook (sql-mode . sqlind-minor-mode))
 
 
 (put 'upcase-region 'disabled nil)
