@@ -15,9 +15,7 @@
 (require 'aron-keys)
 (require 'aron-compile)
 
-(require 'company)
-(require 'yasnippet)
-(require 'eglot)
+(use-package eglot)
 
 
 (custom-set-variables
@@ -139,10 +137,10 @@
 (setq compilation-max-output-line-length 4000)
 ;; compilation-spawned shells are "interactive", meaning we get .bashrc
 ;; https://stackoverflow.com/a/17595062
-(defadvice compile (around use-bashrc activate)
+(define-advice compile (:around (orig-fun &rest args) use-bashrc)
   "Load .bashrc in any calls to bash (e.g. so we can use aliases)"
   (let ((shell-command-switch "-ic"))
-    ad-do-it))
+    (apply orig-fun args)))
 
 ; symmetric scroll up/down. http://irreal.org/blog/?p=3963
 (setq scroll-preserve-screen-position 'always)
