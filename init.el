@@ -38,13 +38,14 @@
 ;; (load-theme 'deeper-blue t)
 ;; (disable-theme 'whiteboard)
 
-;; disable scaling of text in things like Markdown files; must happen prior to
-;; theme-load.
-(require 'leuven-theme)
-(setq leuven-scale-outline-headlines nil)
-(setq leuven-scale-org-agenda-structure nil)
-(setq leuven-scale-volatile-highlight nil)
-(load-theme 'leuven t)
+;; disable scaling of text in things like Markdown files
+(use-package leuven-theme
+  :custom
+  (leuven-scale-outline-headlines nil)
+  (leuven-scale-org-agenda-structure nil)
+  (leuven-scale-volatile-highlight nil)
+  :config
+  (load-theme 'leuven t))
 
 (require 'aron-init)
 
