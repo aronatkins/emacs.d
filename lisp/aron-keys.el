@@ -65,7 +65,7 @@
 (global-set-key "\C-ct" 'toggle-truncate-lines)
 
 ;; define this because it works well with "C-x o"
-(define-key ctl-x-map "p" 'backward-other-window)
+(define-key ctl-x-map "O" 'backward-other-window)
 ;; balance-windows: Ctrl-x +
 ;; overridden by P4 commands. ugh.
 
