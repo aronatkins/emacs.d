@@ -63,15 +63,12 @@
  'rust-mode
  'sql-indent
  'templ-ts-mode
- 'vagrant
  'visual-fill-column
  'volatile-highlights
  'vue-mode
   'whole-line-or-region
- 'writegood-mode
  'xref-js2
  'yasnippet
- 'ztree
  )
 
 ;; activate installed packages
