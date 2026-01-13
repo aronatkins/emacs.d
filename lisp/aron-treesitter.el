@@ -8,7 +8,7 @@
 
 (require 'treesit)
 
-(setq treesit-language-source-alist
+(setopt treesit-language-source-alist
       '((go "https://github.com/tree-sitter/tree-sitter-go")
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (html "https://github.com/tree-sitter/tree-sitter-html")

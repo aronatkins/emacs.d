@@ -141,9 +141,8 @@
   (uniquify-buffer-name-style 'post-forward)
   (uniquify-after-kill-buffer-p t))
 
-(use-package eglot)
-
 (use-package volatile-highlights
+  :ensure t
   :config
   (volatile-highlights-mode t))
 
@@ -185,6 +184,7 @@
   :hook (shell-mode . aron/shell-mode-setup))
 
 (use-package json-mode
+  :ensure t
   :mode ("\\.eslintrc\\'" "\\.json.erb\\'"))
 
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
@@ -201,6 +201,7 @@
   (add-hook 'after-save-hook #'aron/eslint-fix-file-and-revert nil t))
 
 (use-package js2-mode
+  :ensure t
   :mode "\\.js\\'"
   :hook (js2-mode . aron/js2-mode-setup)
   :custom
@@ -216,10 +217,11 @@
   (setq syntax-ppss-table nil))
 
 (use-package vue-mode
+  :ensure t
   :hook (vue-mode . aron/vue-mode-setup)
   :config
   ;; suppress the region background color
-  (setq mmm-submode-decoration-level 0)
+  (setopt mmm-submode-decoration-level 0)
   ;; fix bad indents in vue JS blocks
   ;; https://github.com/AdamNiederer/vue-mode/issues/74
   ;; https://github.com/AdamNiederer/vue-mode/issues/100
@@ -227,6 +229,7 @@
   (add-hook 'mmm-typescript-mode-enter-hook #'aron/mmm-fix-syntax-ppss))
 
 (use-package flycheck
+  :ensure t
   :hook (after-init . global-flycheck-mode)
   :custom
   (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
@@ -259,6 +262,7 @@
 
 ;; gfm-mode is a GitHub-flavored markdown mode (part of markdown-mode package)
 (use-package markdown-mode
+  :ensure t
   :mode (("\\.markdown\\'" . gfm-mode)
          ("\\.md\\'" . gfm-mode)
          ("\\.Rmd\\'" . gfm-mode)
@@ -267,6 +271,7 @@
   (markdown-gfm-use-electric-backquote nil))
 
 (use-package poly-markdown
+  :ensure t
   :mode "\\.qmd\\'")
 
 ;; SQL
@@ -299,6 +304,7 @@
   (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
 
 (use-package ess-r-mode
+  :ensure ess
   :hook ((ess-r-mode . aron/ess-r-mode-setup)
          (ess-r-mode . eglot-ensure))
   :custom
@@ -313,6 +319,7 @@
   (warn "R language server not found: air")))
 
 (use-package jenkinsfile-mode
+  :ensure t
   :mode "Jenkinsfile.*")
 
 (use-package yaml-ts-mode
@@ -430,16 +437,19 @@
   :hook (go-ts-mode . yas-minor-mode))
 
 (use-package cmake-font-lock
+  :ensure t
   :hook (cmake-mode . cmake-font-lock-activate))
 
 ;; http://pragmaticemacs.com/emacs/get-pop-up-help-for-keybindings-with-which-key/
 (use-package which-key
+  :ensure t
   :custom
   (which-key-idle-delay 0.5)
   :config
   (which-key-mode))
 
 (use-package editorconfig
+  :ensure t
   :config
   (editorconfig-mode 1))
 
@@ -456,11 +466,8 @@
   :config
   (windmove-default-keybindings 'super))
 
-;; magit / magithub
-;;(require 'magithub)
-;;(magithub-feature-autoinject t)
-
 (use-package git-modes
+  :ensure t
   ;; Expand from just .gitignore because .dotfiles repo has .gitignore_global;
   ;; it is not an ignore file for that repository.
   :mode ("\\.gitignore.*" . gitignore-mode))
@@ -470,6 +477,7 @@
   (winner-mode 1))
 
 (use-package git-gutter
+  :ensure t
   :config
   (global-git-gutter-mode +1))
 
@@ -478,6 +486,7 @@
 ;; https://github.com/ggreer/the_silver_searcher
 ;; https://github.com/BurntSushi/ripgrep
 (use-package dumb-jump
+  :ensure t
   :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
@@ -492,6 +501,7 @@
   :hook (compilation-filter . ansi-color-compilation-filter))
 
 (use-package whole-line-or-region
+  :ensure t
   :config
   (whole-line-or-region-global-mode))
 
@@ -500,6 +510,7 @@
   (add-hook 'after-save-hook #'aron/hcl-fix-file-and-revert nil t))
 
 (use-package hcl-mode
+  :ensure t
   :hook (hcl-mode . aron/hcl-mode-setup))
 
 (provide 'aron-init)

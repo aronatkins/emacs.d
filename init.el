@@ -40,6 +40,7 @@
 
 ;; disable scaling of text in things like Markdown files
 (use-package leuven-theme
+  :ensure t
   :custom
   (leuven-scale-outline-headlines nil)
   (leuven-scale-org-agenda-structure nil)
