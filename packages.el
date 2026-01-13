@@ -35,6 +35,7 @@
  'expand-region
  'flycheck
  'flycheck-golangci-lint
+ 'gcmh
  'git-gutter
  ;; 'gptel
  'graphviz-dot-mode

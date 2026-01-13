@@ -77,9 +77,11 @@
 ;; also. try out C-M-l !!!
 ;; (setopt recenter-positions '(top middle bottom))
 
-;; tuning for LSP (https://emacs-lsp.github.io/lsp-mode/page/performance/#tuning)
-(setopt gc-cons-threshold 100000000)
-(setopt read-process-output-max (* 1024 1024)) ;; 1mb
+;; Dynamic GC management - high threshold during activity, GC when idle
+(use-package gcmh
+  :ensure t
+  :config
+  (gcmh-mode 1))
 
 ;; https://www.emacswiki.org/emacs/AlarmBell
 (setopt ring-bell-function 'ignore)
