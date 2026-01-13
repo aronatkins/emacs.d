@@ -361,10 +361,11 @@
 )
 (add-hook 'ess-r-mode-hook #'aron/ess-r-settings)
 (add-hook 'ess-r-mode-hook 'eglot-ensure)
-(if (file-executable-p (expand-file-name "~/bin/air"))
+;; brew install air
+(if (executable-find "air")
     (add-to-list 'eglot-server-programs
-                 '((R-mode ess-r-mode) . ("~/bin/air" "language-server")))
-  (warn "R language server not found: ~/bin/air"))
+                 '((R-mode ess-r-mode) . ("air" "language-server")))
+  (warn "R language server not found: air"))
 (defun aron/eglot-before-save-r ()
   (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
 )
