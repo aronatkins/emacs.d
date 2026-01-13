@@ -513,5 +513,9 @@
   :ensure t
   :hook (hcl-mode . aron/hcl-mode-setup))
 
+(use-package deadgrep
+  :ensure t
+  :bind ("C-c g" . deadgrep))
+
 (provide 'aron-init)
 ;;; aron-init.el ends here
