@@ -384,13 +384,30 @@
   (add-hook 'project-find-functions #'project-find-go-module))
 
 ;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/24
-;; keep correct version of golangci-lint in PATH.
+;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/28
+;;
+;; For "go tool golangci-lint", create a wrapper script and set via .dir-locals.el:
+;; ((go-ts-mode . ((flycheck-golangci-lint-executable . "/path/to/wrapper"))))
 (use-package flycheck-golangci-lint
   :ensure t
-  :init
-  ;; hack to avoid version detection problems related to golangci-lint not being discovered because of PATH shenanigans.
-  (setq flycheck-golangci-lint--version `(2 6 2))
-  :hook (go-ts-mode . flycheck-golangci-lint-setup))
+  :hook (go-ts-mode . flycheck-golangci-lint-setup)
+  :config
+  ;; Fix version detection to use flycheck-checker-executable (issue #28)
+  (defun flycheck-golangci-lint--parse-version ()
+    "Parse golangci-lint version from --version output."
+    (unless flycheck-golangci-lint--version
+      (let* ((output (ignore-errors
+                       (with-temp-buffer
+                         (call-process (flycheck-checker-executable 'golangci-lint)
+                                       nil t nil "--version")
+                         (buffer-string))))
+             (version-regex "version \\([0-9]+\\)\\.\\([0-9]+\\)\\.\\([0-9]+\\)"))
+        (when (and output (string-match version-regex output))
+          (setq flycheck-golangci-lint--version
+                (list (string-to-number (match-string 1 output))
+                      (string-to-number (match-string 2 output))
+                      (string-to-number (match-string 3 output)))))))
+    flycheck-golangci-lint--version))
 
 ;; (setenv "GOPRIVATE" "github.com/rstudio,connect,linkwalk,envmanager,rsc-quarto,rsc-session")
 
