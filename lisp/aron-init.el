@@ -335,13 +335,22 @@
   :init
   (aron/ensure-treesit-grammar 'just))
 
+;; Per-project eglot server config via .dir-locals.el:
+;; ((templ-ts-mode
+;;   . ((eval . (setf (alist-get 'templ-ts-mode eglot-server-programs)
+;;                    '("go" "tool" "templ" "lsp"))))))
 (use-package templ-ts-mode
   :ensure t
   :after go-ts-mode
   :mode "\\.templ\\'"
   :init
   (aron/ensure-treesit-grammar 'javascript)
-  (aron/ensure-treesit-grammar 'templ))
+  (aron/ensure-treesit-grammar 'templ)
+  :hook (templ-ts-mode . eglot-ensure)
+  :config
+  (add-to-list 'safe-local-eval-forms
+               '(setf (alist-get 'templ-ts-mode eglot-server-programs)
+                      '("go" "tool" "templ" "lsp"))))
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
