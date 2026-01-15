@@ -66,6 +66,11 @@
 
 ;; define this because it works well with "C-x o"
 (define-key ctl-x-map "O" 'backward-other-window)
+
+;; iTerm2-style window switching with Command+brackets
+(global-set-key (kbd "s-]") 'other-window)
+(global-set-key (kbd "s-[") 'backward-other-window)
+
 ;; balance-windows: Ctrl-x +
 ;; overridden by P4 commands. ugh.
 
