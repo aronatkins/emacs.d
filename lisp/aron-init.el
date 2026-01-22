@@ -98,7 +98,10 @@
 ;; https://www.emacswiki.org/emacs/AlarmBell
 (setopt ring-bell-function 'ignore)
 
-(setopt lua-indent-level 2)
+(use-package lua-mode
+  :ensure t
+  :custom
+  (lua-indent-level 2))
 
 ;;(setq auto-compression-mode t)          ;; auto-handle .gz and .Z files
 (auto-compression-mode t)
