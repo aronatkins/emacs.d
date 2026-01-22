@@ -15,6 +15,18 @@
 (require 'aron-keys)
 (require 'aron-compile)
 
+;; a theme to this story
+;; https://emacsthemes.com
+(use-package leuven-theme
+  :ensure t
+  :custom
+  ;; disable scaling of text in things like Markdown files
+  (leuven-scale-outline-headlines nil)
+  (leuven-scale-org-agenda-structure nil)
+  (leuven-scale-volatile-highlight nil)
+  :config
+  (load-theme 'leuven t))
+
 ;; Mode line indicators
 (line-number-mode t)
 (column-number-mode t)

@@ -32,25 +32,6 @@
   :config
   (exec-path-from-shell-initialize))
 
-;; a theme to this story
-;; https://emacsthemes.com
-
-;; deeper-blue has a default mid-grey comment face.
-;; (custom-set-faces
-;;  '(font-lock-comment-face ((t (:foreground "cornflower blue")))))
-;; (load-theme 'deeper-blue t)
-;; (disable-theme 'whiteboard)
-
-;; disable scaling of text in things like Markdown files
-(use-package leuven-theme
-  :ensure t
-  :custom
-  (leuven-scale-outline-headlines nil)
-  (leuven-scale-org-agenda-structure nil)
-  (leuven-scale-volatile-highlight nil)
-  :config
-  (load-theme 'leuven t))
-
 (require 'aron-init)
 
 (provide 'init)
