@@ -189,6 +189,10 @@
   :ensure t
   :mode ("\\.eslintrc\\'" "\\.json.erb\\'"))
 
+(use-package add-node-modules-path
+  :ensure t
+  :commands (add-node-modules-path))
+
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
 ;; unbind it.
 (use-package js
