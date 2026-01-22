@@ -41,6 +41,7 @@
  'graphviz-dot-mode
  'jenkinsfile-mode
  'hcl-mode
+ 'hl-todo
  'indent-guide
  'js2-mode
  'json-mode

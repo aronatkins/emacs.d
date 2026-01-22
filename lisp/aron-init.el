@@ -176,11 +176,27 @@
 ;; To use c++-mode for .h files in a specific project, add to .dir-locals.el:
 ;; ((c-mode . ((mode . c++))))
 
-;; make some common keywords stand out.
-;; found on: http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
-(defvar fixme-and-friends
-  '(("\\<\\(FIXME\\|TODO\\|NYI\\|TBD\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))
-(font-lock-add-keywords 'python-mode fixme-and-friends)
+;; Highlight TODO/FIXME/etc in all prog modes
+(use-package hl-todo
+  :ensure t
+  :hook (prog-mode . hl-todo-mode)
+  :custom
+  (hl-todo-keyword-faces
+   '(("HOLD" . font-lock-warning-face)
+     ("TODO" . font-lock-warning-face)
+     ("NEXT" . font-lock-warning-face)
+     ("PROG" . font-lock-warning-face)
+     ("OKAY" . font-lock-warning-face)
+     ("DONT" . font-lock-warning-face)
+     ("FAIL" . font-lock-warning-face)
+     ("DONE" . font-lock-warning-face)
+     ("NOTE" . font-lock-warning-face)
+     ("MAYBE" . font-lock-warning-face)
+     ("KLUDGE" . font-lock-warning-face)
+     ("HACK" . font-lock-warning-face)
+     ("TEMP" . font-lock-warning-face)
+     ("FIXME" . font-lock-warning-face)
+     ("XXX" . font-lock-warning-face))))
 
 (use-package comint
   :custom
