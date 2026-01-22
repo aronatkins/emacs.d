@@ -26,7 +26,10 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 ;; Fix PATH on OSX.
-(when (memq window-system '(mac ns))
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns))
+  :config
   (exec-path-from-shell-initialize))
 
 ;; a theme to this story
