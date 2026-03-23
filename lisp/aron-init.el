@@ -49,6 +49,7 @@
 (setopt completion-ignore-case t)
 (setopt read-file-name-completion-ignore-case t)
 (setopt read-buffer-completion-ignore-case t)
+(setopt completion-styles '(basic partial-completion flex))
 
 ;; Make fill mode accept ". " as a sentence end.
 (setopt sentence-end-double-space nil)
@@ -322,6 +323,9 @@
   :custom-face
   (indent-guide-face ((t (:foreground "gray"))))
   :config
+  (setq indent-guide-inhibit-modes
+        (append indent-guide-inhibit-modes
+                '(compilation-mode comint-mode shell-mode eshell-mode term-mode)))
   (indent-guide-global-mode))
 
 ;; http://www.lunaryorn.com/2014/09/13/boosting-which-func-mode.html
