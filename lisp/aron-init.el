@@ -353,11 +353,12 @@
   (ess-use-flymake nil)
   :config
   (ess-set-style 'RStudio)
-;; brew install air
-(if (executable-find "air")
-    (add-to-list 'eglot-server-programs
-                 '((R-mode ess-r-mode) . ("air" "language-server")))
-  (warn "R language server not found: air")))
+  (with-eval-after-load 'eglot
+    ;; brew install air
+    (if (executable-find "air")
+        (add-to-list 'eglot-server-programs
+                     '((R-mode ess-r-mode) . ("air" "language-server")))
+      (warn "R language server not found: air"))))
 
 (use-package jenkinsfile-mode
   :ensure t
@@ -404,11 +405,12 @@
   :custom
   (python-fill-docstring-style 'django)
   :config
-  (let ((pylsp (expand-file-name "~/python/.venv/bin/pylsp")))
-    (if (file-executable-p pylsp)
-        (add-to-list 'eglot-server-programs
-                     `((python-mode python-ts-mode) . (,pylsp)))
-      (warn "Python language server not found: %s" pylsp))))
+  (with-eval-after-load 'eglot
+    (let ((pylsp (expand-file-name "~/python/.venv/bin/pylsp")))
+      (if (file-executable-p pylsp)
+          (add-to-list 'eglot-server-programs
+                       `((python-mode python-ts-mode) . (,pylsp)))
+        (warn "Python language server not found: %s" pylsp)))))
 
 ;; Go
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
