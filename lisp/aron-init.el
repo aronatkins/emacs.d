@@ -383,10 +383,14 @@
   :ensure t
   :after go-ts-mode
   :mode "\\.templ\\'"
+  :preface
+  (defun aron/eglot-before-save-templ ()
+    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
   :init
   (aron/ensure-treesit-grammar 'javascript)
   (aron/ensure-treesit-grammar 'templ)
-  :hook (templ-ts-mode . eglot-ensure)
+  :hook ((templ-ts-mode . eglot-ensure)
+         (templ-ts-mode . aron/eglot-before-save-templ))
   :config
   (add-to-list 'safe-local-eval-forms
                '(setf (alist-get 'templ-ts-mode eglot-server-programs)
