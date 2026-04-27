@@ -62,6 +62,10 @@
 ;; http://web.psung.name/emacs/2009/part2.html
 ;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Conventions.html
 
+(global-set-key (kbd "C-M-?") 'eglot-find-implementation)
+(global-set-key (kbd "C-c r") 'eglot-rename)
+(global-set-key (kbd "C-c a") 'eglot-code-actions)
+
 (global-set-key "\C-ct" 'toggle-truncate-lines)
 
 ;; define this because it works well with "C-x o"
