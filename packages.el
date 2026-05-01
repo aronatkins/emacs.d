@@ -42,7 +42,7 @@
  'jenkinsfile-mode
  'hcl-mode
  'hl-todo
- 'indent-guide
+ 'indent-bars
  'js2-mode
  'json-mode
  ;; https://github.com/leon-barrett/just-mode.el

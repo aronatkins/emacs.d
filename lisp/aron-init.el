@@ -317,16 +317,13 @@
   :ensure t
   :hook (sql-mode . sqlind-minor-mode))
 
-;; https://github.com/zk-phi/indent-guide
-(use-package indent-guide
+;; https://github.com/jdtsmith/indent-bars
+(use-package indent-bars
   :ensure t
-  :custom-face
-  (indent-guide-face ((t (:foreground "gray"))))
-  :config
-  (setq indent-guide-inhibit-modes
-        (append indent-guide-inhibit-modes
-                '(compilation-mode comint-mode shell-mode eshell-mode term-mode)))
-  (indent-guide-global-mode))
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-color '(shadow :face-bg t :blend 0.4))
+  :hook (prog-mode . indent-bars-mode))
 
 ;; http://www.lunaryorn.com/2014/09/13/boosting-which-func-mode.html
 (use-package which-func
