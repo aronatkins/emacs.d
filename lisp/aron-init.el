@@ -322,7 +322,10 @@
   :ensure t
   :custom
   (indent-bars-treesit-support t)
-  (indent-bars-color '(shadow :face-bg t :blend 0.4))
+  (indent-bars-prefer-character t)
+  (indent-bars-color '("gray85" :blend 1.0))
+  (indent-bars-color-by-depth nil)
+  (indent-bars-highlight-current-depth '(:color "gray60" :blend 1.0))
   :hook (prog-mode . indent-bars-mode))
 
 ;; http://www.lunaryorn.com/2014/09/13/boosting-which-func-mode.html
