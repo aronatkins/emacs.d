@@ -219,9 +219,10 @@
 
 (use-package json-mode
   :ensure t
-  :mode (("\\.eslintrc\\'"   . json-mode)
-         ("\\.json\\.erb\\'" . json-mode)
-         ("\\.jsonc\\'"      . jsonc-mode)))
+  :mode (("\\.eslintrc\\'"        . json-mode)
+         ("\\.json\\.erb\\'"      . json-mode)
+         ("\\.jsonc\\'"           . jsonc-mode)
+         ("devcontainer\\.json\\'" . jsonc-mode)))
 
 (use-package add-node-modules-path
   :ensure t
