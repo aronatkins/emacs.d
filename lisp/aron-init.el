@@ -474,19 +474,7 @@ directory outside the project does not match."
                        `((python-mode python-ts-mode) . (,pylsp)))
         (warn "Python language server not found: %s" pylsp)))))
 
-;; Go
-;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
-;; https://github.com/joaotavora/eglot/issues/574
-(defun project-find-go-module (dir)
-  (when-let ((root (locate-dominating-file dir "go.mod")))
-    (cons 'go-module root)))
-
-(use-package project
-  :config
-  ;; Custom project detection for Go modules (finds go.mod)
-  (cl-defmethod project-root ((project (head go-module)))
-    (cdr project))
-  (add-hook 'project-find-functions #'project-find-go-module))
+(use-package project)
 
 ;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/24
 ;; note: https://github.com/weijiangan/flycheck-golangci-lint/issues/28
