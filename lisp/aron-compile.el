@@ -27,7 +27,7 @@ Assumes that a vendored Go module does not include a go.mod file."
   (locate-dominating-file default-directory "go.mod"))
 
 (defun aron/is-dashboard-root (dir)
-  "Return true if this directory looks like it contains the code for the RStudio Connect dashboard."
+  "Return true if DIR looks like the root of the RStudio Connect dashboard."
   (file-exists-p (concat dir "package.json")))
 
 (defun aron/dashboard-root ()
@@ -174,80 +174,6 @@ it is executed."
     (compile
      (if arg
          (read-from-minibuffer "start command: " compile-command)
-       compile-command))))
-
-(defun aron/selenium-test (&optional arg)
-  "Runs RStudio Connect selenium tests.
-
-If called with a non-nil ARG, the compile command is
-presented for editing before it is executed."
-  (interactive "P")
-  (let* ((connect-root (aron/connect-root))
-         (selenium-root (file-name-as-directory (concat (aron/connect-root) "test/selenium")))
-         (selenium-test-file (file-relative-name (buffer-file-name) selenium-root))
-         (make-command (concat "make -C " selenium-root " PYTESTOPTS=" selenium-test-file)))
-    (compile
-     (if arg
-         (read-from-minibuffer "make command: " make-command)
-       make-command))))
-(defalias 'aron/test-selenium 'aron/selenium-test)
-
-(defun aron/api-test (&optional arg)
-  "Runs RStudio Connect API tests.
-
-If called with a non-nil ARG, the compile command is
-presented for editing before it is executed."
-  (interactive "P")
-  (let* ((connect-root (aron/connect-root))
-         (api-root (file-name-as-directory (concat (aron/connect-root) "docs/api")))
-         (api-test-file (file-relative-name (buffer-file-name) api-root))
-         (make-command (concat "make -C " api-root " test NOSETESTSOPTS=" api-test-file)))
-    (compile
-     (if arg
-         (read-from-minibuffer "make command: " make-command)
-       make-command))))
-(defalias 'aron/test-api 'aron/api-test)
-
-(defun aron/connect-r-test (&optional arg)
-  "Runs RStudio Connect R tests.
-
-If called with a non-nil ARG, the compile command is
-presented for editing before it is executed."
-
-  (interactive "P")
-  (let* ((connect-root (aron/connect-root))
-         (compile-command (concat "just " connect-root " test-r")))
-    (compile
-     (if arg
-         (read-from-minibuffer "command: " compile-command)
-       compile-command))))
-
-(defun aron/connect-packrat-test (&optional arg)
-  "Runs RStudio Connect packrat tests (testing R, driven by Python).
-
-If called with a non-nil ARG, the compile command is
-presented for editing before it is executed."
-
-  (interactive "P")
-  (let* ((connect-root (aron/connect-root))
-         (compile-command (concat "just " connect-root " test-packrat")))
-    (compile
-     (if arg
-         (read-from-minibuffer "command: " compile-command)
-       compile-command))))
-
-(defun aron/connect-python-test (&optional arg)
-  "Runs RStudio Connect Python tests.
-
-If called with a non-nil ARG, the compile command is
-presented for editing before it is executed."
-
-  (interactive "P")
-  (let* ((connect-root (aron/connect-root))
-         (compile-command (concat "just " connect-root " test-python")))
-    (compile
-     (if arg
-         (read-from-minibuffer "command: " compile-command)
        compile-command))))
 
 (defun aron/eslint-executable ()

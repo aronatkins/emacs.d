@@ -1,4 +1,3 @@
-
 ;;; aron-init.el --- Personal configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
@@ -14,6 +13,12 @@
 (require 'aron-grep)
 (require 'aron-keys)
 (require 'aron-compile)
+
+;; forward declarations to silence compiler complaints.
+(require 'ibuf-ext)
+(declare-function ess-set-style "ess")
+(declare-function eglot-format-buffer "eglot")
+(declare-function flycheck-checker-executable "flycheck")
 
 ;; a theme to this story
 ;; https://emacsthemes.com
@@ -151,7 +156,23 @@
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
   :config
-  (defalias 'list-buffers 'ibuffer))
+  (defalias 'list-buffers 'ibuffer)
+  (define-ibuffer-filter aron/project-root-missing
+      "Buffers whose project root no longer exists on disk."
+    (:description "project root missing")
+    (with-current-buffer buf
+      (when-let* ((proj (project-current nil))
+                  (root (project-root proj)))
+        (not (file-exists-p root)))))
+  (defun aron/ibuffer-orphaned-projects ()
+    "Pop up ibuffer filtered to buffers whose project root is gone.
+Useful after `git worktree remove' from a shell: triage the
+leftovers (visit with RET, mark with `m', kill marked with `x').
+For a one-shot sweep, visit any listed buffer and call
+`project-kill-buffers' to kill the rest of its project at once."
+    (interactive)
+    (ibuffer nil "*Ibuffer: orphaned projects*"
+             '((aron/project-root-missing)))))
 
 ;; uniquify: buffer names are uniquified with parts of the file path.
 (use-package uniquify
@@ -269,6 +290,43 @@
   (add-hook 'mmm-js-mode-enter-hook #'aron/mmm-fix-syntax-ppss)
   (add-hook 'mmm-typescript-mode-enter-hook #'aron/mmm-fix-syntax-ppss))
 
+;; Biome (https://biomejs.dev) for JS/TS/JSON formatting and diagnostics
+;; via its LSP. Only activates when the project has biome.json or
+;; biome.jsonc, so non-biome projects keep their existing tooling.
+(use-package eglot
+  :preface
+  (defun aron/biome-project-p ()
+    "Non-nil if a biome config exists at or below the current project root.
+Bounded by the project root so a stray biome.json in an ancestor
+directory outside the project does not match."
+    (when-let* ((file buffer-file-name)
+                (proj (project-current nil (file-name-directory file)))
+                (root (project-root proj)))
+      (let ((dir (or (locate-dominating-file file "biome.json")
+                     (locate-dominating-file file "biome.jsonc"))))
+        (and dir (file-in-directory-p dir root)))))
+  (defun aron/eglot-biome-setup ()
+    "Enable eglot + format-on-save with biome when biome config is present."
+    (when (aron/biome-project-p)
+      (eglot-ensure)
+      (add-hook 'before-save-hook #'eglot-format-buffer -10 t)))
+  :hook ((js-mode js-ts-mode js2-mode
+          typescript-ts-mode tsx-ts-mode
+          json-mode jsonc-mode json-ts-mode)
+         . aron/eglot-biome-setup)
+  :config
+  (if (executable-find "biome")
+      (add-to-list 'eglot-server-programs
+                   '((js-mode js-ts-mode js2-mode
+                      typescript-ts-mode tsx-ts-mode
+                      json-mode jsonc-mode json-ts-mode)
+                     . ("biome" "lsp-proxy")))
+    (warn "Biome language server not found: biome")))
+
+(defun flycheck-buffer-not-indirect-p (&rest _)
+  "Ensure that the current buffer is not indirect."
+  (null (buffer-base-buffer)))
+
 (use-package flycheck
   :ensure t
   :hook (after-init . global-flycheck-mode)
@@ -277,9 +335,6 @@
   (flycheck-emacs-lisp-load-path load-path)
   :config
   ;; Disable flycheck on indirect buffers (e.g., quarto-mode+polymode)
-  (defun flycheck-buffer-not-indirect-p (&rest _)
-    "Ensure that the current buffer is not indirect."
-    (null (buffer-base-buffer)))
   (advice-add 'flycheck-may-check-automatically
               :before-while #'flycheck-buffer-not-indirect-p))
 
@@ -422,12 +477,13 @@
 ;; Go
 ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
 ;; https://github.com/joaotavora/eglot/issues/574
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
 (use-package project
   :config
   ;; Custom project detection for Go modules (finds go.mod)
-  (defun project-find-go-module (dir)
-    (when-let ((root (locate-dominating-file dir "go.mod")))
-      (cons 'go-module root)))
   (cl-defmethod project-root ((project (head go-module)))
     (cdr project))
   (add-hook 'project-find-functions #'project-find-go-module))

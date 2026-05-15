@@ -1,4 +1,4 @@
-;;; gcfg-mode.el --- Major mode for editing .gcfg files.
+;;; gcfg-mode.el --- Major mode for editing .gcfg files.  -*- lexical-binding: t; -*-
 
 ;;; References:
 
