@@ -437,6 +437,18 @@ directory outside the project does not match."
 ;; ((templ-ts-mode
 ;;   . ((eval . (setf (alist-get 'templ-ts-mode eglot-server-programs)
 ;;                    '("go" "tool" "templ" "lsp"))))))
+;;
+;; Dynamic Go module discovery:
+;; ((templ-ts-mode
+;;   . ((eval . (setf (alist-get 'templ-ts-mode eglot-server-programs)
+;;                    ;; switch into the Go module before attempting to run 'go tool'.
+;;                    (list "sh" "-c"
+;;                          (format "cd %s && exec go tool templ lsp"
+;;                                  (shell-quote-argument
+;;                                   (expand-file-name
+;;                                    (or (locate-dominating-file default-directory "go.mod")
+;;                                        default-directory))))))))))
+
 (use-package templ-ts-mode
   :ensure t
   :after go-ts-mode
@@ -452,7 +464,16 @@ directory outside the project does not match."
   :config
   (add-to-list 'safe-local-eval-forms
                '(setf (alist-get 'templ-ts-mode eglot-server-programs)
-                      '("go" "tool" "templ" "lsp"))))
+                      '("go" "tool" "templ" "lsp")))
+  ;; Handle when the Go module is in the working directory or in a subdirectory.
+  (add-to-list 'safe-local-eval-forms
+               '(setf (alist-get 'templ-ts-mode eglot-server-programs)
+                      (list "sh" "-c"
+                            (format "cd %s && exec go tool templ lsp"
+                                    (shell-quote-argument
+                                     (expand-file-name
+                                      (or (locate-dominating-file default-directory "go.mod")
+                                          default-directory))))))))
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
