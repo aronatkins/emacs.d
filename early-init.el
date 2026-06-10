@@ -12,5 +12,9 @@
 
 (setopt inhibit-startup-message t)
 
+;; Always prefer newer source over stale byte-compiled files, so a leftover
+;; .elc from ad-hoc debugging can't shadow an updated .el.
+(setq load-prefer-newer t)
+
 (provide 'early-init)
 ;;; early-init.el ends here

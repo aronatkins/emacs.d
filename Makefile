@@ -13,3 +13,4 @@ install:
 
 clean:
 	rm -rf elpa tree-sitter
+	find lisp -name '*.elc' -delete
