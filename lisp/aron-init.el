@@ -433,22 +433,6 @@ directory outside the project does not match."
   :init
   (aron/ensure-treesit-grammar 'just))
 
-;; Per-project eglot server config via .dir-locals.el:
-;; ((templ-ts-mode
-;;   . ((eval . (setf (alist-get 'templ-ts-mode eglot-server-programs)
-;;                    '("go" "tool" "templ" "lsp"))))))
-;;
-;; Dynamic Go module discovery:
-;; ((templ-ts-mode
-;;   . ((eval . (setf (alist-get 'templ-ts-mode eglot-server-programs)
-;;                    ;; switch into the Go module before attempting to run 'go tool'.
-;;                    (list "sh" "-c"
-;;                          (format "cd %s && exec go tool templ lsp"
-;;                                  (shell-quote-argument
-;;                                   (expand-file-name
-;;                                    (or (locate-dominating-file default-directory "go.mod")
-;;                                        default-directory))))))))))
-
 (use-package templ-ts-mode
   :ensure t
   :after go-ts-mode
@@ -456,24 +440,44 @@ directory outside the project does not match."
   :preface
   (defun aron/eglot-before-save-templ ()
     (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+  (defun aron/go-mod-declares-templ-tool-p (go-mod)
+    "Return non-nil if GO-MOD declares templ in a `tool' directive."
+    (with-temp-buffer
+      (insert-file-contents go-mod)
+      (goto-char (point-min))
+      (or
+       ;; Single-line form: tool github.com/a-h/templ/cmd/templ
+       (re-search-forward "^tool[ \t]+\\S-*templ\\S-*[ \t]*$" nil t)
+       ;; Block form: tool ( ... templ ... )
+       (and (re-search-forward "^tool[ \t]*(" nil t)
+            (let ((end (save-excursion (re-search-forward "^)" nil t))))
+              (and end (re-search-forward "templ" end t)))))))
+  (defun aron/templ-lsp-contact (&optional _interactive)
+    "Return the eglot contact for `templ-ts-mode'.
+If the enclosing Go module declares templ as a tool (a go.mod `tool'
+directive), launch it via `go tool templ lsp' from the module root so
+the version pinned by that module is used.  Otherwise fall back to a
+globally installed `templ' binary.  Called by eglot in the buffer being
+connected, so `default-directory' locates the right module."
+    (let* ((go-mod-dir (locate-dominating-file default-directory "go.mod"))
+           (go-mod (and go-mod-dir (expand-file-name "go.mod" go-mod-dir))))
+      (if (and go-mod
+               (file-readable-p go-mod)
+               (aron/go-mod-declares-templ-tool-p go-mod))
+          (list "sh" "-c"
+                (format "cd %s && exec go tool templ lsp"
+                        (shell-quote-argument (expand-file-name go-mod-dir))))
+        '("templ" "lsp"))))
   :init
   (aron/ensure-treesit-grammar 'javascript)
   (aron/ensure-treesit-grammar 'templ)
   :hook ((templ-ts-mode . eglot-ensure)
          (templ-ts-mode . aron/eglot-before-save-templ))
   :config
-  (add-to-list 'safe-local-eval-forms
-               '(setf (alist-get 'templ-ts-mode eglot-server-programs)
-                      '("go" "tool" "templ" "lsp")))
-  ;; Handle when the Go module is in the working directory or in a subdirectory.
-  (add-to-list 'safe-local-eval-forms
-               '(setf (alist-get 'templ-ts-mode eglot-server-programs)
-                      (list "sh" "-c"
-                            (format "cd %s && exec go tool templ lsp"
-                                    (shell-quote-argument
-                                     (expand-file-name
-                                      (or (locate-dominating-file default-directory "go.mod")
-                                          default-directory))))))))
+  ;; Replaces per-repository .dir-locals.el: detect the templ `go tool'
+  ;; at connection time instead of committing editor config to each repo.
+  (setf (alist-get 'templ-ts-mode eglot-server-programs)
+        #'aron/templ-lsp-contact))
 
 ;; gcfg isn't quite gitconfig, but it's close.
 ;; https://code.google.com/p/gcfg/
