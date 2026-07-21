@@ -157,22 +157,30 @@
   :bind ("C-x C-b" . ibuffer)
   :config
   (defalias 'list-buffers 'ibuffer)
-  (define-ibuffer-filter aron/project-root-missing
-      "Buffers whose project root no longer exists on disk."
-    (:description "project root missing")
-    (with-current-buffer buf
-      (when-let* ((proj (project-current nil))
-                  (root (project-root proj)))
-        (not (file-exists-p root)))))
-  (defun aron/ibuffer-orphaned-projects ()
-    "Pop up ibuffer filtered to buffers whose project root is gone.
-Useful after `git worktree remove' from a shell: triage the
-leftovers (visit with RET, mark with `m', kill marked with `x').
-For a one-shot sweep, visit any listed buffer and call
-`project-kill-buffers' to kill the rest of its project at once."
+  (define-ibuffer-filter aron/orphaned-buffer-filter
+      "Buffers whose backing directory no longer exists on disk.
+Catches leftovers after a project is removed outside Emacs (e.g.
+`git worktree remove' from a shell): file buffers under the gone tree,
+plus its dired, eglot event, and shell buffers.  A file buffer is judged
+by its file's own directory, so a drifted `default-directory' does not
+flag it while its file still exists."
+    (:description "orphaned")
+    (let* ((file (buffer-local-value 'buffer-file-name buf))
+           (dir (if file
+                    (file-name-directory file)
+                  (or (buffer-local-value 'list-buffers-directory buf)
+                      (buffer-local-value 'default-directory buf)))))
+      (and dir (not (file-exists-p dir)))))
+  (defun aron/orphaned-buffers ()
+    "Pop up ibuffer listing buffers whose directory is gone from disk.
+Useful after `git worktree remove' from a shell: triage the leftovers,
+mark with `m', kill marked with `x'.
+
+Killing buffers does not stop their eglot servers; in an eglot-managed
+buffer `M-x eglot-shutdown' does that."
     (interactive)
     (ibuffer nil "*Ibuffer: orphaned projects*"
-             '((aron/project-root-missing)))))
+             '((aron/orphaned-buffer-filter)))))
 
 ;; uniquify: buffer names are uniquified with parts of the file path.
 (use-package uniquify
