@@ -6,4 +6,5 @@ url
 .persistent-scratch
 ido.last
 /transient
+/eln-cache
 projects
