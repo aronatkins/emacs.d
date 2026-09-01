@@ -567,7 +567,7 @@ connected, so `default-directory' locates the right module."
          ("C-c C-t" . aron/go-test)
          )
   :preface
-  ;; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#organizing-imports-with-eglot
+  ;; https://github.com/golang/tools/blob/master/gopls/doc/editor/emacs.md#organizing-imports-with-eglot
   (defun aron/eglot-before-save-go ()
     (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
     (add-hook 'before-save-hook
