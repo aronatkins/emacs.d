@@ -64,7 +64,8 @@
  'reveal-in-osx-finder
  'rust-mode
  'sql-indent
- 'templ-ts-mode
+ ;; Installed via use-package :vc in aron-init.el until Emacs 31 fix released.
+ ;; 'templ-ts-mode
  'visual-fill-column
  'volatile-highlights
  'vue-mode

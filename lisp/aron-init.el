@@ -441,8 +441,15 @@ directory outside the project does not match."
   :init
   (aron/ensure-treesit-grammar 'just))
 
+;; The MELPA release (20250223) uses go-ts-mode and js-ts-mode internals
+;; that Emacs 31 changed, so opening a .templ file fails.  Fixed by an
+;; unmerged PR: https://github.com/danderson/templ-ts-mode/pull/12
+;; TODO: once released, restore `:ensure t' here and in packages.el, then
+;; `M-x package-delete' the vc copy.
 (use-package templ-ts-mode
-  :ensure t
+  :vc (:url "https://github.com/brtholomy/templ-ts-mode"
+       :branch "emacs31"
+       :rev :newest)
   :after go-ts-mode
   :mode "\\.templ\\'"
   :preface
@@ -478,6 +485,8 @@ connected, so `default-directory' locates the right module."
         '("templ" "lsp"))))
   :init
   (aron/ensure-treesit-grammar 'javascript)
+  ;; js-ts-mode's font lock rules, which templ-ts-mode borrows, query jsdoc.
+  (aron/ensure-treesit-grammar 'jsdoc)
   (aron/ensure-treesit-grammar 'templ)
   :hook ((templ-ts-mode . eglot-ensure)
          (templ-ts-mode . aron/eglot-before-save-templ))

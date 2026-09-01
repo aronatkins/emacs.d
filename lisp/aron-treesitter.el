@@ -13,6 +13,7 @@
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (html "https://github.com/tree-sitter/tree-sitter-html")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+        (jsdoc "https://github.com/tree-sitter/tree-sitter-jsdoc")
         (just "https://github.com/IndianBoy42/tree-sitter-just")
         (python "https://github.com/tree-sitter/tree-sitter-python")
         (templ "https://github.com/vrischmann/tree-sitter-templ")
