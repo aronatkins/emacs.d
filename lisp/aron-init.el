@@ -560,11 +560,16 @@ connected, so `default-directory' locates the right module."
 
 (use-package go-ts-mode
   :mode "\\.go\\'"
-  :bind (
-         ;; ("C-c i" . go-goto-imports)
-         ("C-c C-c" . aron/go-compile)
-         ;; ("C-c C-s" . aron/go-start) ;; BROKEN
-         ("C-c C-t" . aron/go-test)
+  :bind (:map go-ts-mode-map
+              ;; ("C-c i" . go-goto-imports)
+              ;; ("C-c C-s" . aron/go-start) ;; BROKEN
+
+              ;; includes project-specific compilation.
+              ("C-c C-c" . aron/go-compile)
+
+              ;; alongside "C-c C-t p", which just runs "go test".
+              ;; aron/go-test includes project-specific test commands.
+              ("C-c C-t P" . aron/go-test)
          )
   :preface
   ;; https://github.com/golang/tools/blob/master/gopls/doc/editor/emacs.md#organizing-imports-with-eglot
