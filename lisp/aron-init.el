@@ -640,6 +640,14 @@ connected, so `default-directory' locates the right module."
   ;; it is not an ignore file for that repository.
   :mode ("\\.gitignore.*" . gitignore-mode))
 
+(use-package magit
+  :ensure t
+  :defer t
+  :config
+  (magit-add-section-hook 'magit-status-sections-hook
+                          #'magit-insert-worktrees
+                          nil t))
+
 (use-package winner
   :config
   (winner-mode 1))
