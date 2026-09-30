@@ -643,10 +643,21 @@ connected, so `default-directory' locates the right module."
 (use-package magit
   :ensure t
   :defer t
+  :custom
+  (magit-read-worktree-directory-function #'aron/magit-read-worktree-directory)
   :config
   (magit-add-section-hook 'magit-status-sections-hook
                           #'magit-insert-worktrees
-                          nil t))
+                          nil t)
+  (defun aron/magit-read-worktree-directory (prompt commit)
+    "Read a worktree directory, defaulting to \"<main>-worktrees/COMMIT\".
+\"<main>-worktrees\" is a sibling directory to the main worktree.
+Slashes in COMMIT become dashes."
+    (let* ((main (directory-file-name (caar (magit-list-worktrees))))
+           (base (file-name-as-directory (concat main "-worktrees"))))
+      (make-directory base t)
+      (read-directory-name prompt base nil nil
+                           (and commit (string-replace "/" "-" commit))))))
 
 (use-package winner
   :config
