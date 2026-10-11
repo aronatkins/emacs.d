@@ -5,6 +5,8 @@
 
 ;;; Code:
 
+(require 'comp)
+(setq native-comp-driver-options (cons "-mmacosx-version-min=11" native-comp-driver-options))
 
 ;; the title bar shares the background color
 ;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
