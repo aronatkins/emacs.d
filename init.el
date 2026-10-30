@@ -5,6 +5,7 @@
 
 ;;; Code:
 
+;; workaround https://github.com/caldwell/build-emacs/issues/158
 (require 'comp)
 (setq native-comp-driver-options (cons "-mmacosx-version-min=11" native-comp-driver-options))
 
